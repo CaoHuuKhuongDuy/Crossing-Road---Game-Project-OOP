@@ -1,12 +1,7 @@
 #include "importImage.h"
+#include "screen.h"
 
 
-void GotoXY(int x, int y) {
-  	COORD coord;
-  	coord.X = x;
- 	coord.Y = y;
- 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
 
 ImportImage::ImportImage() : pathColorCode("../media/colorCode_"), pathASCIICode("../media/asciiCode_") {}
 
@@ -67,7 +62,7 @@ void ImportImage::drawASCII(string pathFile, COORD pos, string defaultText, bool
     }
 
     SHORT x = pos.X;
-    int y = pos.Y;
+    SHORT y = pos.Y;
 
     char character;
     while (fi.get(character)) {
