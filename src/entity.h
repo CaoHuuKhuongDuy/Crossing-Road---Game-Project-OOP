@@ -5,11 +5,17 @@ using namespace stValue;
 
 class Entity {
     public:
-        Entity(COORD pos1, COORD pos2);
+        Entity(COORD pos1, COORD size, int ascii1Pixel = 1);
         virtual void draw() = 0;
     protected:
         // EntityType type;
         COORD startPos, endPos;
+};
+
+class DynamicEntity : public Entity {
+    public: 
+        void up(int step);
+        void down(int step);
 };
 
 class Hero : public Entity {
@@ -19,6 +25,6 @@ class Hero : public Entity {
 
 class Rocket : public Entity {
     public:
-        Rocket(COORD pos1, COORD pos2);
+        Rocket(COORD pos1, COORD size, int ascii1Pixel = 1);
         void draw();
 };
