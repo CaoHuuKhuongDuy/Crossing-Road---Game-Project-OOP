@@ -1,0 +1,9 @@
+.vscode/
+
+src/Makefile
+
+CrossingRoad_VS/
+
+src/*.o
+
+src/*.exe

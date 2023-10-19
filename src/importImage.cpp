@@ -1,0 +1,50 @@
+#include "importImage.h"
+
+ImportImage::ImportImage() : pathColorCode("../media/colorCode_") {}
+
+void ImportImage::init(Console *appConsole) {
+    this->appConsole = appConsole;
+}
+
+int ImportImage::convertBGColor2TextColor(int colorBackground) {
+    switch (colorBackground) {
+        case BG_BLACK: return BLACK;
+        case BG_BLUE: return BLUE;
+        case BG_GREEN: return GREEN;
+        case BG_RED: return RED;
+        case BG_MAGENTA: return MAGENTA;
+        case BG_YELLOW: return YELLOW;
+        case BG_WHITE: return WHITE;
+        case BG_GREY: return GREY;
+        case BG_LIME: return LIME;
+        case BG_CYAN: return CYAN;
+        case BG_ORANGE: return ORANGE;
+        default: return WHITE; // Default to white text color
+    }
+}
+
+void ImportImage:: draw(string pathFile, COORD pos, string defaultText, bool colorBG) {
+    pathFile = pathColorCode + pathFile;
+    ifstream fi(pathFile);
+    int tmpY = pos.Y;
+    int x = -1, y, colorCode;
+    while (!fi.eof()) {
+        int preX = x;
+        fi >> x >> y >> colorCode;
+        if (fi.eof()) break;
+        if (preX != -1 && x != preX) {
+            pos.Y = tmpY;
+            pos.X += (SHORT)defaultText.size();
+        }
+        else if (x == preX) pos.Y++;
+        if (colorCode == BG_MAGENTA) {
+            appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
+            continue;
+        }
+      //  if (colorCode == 176) while (true) {}
+      //  if (convertBGColor2TextColor(colorCode) == CYAN) while (true) {}
+        if (colorBG) appConsole->writeAt(defaultText, -1, pos, colorCode);
+        else appConsole->writeAt(defaultText, convertBGColor2TextColor(colorCode), pos);
+    }
+    fi.close();
+}
