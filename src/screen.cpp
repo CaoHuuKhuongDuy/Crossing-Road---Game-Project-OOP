@@ -1,11 +1,12 @@
 #include "screen.h"
 
 void GotoXY(int x, int y) {
-  COORD coord;
-  coord.X = x;
-  coord.Y = y;
-  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+  	COORD coord;
+  	coord.X = x;
+ 	coord.Y = y;
+ 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+
 void SET_COLOR(int color)
 {
 	WORD wColor;
@@ -125,7 +126,7 @@ void Screen::draw() {
 	SHORT idx = 28;
     
 	while(idx > 10){
-		stValue:: importImage.draw("rocket.txt", {1,idx}, string(1, edge), false);
+		stValue:: importImage.drawImage("rocket.txt", {1,idx}, string(1, edge), false);
 		Sleep(5);	
         continue;
 		idx--;
@@ -133,5 +134,4 @@ void Screen::draw() {
 		    	idx = 28;
 		}		
    	}
-
 }
