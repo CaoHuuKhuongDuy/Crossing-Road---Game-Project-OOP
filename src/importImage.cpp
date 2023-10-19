@@ -52,7 +52,7 @@ void ImportImage:: drawImage(string pathFile, COORD pos, string defaultText, boo
     fi.close();
 }
 
-void ImportImage::drawASCII(string pathFile, COORD pos, string defaultText, bool colorBG) {
+void ImportImage::drawASCII(string pathFile, COORD pos) {
     pathFile = pathASCIICode + pathFile;
     ifstream fi(pathFile);
 
@@ -64,19 +64,16 @@ void ImportImage::drawASCII(string pathFile, COORD pos, string defaultText, bool
     SHORT x = pos.X;
     SHORT y = pos.Y;
 
-    char character;
-    while (fi.get(character)) {
+    unsigned char character;
+    while (fi.read(reinterpret_cast<char*>(&character), sizeof(character))) {
         if (character == '\n') {
             x = pos.X;
             y++;
         } else {
-            if (colorBG) {
-                int textColor = convertBGColor2TextColor(7);
-                appConsole->setTextColor(textColor);
-            }
-            COORD charPos = {x, y };
-            GotoXY(x, y);
-            appConsole->writeAt(defaultText, convertBGColor2TextColor(character), pos);
+            int textColor = convertBGColor2TextColor(7);
+            appConsole->setTextColor(textColor);
+            COORD charPos = {x, y};
+            appConsole->writeAt(string(1, character), convertBGColor2TextColor(7), charPos, 1);
             x++;
         }
     }
