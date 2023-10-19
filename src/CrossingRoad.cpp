@@ -10,19 +10,16 @@ signed main() {
    char keyPress = 0;
     appConsole.setFullscreenBackgroundColor(BG_BLUE);
 
+   menuScreen* menu = new menuScreen();
+   menu->draw();
+   delete menu;
 
 
-  string pathASCII = "credit.txt";
-  importImage.drawASCII(pathASCII, {20,20});
 
 
-
-    // while (true) {
-		// Screen* newScreen = new Screen();
-		// newScreen->draw();
-    //     delete newScreen;
-    //     // break;
-    // }
+    while (true) {
+        // break;
+    }
 
 
 
