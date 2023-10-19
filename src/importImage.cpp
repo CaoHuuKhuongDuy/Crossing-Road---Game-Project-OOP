@@ -1,6 +1,14 @@
 #include "importImage.h"
 
-ImportImage::ImportImage() : pathColorCode("../media/colorCode_") {}
+
+void GotoXY(int x, int y) {
+  	COORD coord;
+  	coord.X = x;
+ 	coord.Y = y;
+ 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+ImportImage::ImportImage() : pathColorCode("../media/colorCode_"), pathASCIICode("../media/asciiCode_") {}
 
 void ImportImage::init(Console *appConsole) {
     this->appConsole = appConsole;
@@ -23,7 +31,7 @@ int ImportImage::convertBGColor2TextColor(int colorBackground) {
     }
 }
 
-void ImportImage:: draw(string pathFile, COORD pos, string defaultText, bool colorBG) {
+void ImportImage:: drawImage(string pathFile, COORD pos, string defaultText, bool colorBG) {
     pathFile = pathColorCode + pathFile;
     ifstream fi(pathFile);
     int tmpY = pos.Y;
@@ -41,10 +49,41 @@ void ImportImage:: draw(string pathFile, COORD pos, string defaultText, bool col
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
             continue;
         }
-      //  if (colorCode == 176) while (true) {}
-      //  if (convertBGColor2TextColor(colorCode) == CYAN) while (true) {}
+        //  if (colorCode == 176) while (true) {}
+        //  if (convertBGColor2TextColor(colorCode) == CYAN) while (true) {}
         if (colorBG) appConsole->writeAt(defaultText, -1, pos, colorCode);
         else appConsole->writeAt(defaultText, convertBGColor2TextColor(colorCode), pos);
+    }
+    fi.close();
+}
+
+void ImportImage::drawASCII(string pathFile, COORD pos, string defaultText, bool colorBG) {
+    pathFile = pathASCIICode + pathFile;
+    ifstream fi(pathFile);
+
+    if (!fi.is_open()) {
+        cerr << "Error: Unable to open ASCII file: " << pathFile << endl;
+        return;
+    }
+
+    SHORT x = pos.X;
+    int y = pos.Y;
+
+    char character;
+    while (fi.get(character)) {
+        if (character == '\n') {
+            x = pos.X;
+            y++;
+        } else {
+            if (colorBG) {
+                int textColor = convertBGColor2TextColor(7);
+                appConsole->setTextColor(textColor);
+            }
+            COORD charPos = {x, y };
+            GotoXY(x, y);
+            appConsole->writeAt(defaultText, convertBGColor2TextColor(character), pos);
+            x++;
+        }
     }
     fi.close();
 }
