@@ -22,6 +22,6 @@ class menuScreen: public Screen {
     	void draw() override;
     private:
     	string pathColorCode;
-    	string Store[12] = {"crossingroad","newgame","loadgame","leaderboard","setting","credit","exit","frame","star","rocket","sartun","jupiter"};
+     	string Store[12] = {"crossingroad","newgame","loadgame","leaderboard","setting","credit","exit","frame","star","choose","clearchoose","jupiter"};    	
     	
 };
