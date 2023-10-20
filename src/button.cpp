@@ -53,4 +53,7 @@ void Button::draw() {
     cout << endl ;
     delete[] arr;
 	}
-	}
+
+
+
+}

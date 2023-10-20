@@ -22,3 +22,25 @@ class Rocket : public Entity {
         Rocket(COORD pos1, COORD pos2);
         void draw();
 };
+
+class Jupiter : public Entity
+{
+    public:
+        Jupiter(COORD pos1, COORD pos2);
+        void draw();
+};
+
+class Sartun : public Entity
+{
+    public:
+        Sartun(COORD pos1, COORD pos2);
+        void draw();
+};
+
+
+class Venus : public Entity
+{
+    public:
+        Venus(COORD pos1, COORD pos2);
+        void draw();
+};
