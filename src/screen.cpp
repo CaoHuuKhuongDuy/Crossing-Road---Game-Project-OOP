@@ -13,21 +13,15 @@ void menuScreen:: draw() {
 	button->draw(); 
 	Button* frame = new Button(pathColorCode+Store[7],{45,12},WHITE,GREEN);
 	frame->draw();
-	Rocket* rocket = new Rocket({5,10},{10,20});
-	rocket->draw();
-	Jupiter* jupiter = new Jupiter({22,12}, {0,0});
-	jupiter->draw();
-	Sartun* sartun = new Sartun({136,30}, {0,0});
-	sartun->draw();
-
-	Venus* venus = new Venus({160,12}, {0,0});
-	venus->draw();
-	Button* buttons[6];
+    appConsole.setFullscreenBackgroundColor(BG_BLUE);
 	int choices = 0;
 	Button* choose;
 	Button* clearChoose;
+	DynamicEntity *rocket = new DynamicEntity("rocket.txt", {1,8}, {8, 16}, string(1, char(219)), false);
+	rocket->draw();
 	int idx ; 
 	while(true){
+		Button* buttons[6];
 		for(int i=0; i< 6;i++){
 			if(choices != i ) {
 				clearChoose = new Button(pathColorCode+Store[10],{50,SHORT(i*4+13)},WHITE,GREEN);
@@ -59,8 +53,5 @@ void menuScreen:: draw() {
 		}
 
 	}
-
-
-
 
 }
