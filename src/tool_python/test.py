@@ -1,5 +1,6 @@
 from PIL import Image
 import math
+import struct
 import os
 
 def color_distance(color1, color2):
@@ -35,6 +36,11 @@ color_list = {
 with open(path + f"colorCode_{fileName}.txt", "w") as fo:
     pass 
 
+def write2BinaryFile(x):
+    with open(path + f"colorCode_{fileName}.txt", "ab") as fo:
+        packed_data = struct.pack("i", x)
+        fo.write(packed_data)
+
 # Iterate through each pixel in the image
 for x in range(width):
     for y in range(height):
@@ -46,8 +52,10 @@ for x in range(width):
         else:  # Handle other color modes (e.g., RGBA)
             red, green, blue, alpha = pixel_color[:4]  # Extract RGB and alpha
         closest_color_code = min(color_list, key=lambda code: color_distance((red, green, blue), color_list[code]))
-        with open(path + f"colorCode_{fileName}.txt", "a") as fo:
-            fo.write(f"{x} {y} {closest_color_code} \n")
+        write2BinaryFile(x);
+        write2BinaryFile(y);
+        write2BinaryFile(closest_color_code);
+            # fo.write(f"{x} {y} {closest_color_code} \n")
 
 # Close the image file when you're done
 image.close()

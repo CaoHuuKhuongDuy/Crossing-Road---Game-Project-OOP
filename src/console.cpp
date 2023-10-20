@@ -12,7 +12,7 @@ void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
-    cfi.dwFontSize = {8, 17};
+    cfi.dwFontSize = {7, 17};
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
@@ -24,8 +24,9 @@ void Console::setWindowSize() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     COORD bufferSize = { csbi.dwMaximumWindowSize.X, csbi.dwMaximumWindowSize.Y };
+    size = csbi.dwMaximumWindowSize;
     SetConsoleScreenBufferSize(hConsole, bufferSize);
-   setFontSize();
+    setFontSize();
 }
 
 void Console::init() {
@@ -89,6 +90,10 @@ int Console::getBackgroundColor() {
     return currentBackgroundColor;
 }
 
+COORD Console::getWindowSize() {
+    return size;
+}
+
 void Console::setCursorPosition(COORD pos) {
     SetConsoleCursorPosition(hConsole, pos);
 }
@@ -120,9 +125,12 @@ void Console::clear(COORD p1, COORD p2) {
     }
     if (p1.X > p2.X) std::swap(p1.X, p2.X);
     if (p1.Y > p2.Y) std::swap(p1.Y, p2.Y);
+    std::string replace = "";
     for (int i = p1.X; i <= p2.X; i++)
-        for (int j = p1.Y; j <= p2.Y; j++)
-            writeAt(" ", BLACK, {(SHORT)i, (SHORT)j});
+        replace += " ";
+    for (int i = p1.Y; i <= p2.Y; i++) {
+        writeAt(replace, -1, {p1.X, SHORT(i)});
+    }
 }
 
 

@@ -5,30 +5,26 @@ using namespace stValue;
 
 class Entity {
     public:
-        Entity(COORD pos1, COORD size, int ascii1Pixel = 1);
-        virtual void draw() = 0;
+        Entity(string entityName_, COORD pos1, COORD size_, string defaultValue_ = " ", bool colorBG_ = true);
+        void draw();
+        COORD remainStartPos, remainEndPos;
     protected:
         // EntityType type;
-        COORD startPos, endPos;
+        void verify();
+        COORD startPos, size;
+        string entityName;
+        bool colorBG;
+        string defaultValue;
 };
 
 class DynamicEntity : public Entity {
-    protected: 
-        DynamicEntity(COORD pos1, COORD size, int ascii1Pixel = 1);
+    public: 
+        DynamicEntity(string entityName_, COORD pos1, COORD size_, string defaultValue_ = " ", bool colorBG_ = true);
         void up(int step);
         void down(int step);
         void left(int step);
         void right(int step);
-        COORD remainStartPos, remainEndPos;
-};
-
-class Hero : public DynamicEntity {
-    public:
-    
-};
-
-class Rocket : public DynamicEntity {
-    public:
-        Rocket(COORD pos1, COORD size, int ascii1Pixel = 1);
-        void draw();
+        void teleport(COORD pos);
+    protected: 
+        void caculateRemainFrame(COORD oldPos);
 };

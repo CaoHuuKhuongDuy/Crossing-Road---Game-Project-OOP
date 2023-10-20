@@ -1,6 +1,9 @@
 #include "importImage.h"
+#include "screen.h"
 
-ImportImage::ImportImage() : pathColorCode("../media/colorCode_") {}
+
+
+ImportImage::ImportImage() : pathColorCode("../media/colorCode_"), pathASCIICode("../media/asciiCode_") {}
 
 void ImportImage::init(Console *appConsole) {
     this->appConsole = appConsole;
@@ -23,15 +26,18 @@ int ImportImage::convertBGColor2TextColor(int colorBackground) {
     }
 }
 
-void ImportImage:: draw(string pathFile, COORD pos, string defaultText, bool colorBG) {
+void ImportImage:: drawImage(string pathFile, COORD pos, string defaultText, bool colorBG) {
     pathFile = pathColorCode + pathFile;
-    ifstream fi(pathFile);
+    ifstream fi(pathFile, ios::binary);
     int tmpY = pos.Y;
     int x = -1, y, colorCode;
-    while (!fi.eof()) {
+    int numbers[3];
+
+    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))) {
         int preX = x;
-        fi >> x >> y >> colorCode;
-        if (fi.eof()) break;
+        x = numbers[0];
+        y = numbers[1];
+        colorCode = numbers[2];
         if (preX != -1 && x != preX) {
             pos.Y = tmpY;
             pos.X += (SHORT)defaultText.size();
@@ -41,10 +47,36 @@ void ImportImage:: draw(string pathFile, COORD pos, string defaultText, bool col
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
             continue;
         }
-      //  if (colorCode == 176) while (true) {}
-      //  if (convertBGColor2TextColor(colorCode) == CYAN) while (true) {}
         if (colorBG) appConsole->writeAt(defaultText, -1, pos, colorCode);
         else appConsole->writeAt(defaultText, convertBGColor2TextColor(colorCode), pos);
+    }
+    fi.close();
+}
+
+void ImportImage::drawASCII(string pathFile, COORD pos) {
+    pathFile = pathASCIICode + pathFile;
+    ifstream fi(pathFile);
+
+    if (!fi.is_open()) {
+        cerr << "Error: Unable to open ASCII file: " << pathFile << endl;
+        return;
+    }
+
+    SHORT x = pos.X;
+    SHORT y = pos.Y;
+
+    unsigned char character;
+    while (fi.read(reinterpret_cast<char*>(&character), sizeof(character))) {
+        if (character == '\n') {
+            x = pos.X;
+            y++;
+        } else {
+            int textColor = convertBGColor2TextColor(7);
+            appConsole->setTextColor(textColor);
+            COORD charPos = {x, y};
+            appConsole->writeAt(string(1, character), convertBGColor2TextColor(7), charPos, 1);
+            x++;
+        }
     }
     fi.close();
 }

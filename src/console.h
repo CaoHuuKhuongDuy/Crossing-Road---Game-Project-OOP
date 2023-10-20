@@ -54,6 +54,8 @@ class Console {
         void setFullscreenBackgroundColor(int colorCode);
         
         int getBackgroundColor();
+    
+        COORD getWindowSize();
 
         void setCursorPosition(COORD pos);
 
@@ -69,4 +71,5 @@ private:
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     CONSOLE_CURSOR_INFO cursorInfo;
     int currentTextColor, currentBackgroundColor;
+    COORD size;
 };
