@@ -45,6 +45,7 @@ using namespace std;
 
 namespace stValue {
 	extern int FIX_WIDTH, FIX_HEIGHT;
+    extern int DEFAULT_STEP;
 	extern string GAME_NAME, PATH_PROJECT;
     extern Console appConsole;  // special variable (not upcase)
     extern ImportImage importImage;

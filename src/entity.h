@@ -13,17 +13,21 @@ class Entity {
 };
 
 class DynamicEntity : public Entity {
-    public: 
+    protected: 
+        DynamicEntity(COORD pos1, COORD size, int ascii1Pixel = 1);
         void up(int step);
         void down(int step);
+        void left(int step);
+        void right(int step);
+        COORD remainStartPos, remainEndPos;
 };
 
-class Hero : public Entity {
+class Hero : public DynamicEntity {
     public:
     
 };
 
-class Rocket : public Entity {
+class Rocket : public DynamicEntity {
     public:
         Rocket(COORD pos1, COORD size, int ascii1Pixel = 1);
         void draw();
