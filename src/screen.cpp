@@ -17,9 +17,9 @@ void menuScreen:: draw() {
 	Button* choose;
 	Button* clearChoose;
 	DynamicEntity *rocket = new DynamicEntity("rocket.txt", {1,10}, {8, 18}, string(1, char(219)), false);
-	Entity *jupiter = new Entity("Jupiter.txt", {20,22}, {0,0});
-	Entity *sartun = new Entity("Sartun.txt", {170,7}, {0,0});
-	Entity *venus = new Entity("Venus.txt", {140,31}, {0,0});
+	Entity *jupiter = new Entity("jupiter.txt", {20,22}, {12,11});
+	Entity *sartun = new Entity("sartun.txt", {170,7}, {21, 20});
+	Entity *venus = new Entity("venus.txt", {140,31}, {23, 15});
 	int idx ;
 	int move = 8;
 
