@@ -12,6 +12,8 @@ class Screen {
     public:
         Screen(int width = FIX_WIDTH, int height = FIX_HEIGHT);
         virtual void draw() = 0;
+    protected:
+        int numFrame;
     private:
         int width, height;
 };
@@ -22,6 +24,5 @@ class menuScreen: public Screen {
     	void draw() override;
     private:
     	string pathColorCode;
-     	string Store[12] = {"crossingroad","newgame","loadgame","leaderboard","setting","credit","exit","frame","star","choose","clearchoose","jupiter"};    	
-    	
+     	string Store[6] = {"newgame","loadgame","leaderboard","setting","credit","exit"};   	
 };

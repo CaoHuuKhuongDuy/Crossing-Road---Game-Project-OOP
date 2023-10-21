@@ -41,9 +41,15 @@ void Console::init() {
     setWindowSize();
 };
 
-void Console::setTextColor(int colorCode) {
-	SetConsoleTextAttribute(hConsole, colorCode);
-    currentTextColor = colorCode;
+void Console::setTextColor(int color)
+{
+	WORD wColor;
+     if(GetConsoleScreenBufferInfo(hConsole, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
+          SetConsoleTextAttribute(hConsole, wColor);
+	}
+    currentTextColor = color;
 }
 
 void Console::setBackgroundColor(int colorCode) {
@@ -96,6 +102,7 @@ COORD Console::getWindowSize() {
 
 void Console::setCursorPosition(COORD pos) {
     SetConsoleCursorPosition(hConsole, pos);
+
 }
 
 void Console::writeAt(std::string text, int colorText, COORD posCursor, int colorBackground) {
@@ -105,7 +112,9 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     if (colorBackground == -1) colorBackground = currentBackgroundColor;
     setCursorPosition(posCursor);
     if (colorText == -1) setBackgroundColor(colorBackground);
-    else setBackgroundColor(colorText);
+    else {
+        setTextColor(colorText);
+    }
     std::cout << text << std::endl;
     setTextColor(WHITE);
 }
