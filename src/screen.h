@@ -13,7 +13,7 @@ class Screen {
         Screen(int width = FIX_WIDTH, int height = FIX_HEIGHT);
         virtual void draw() = 0;
     protected:
-        int numFrame;
+        bool firstScreen;
     private:
         int width, height;
 };
@@ -21,8 +21,11 @@ class Screen {
 class menuScreen: public Screen {
     public:	
         menuScreen();
+        ~menuScreen();
     	void draw() override;
     private:
-    	string pathColorCode;
-     	string Store[6] = {"newgame","loadgame","leaderboard","setting","credit","exit"};   	
+     	string buttonName[6] = {"newgame","loadgame","leaderboard","setting","credit","exit"};   	
+        int chooseButton = 0;
+        DynamicEntity *rocket;
+        int rocketMove;
 };

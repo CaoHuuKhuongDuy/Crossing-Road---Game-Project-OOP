@@ -35,24 +35,25 @@ void Button::changeText() {
 
 void Button::draw() {
     changeText();
-    fstream file;
-	file.open(text,ios::in);
-	string t;
-	int j = 0;
-	while(!file.eof()){
-		getline(file,t);
-		char* arr = new char [t.length()+1];
-		strcpy(arr, t.c_str());
-		    for (int i = 0; i < t.length(); i++) 
-    { 
-    	SET_COLOR(colorButton);
-    	GotoXY(pos.X+i,pos.Y+j);
-        std::cout << arr[i]; 
-    }  
-    j++;
-    cout << endl ;
-    delete[] arr;
-	}
+    importImage.drawASCII(text, pos, colorButton);
+    // fstream file;
+	// file.open(text,ios::in);
+	// string t;
+	// int j = 0;
+	// while(!file.eof()){
+	// 	getline(file,t);
+	// 	char* arr = new char [t.length()+1];
+	// 	strcpy(arr, t.c_str());
+	// 	    for (int i = 0; i < t.length(); i++) 
+    // { 
+    // 	SET_COLOR(colorButton);
+    // 	GotoXY(pos.X+i,pos.Y+j);
+    //     std::cout << arr[i]; 
+    // }  
+    // j++;
+    // cout << endl ;
+    // delete[] arr;
+	// }
 
 
 

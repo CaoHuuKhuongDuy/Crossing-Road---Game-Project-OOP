@@ -1,21 +1,55 @@
 #include "screen.h"
 
 
-Screen::Screen(int width_, int height_) : width(width_), height(height_), numFrame(0)  {} 
+Screen::Screen(int width_, int height_) : width(width_), height(height_), firstScreen(true)  {} 
 
-menuScreen:: menuScreen(): pathColorCode("../media/asciiCode_"){};
+menuScreen::menuScreen() {
+    rocket = new DynamicEntity("rocket.txt", {1, 10}, {8, 15}, string(1, char(219)), false);
+    rocketMove = 0;
+};
+
+menuScreen::~menuScreen() {
+    delete rocket;
+}
 
 
 void menuScreen::draw() {
-    if (!numFrame) {
-        // importImage.drawASCII("star.txt", {0, 0});
-        cout << "sdsd";
-	// Button* star =  new Button(pathColorCode + "start",{0,0},WHITE,GREEN);
+    if (firstScreen) {
+        importImage.drawASCII("star.txt", {0, 0});
+        importImage.drawASCII("crossingroad.txt", {36, 5});
+        importImage.drawASCII("frame.txt", {45, 12});
+	    Entity *jupiter = new Entity("jupiter.txt", {20,22}, {12,11});
+	    Entity *sartun = new Entity("sartun.txt", {170,7}, {21, 20});
+	    Entity *venus = new Entity("venus.txt", {140,31}, {23, 15});
+        jupiter->draw();
+        sartun->draw();
+        venus->draw();
+        firstScreen = false;
     }
-    numFrame++;
+	Button *buttons[6];
+    for (int i = 0; i < 6; i++) 
+        buttons[i] = new Button(buttonName[i], {50, SHORT(i * 4 + 13)}, WHITE, GREEN);
+    if (kbhit()) {
+        int c = getch();
+        if (c == 32) (chooseButton += 1) %= 6;
+    }
+    buttons[chooseButton]->toggleHighlight();
+    for (int i = 0; i < 6; i++)
+        buttons[i]->draw();
+    for (int i = 0; i < 6; i++)
+        delete buttons[i];
+    rocket->draw();
+    rocketMove++;
+    rocket->up(1);
+    if (rocketMove == 9) {
+        rocketMove = 0;
+        rocket->teleport({1, 10});
+    }
+
+    
+        // Button* button = new Button("", {36,5}, WHITE, GREEN);
 	// star->draw();
     
-    // Button* button = new Button(pathColorCode+Store[0],{36,5},WHITE,GREEN);
 	// button->draw(); 
 
 	// Button* frame = new Button(pathColorCode+Store[7],{45,12},WHITE,GREEN);
@@ -23,14 +57,9 @@ void menuScreen::draw() {
 	// int choices = 0;
 	// Button* choose;
 	// Button* clearChoose;
-	// DynamicEntity *rocket = new DynamicEntity("rocket.txt", {1,10}, {8, 18}, string(1, char(219)), false);
-	// // Entity *jupiter = new Entity("jupiter.txt", {20,22}, {12,11});
-	// // Entity *sartun = new Entity("sartun.txt", {170,7}, {21, 20});
-	// // Entity *venus = new Entity("venus.txt", {140,31}, {23, 15});
 	// int idx ;
 	// int move = 8;
 
-	// Button *buttons[6];
 	// while (true)
 	// {
 	// 	for (int i = 0; i < 6; i++)

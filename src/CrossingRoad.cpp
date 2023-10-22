@@ -4,16 +4,8 @@
 #include <conio.h>
 #include "console.h"
 
-void SET_COLOR_(int color)
-{
-	WORD wColor;
-      HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-     CONSOLE_SCREEN_BUFFER_INFO csbi;
-     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-     {
-          wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
-          SetConsoleTextAttribute(hStdOut, wColor);
-	}
+Screen* handleScreen(Screen* curScreen) {
+    return curScreen;
 }
 
 signed main() {
@@ -22,11 +14,17 @@ signed main() {
     char keyPress = 0;
     int debug = 0;
     appConsole.setFullscreenBackgroundColor(BG_BLUE);
+    Screen *mainScreen = new menuScreen();
     while (true) {
-        menuScreen* menu = new menuScreen();    
-        menu->draw();
-    	
+        mainScreen = handleScreen(mainScreen);   
+        mainScreen->draw();
+    	Sleep(10);
     }
+    // DynamicEntity *rocket = new DynamicEntity("rocket.txt", {1, 10}, {8, 15}, string(1, char(219)), false);
+    // while (true) {
+    //     rocket->draw();
+    //     rocket->up(1);
+    // }
    int x;
    cin >> x;
    return 0;
