@@ -22,10 +22,12 @@ signed main() {
     char keyPress = 0;
     int debug = 0;
     appConsole.setFullscreenBackgroundColor(BG_BLUE);
-    while (true) {
-        menuScreen* menu = new menuScreen();    
-        menu->draw();
-    	
+
+    while (true)
+    {
+          // Screen *screen = new gameScreen();
+          // screen->draw();
+          delete screen;
     }
    int x;
    cin >> x;

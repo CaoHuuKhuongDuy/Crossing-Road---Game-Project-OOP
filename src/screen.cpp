@@ -4,7 +4,8 @@
 Screen::Screen(int width_, int height_) : width(width_), height(height_), numFrame(0)  {} 
 
 menuScreen:: menuScreen(): pathColorCode("../media/asciiCode_"){};
-
+gameScreen::gameScreen(): 	pathAsciiCode("../media/asciiCode_"),
+							pathColorCode("../media/colorCode_"){};
 
 void menuScreen::draw() {
     if (!numFrame) {
@@ -78,4 +79,24 @@ void menuScreen::draw() {
 	// 		}
 	// 	}
 	// }
+}
+
+
+
+
+void gameScreen::draw()
+{
+	Button* star =  new Button(pathAsciiCode+content[0],{0,0},WHITE,GREEN);
+	star->draw();
+
+	Entity* redFrame = new Entity(content[3] + ".txt", {1,1}, {40,40});
+	redFrame->draw();
+
+	Button* level = new Button(pathAsciiCode+"level", {142,5}, WHITE, GREEN);
+	level->draw();
+
+	Button* score = new Button(pathAsciiCode+"score", {142,15}, WHITE, GREEN);
+	score->draw();
+
+
 }
