@@ -29,3 +29,16 @@ class menuScreen: public Screen {
         DynamicEntity *rocket;
         int rocketMove;
 };
+
+class gameScreen : public Screen
+{
+    public:
+        gameScreen();
+        void draw() override;
+
+    private:
+        string pathColorCode;
+        string pathAsciiCode;
+
+        string content[10] = {"star","level","score", "redFrame"};
+};

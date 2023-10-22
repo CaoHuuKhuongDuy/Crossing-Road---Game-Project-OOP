@@ -10,7 +10,7 @@ def color_distance(color1, color2):
     return math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2)
 
 path = os.path.dirname(__file__)
-fileName = "jupiter"
+fileName = "redFrame"
 path = os.path.join(path, "..\..\media\\")
 pathImage = path + fileName + ".png"
 image = Image.open(pathImage)
