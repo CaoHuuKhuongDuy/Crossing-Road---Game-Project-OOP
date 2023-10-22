@@ -114,17 +114,17 @@ void menuScreen::draw() {
 
 void gameScreen::draw()
 {
-	Button* star =  new Button(pathAsciiCode+content[0],{0,0},WHITE,GREEN);
-	star->draw();
+	// Button* star =  new Button(content[0],{0,0},WHITE,GREEN);
+	// star->draw();
 
 	Entity* redFrame = new Entity(content[3] + ".txt", {1,1}, {40,40});
 	redFrame->draw();
 
-	Button* level = new Button(pathAsciiCode+"level", {142,5}, WHITE, GREEN);
-	level->draw();
+	// Button* level = new Button("level", {142,5}, WHITE, GREEN);
+	// level->draw();
 
-	Button* score = new Button(pathAsciiCode+"score", {142,15}, WHITE, GREEN);
-	score->draw();
+	// Button* score = new Button("score", {142,15}, WHITE, GREEN);
+	// score->draw();
 
 
 }

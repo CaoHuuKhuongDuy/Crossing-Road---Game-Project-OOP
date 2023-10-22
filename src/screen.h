@@ -37,8 +37,5 @@ class gameScreen : public Screen
         void draw() override;
 
     private:
-        string pathColorCode;
-        string pathAsciiCode;
-
         string content[10] = {"star","level","score", "redFrame"};
 };

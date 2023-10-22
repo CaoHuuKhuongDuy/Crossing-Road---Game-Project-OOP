@@ -1,23 +1,5 @@
 #include "button.h"
 
-void GotoXY(int x, int y) {
-  COORD coord;
-  coord.X = x;
-  coord.Y = y;
-  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-void SET_COLOR(int color)
-{
-	WORD wColor;
-      HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-     CONSOLE_SCREEN_BUFFER_INFO csbi;
-     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-     {
-          wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
-          SetConsoleTextAttribute(hStdOut, wColor);
-	}
-}
-
 Button::Button() {}
 
 Button::Button(std::string text_, COORD pos_, int colorNormal_, int colorClicked_) 
@@ -36,25 +18,4 @@ void Button::changeText() {
 void Button::draw() {
     changeText();
     importImage.drawASCII(text, pos, colorButton);
-    // fstream file;
-	// file.open(text,ios::in);
-	// string t;
-	// int j = 0;
-	// while(!file.eof()){
-	// 	getline(file,t);
-	// 	char* arr = new char [t.length()+1];
-	// 	strcpy(arr, t.c_str());
-	// 	    for (int i = 0; i < t.length(); i++) 
-    // { 
-    // 	SET_COLOR(colorButton);
-    // 	GotoXY(pos.X+i,pos.Y+j);
-    //     std::cout << arr[i]; 
-    // }  
-    // j++;
-    // cout << endl ;
-    // delete[] arr;
-	// }
-
-
-
 }
