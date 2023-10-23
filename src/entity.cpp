@@ -22,12 +22,21 @@ Entity::Entity(string entityName_, COORD pos1, COORD size_, string defaultValue_
     verify();
 }
 
-void Entity::draw() {
+COORD Entity::getPos() {
+    return startPos;
+}
+
+
+void Entity::removeRemainFrame() {
     if (remainStartPos.X != -1) {
         appConsole.clear(remainStartPos, remainEndPos);
         remainStartPos = remainEndPos = {-1, -1};
     }
-   importImage.drawImage(entityName, startPos, defaultValue, colorBG);
+}
+
+void Entity::draw() {
+    removeRemainFrame();
+    importImage.drawImage(entityName, startPos, defaultValue, colorBG);
 }
 
 DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_, string defaultValue_, bool colorBG_) 
@@ -35,7 +44,7 @@ DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_, string
 
 
 void DynamicEntity::caculateRemainFrame(COORD oldPos) {
-
+    removeRemainFrame();
     if (startPos.Y > oldPos.Y) {
         remainStartPos = oldPos;
         remainEndPos = {SHORT(oldPos.X + size.X - 1), min(SHORT(oldPos.Y + size.Y - 1), SHORT(startPos.Y - 1))};

@@ -18,10 +18,10 @@ class Screen {
         int width, height;
 };
 
-class menuScreen: public Screen {
+class MenuScreen: public Screen {
     public:	
-        menuScreen();
-        ~menuScreen();
+        MenuScreen();
+        ~MenuScreen();
     	void draw() override;
     private:
      	string buttonName[6] = {"newgame","loadgame","leaderboard","setting","credit","exit"};   	
@@ -30,10 +30,10 @@ class menuScreen: public Screen {
         int rocketMove;
 };
 
-class gameScreen : public Screen
+class GameScreen : public Screen
 {
     public:
-        gameScreen();
+        GameScreen();
         void draw() override;
 
     private:

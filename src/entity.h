@@ -7,9 +7,11 @@ class Entity {
     public:
         Entity(string entityName_, COORD pos1, COORD size_, string defaultValue_ = " ", bool colorBG_ = true);
         void draw();
+        COORD getPos();
         COORD remainStartPos, remainEndPos;
     protected:
         // EntityType type;
+        void removeRemainFrame();
         void verify();
         COORD startPos, size;
         string entityName;
@@ -25,6 +27,6 @@ class DynamicEntity : public Entity {
         void left(int step);
         void right(int step);
         void teleport(COORD pos);
-    protected: 
+    private: 
         void caculateRemainFrame(COORD oldPos);
 };
