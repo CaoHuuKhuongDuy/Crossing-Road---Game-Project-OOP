@@ -50,21 +50,51 @@ void MenuScreen::draw() {
     }
 }
 
-GameScreen::GameScreen() {}
+GameScreen::GameScreen()
+{
+	frame = new Entity("redFrame.txt", {1, 1} , {0,0});
+	enemy = new DynamicEntity("enemy1.txt", {5,5}, {0,0});
+
+};
+
+GameScreen::~GameScreen()
+{
+	delete frame;
+	delete enemy;
+}
 
 void GameScreen::draw()
 {
+	if (firstScreen)
+	{
+		frame->draw();
+		//Import "Level" - i cannot load level.txt although it's still correct
+		importImage.drawASCII("score.txt", {146, 5});
+    	importImage.drawASCII("score.txt", {146, 15});
+		firstScreen = false;
+	}
+    enemy->draw();
+    // Move the enemy to the right
+    enemy->right(1);
+    enemyMove++;
+    // Check if it's time to reset the enemy's position
+    if (enemyMove == 20)
+    {
+		enemyMove = 0;
+        // Reset the enemy's position to the left
+        enemy->teleport({5, 5});
+    }
+
+}
+	
 	// Button* star =  new Button(content[0],{0,0},WHITE,GREEN);
 	// star->draw();
 
-	Entity* redFrame = new Entity(content[3] + ".txt", {1,1}, {40,40});
-	redFrame->draw();
+	// Entity* redFrame = new Entity(frame + ".txt", {1,1}, {40,40});
+	// redFrame->draw();
 
 	// Button* level = new Button("level", {142,5}, WHITE, GREEN);
 	// level->draw();
 
 	// Button* score = new Button("score", {142,15}, WHITE, GREEN);
 	// score->draw();
-
-
-}

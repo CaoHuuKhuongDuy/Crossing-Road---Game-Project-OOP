@@ -34,8 +34,11 @@ class GameScreen : public Screen
 {
     public:
         GameScreen();
+        ~GameScreen();
         void draw() override;
 
     private:
-        string content[10] = {"star","level","score", "redFrame"};
+        Entity* frame;
+        DynamicEntity* enemy;
+        int enemyMove = 0;
 };

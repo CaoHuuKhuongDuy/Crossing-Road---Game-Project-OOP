@@ -54,16 +54,20 @@ void DynamicEntity::caculateRemainFrame(COORD oldPos) {
         remainStartPos = {oldPos.X, max(SHORT(startPos.Y + size.Y), oldPos.Y)};
     }
 
-    if (startPos.X > oldPos.X) {
-        remainStartPos = oldPos;
-        remainEndPos = {min(SHORT(oldPos.X + size.X - 1), SHORT(startPos.X - 1)), SHORT(oldPos.Y + size.Y - 1)};
-    }
-
-    if (startPos.X < oldPos.X) {
-        remainEndPos = {SHORT(oldPos.X + size.X - 1), SHORT(oldPos.Y + size.Y - 1)};
-        remainStartPos = {max(oldPos.X, SHORT(startPos.X + size.X)), oldPos.Y};
+    // Calculate the remaining frame for horizontal movement
+    if (startPos.X != oldPos.X) {
+        if (startPos.X > oldPos.X) {
+            remainStartPos.X = oldPos.X;
+            remainEndPos.X = min(SHORT(oldPos.X + size.X - 1), SHORT(startPos.X - 1));
+        } else if (startPos.X < oldPos.X) {
+            remainEndPos.X = SHORT(oldPos.X + size.X - 1);
+            remainStartPos.X = max(oldPos.X, SHORT(startPos.X + size.X));
+        }
     }
 }
+
+
+
 
 void DynamicEntity::teleport(COORD pos) {
     COORD oldPos = startPos;

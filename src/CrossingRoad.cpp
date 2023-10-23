@@ -13,8 +13,9 @@ signed main() {
     stValue::importImage.init(&stValue::appConsole);
     char keyPress = 0;
     int debug = 0;
-    Screen *mainScreen = new MenuScreen();
-    while (true) {    
+    // appConsole.setFullscreenBackgroundColor(BG_BLUE);
+    Screen *mainScreen = new GameScreen();
+    while (true) {
         mainScreen = handleScreen(mainScreen);   
         mainScreen->draw();
     	Sleep(10);
