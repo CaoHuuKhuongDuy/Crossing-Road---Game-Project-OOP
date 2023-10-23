@@ -13,12 +13,13 @@ signed main() {
     stValue::importImage.init(&stValue::appConsole);
     char keyPress = 0;
     int debug = 0;
-    // appConsole.setFullscreenBackgroundColor(BG_BLUE);
-    Screen *mainScreen = new GameScreen();
+    	// importImage.drawASCII("score.txt", {130, 15});
+
+    Screen *mainScreen = new MenuScreen();
     while (true) {
         mainScreen = handleScreen(mainScreen);   
         mainScreen->draw();
-    	Sleep(10);
+    	Sleep(5);
     }
    int x;
    cin >> x;

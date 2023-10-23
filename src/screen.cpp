@@ -52,8 +52,8 @@ void MenuScreen::draw() {
 
 GameScreen::GameScreen()
 {
-	frame = new Entity("redFrame.txt", {1, 1} , {0,0});
-	enemy = new DynamicEntity("enemy1.txt", {5,5}, {0,0});
+	frame = new Entity("redFrame.txt", {1, 1} , {209, 48});
+	enemy = new DynamicEntity("enemy1.txt", {5,5}, {6, 6});
 
 };
 
@@ -67,16 +67,19 @@ void GameScreen::draw()
 {
 	if (firstScreen)
 	{
+        appConsole.setFullscreenBackgroundColor(BG_BLUE);
 		frame->draw();
 		//Import "Level" - i cannot load level.txt although it's still correct
 		importImage.drawASCII("score.txt", {146, 5});
-    	importImage.drawASCII("score.txt", {146, 15});
+    	importImage.drawASCII("level.txt", {146, 15});
 		firstScreen = false;
 	}
+    // if (enemyMove < 3) {
     enemy->draw();
-    // Move the enemy to the right
+    // // Move the enemy to the right
     enemy->right(1);
     enemyMove++;
+    // }
     // Check if it's time to reset the enemy's position
     if (enemyMove == 20)
     {
