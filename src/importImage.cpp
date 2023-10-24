@@ -34,8 +34,8 @@ void ImportImage:: drawImage(string pathFile, COORD pos) {
     int numbers[4];
     char charDisplay;
     char newline;
-    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))
-        && fi.read(reinterpret_cast<char*>(&newline), sizeof(char))) {
+    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))) {
+        // && fi.read(reinterpret_cast<char*>(&newline), sizeof(char))) {
         int preX = x;
         x = numbers[0];
         y = numbers[1];
@@ -48,7 +48,7 @@ void ImportImage:: drawImage(string pathFile, COORD pos) {
         else if (x == preX) {
             pos.Y++;
         }
-        // cout << x << " " << y << charDisplay << endl;
+        // cout << x << " " << y << " " << charDisplay << " " << colorCode << endl;
         // continue;
         if (colorCode == BG_MAGENTA) {
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());

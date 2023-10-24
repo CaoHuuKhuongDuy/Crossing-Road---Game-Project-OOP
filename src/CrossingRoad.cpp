@@ -15,7 +15,7 @@ signed main() {
     int debug = 0;
     	// importImage.drawASCII("score.txt", {130, 15});
     appConsole.setFullscreenBackgroundColor(BG_BLUE);
-    importImage.drawImage("robot.txt", {20, 20});
+    importImage.drawImage("coolUfo.txt", {20, 20});
     // Screen *mainScreen = new MenuScreen();
     // while (true) {
     //     mainScreen = handleScreen(mainScreen);   
