@@ -15,9 +15,8 @@ void Entity::verify() {
 // X + size - 1 < sizeScren
 // x <= sizeScreen + 1 - size
 
-Entity::Entity(string entityName_, COORD pos1, COORD size_, string defaultValue_, bool colorBG_) 
-    : entityName(entityName_), startPos(pos1), size(size_), defaultValue(defaultValue_), colorBG(colorBG_) {
-    size.X *= SHORT(defaultValue.size());
+Entity::Entity(string entityName_, COORD pos1, COORD size_) 
+    : entityName(entityName_), startPos(pos1), size(size_){
     remainStartPos = remainEndPos = {-1, -1};
     verify();
 }
@@ -36,11 +35,11 @@ void Entity::removeRemainFrame() {
 
 void Entity::draw() {
     removeRemainFrame();
-    importImage.drawImage(entityName, startPos, defaultValue, colorBG);
+    importImage.drawImage(entityName, startPos);
 }
 
-DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_, string defaultValue_, bool colorBG_) 
-    : Entity(entityName_, pos1, size_, defaultValue_, colorBG_) {};
+DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_) 
+    : Entity(entityName_, pos1, size_) {};
 
 
 void DynamicEntity::caculateRemainFrame(COORD oldPos) {

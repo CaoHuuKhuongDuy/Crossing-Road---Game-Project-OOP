@@ -26,29 +26,37 @@ int ImportImage::convertBGColor2TextColor(int colorBackground) {
     }
 }
 
-void ImportImage:: drawImage(string pathFile, COORD pos, string defaultText, bool colorBG) {
+void ImportImage:: drawImage(string pathFile, COORD pos) {
     pathFile = pathColorCode + pathFile;
     ifstream fi(pathFile, ios::binary);
     int tmpY = pos.Y;
     int x = -1, y, colorCode;
-    int numbers[3];
-
-    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))) {
+    int numbers[4];
+    char charDisplay;
+    char newline;
+    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))
+        && fi.read(reinterpret_cast<char*>(&newline), sizeof(char))) {
         int preX = x;
         x = numbers[0];
         y = numbers[1];
-        colorCode = numbers[2];
+        charDisplay = numbers[2];
+        colorCode = numbers[3];
         if (preX != -1 && x != preX) {
             pos.Y = tmpY;
-            pos.X += (SHORT)defaultText.size();
+            pos.X++;
         }
-        else if (x == preX) pos.Y++;
+        else if (x == preX) {
+            pos.Y++;
+        }
+        // cout << x << " " << y << charDisplay << endl;
+        // continue;
         if (colorCode == BG_MAGENTA) {
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
             continue;
         }
-        if (colorBG) appConsole->writeAt(defaultText, -1, pos, colorCode);
-        else appConsole->writeAt(defaultText, convertBGColor2TextColor(colorCode), pos);
+        bool colorBG = (charDisplay == 32 ? true : false);
+        if (colorBG) appConsole->writeAt(string(1, charDisplay), -1, pos, colorCode);
+        else appConsole->writeAt(string(1, charDisplay), convertBGColor2TextColor(colorCode), pos);
     }
     fi.close();
 }

@@ -10,7 +10,7 @@ class ImportImage {
     public:
         ImportImage();
         void init(Console *appConsole);
-        void drawImage(string pathImage, COORD pos, string defaultText = " ", bool colorBG = true);
+        void drawImage(string pathImage, COORD pos);
         void drawASCII(string pathASCII, COORD pos, int textColor = WHITE); //bool colorBG = true
     private:
         Console *appConsole;

@@ -14,13 +14,14 @@ signed main() {
     char keyPress = 0;
     int debug = 0;
     	// importImage.drawASCII("score.txt", {130, 15});
-
-    Screen *mainScreen = new MenuScreen();
-    while (true) {
-        mainScreen = handleScreen(mainScreen);   
-        mainScreen->draw();
-    	Sleep(5);
-    }
+    appConsole.setFullscreenBackgroundColor(BG_BLUE);
+    importImage.drawImage("robot.txt", {20, 20});
+    // Screen *mainScreen = new MenuScreen();
+    // while (true) {
+    //     mainScreen = handleScreen(mainScreen);   
+    //     mainScreen->draw();
+    // 	Sleep(1);
+    // }
    int x;
    cin >> x;
    return 0;

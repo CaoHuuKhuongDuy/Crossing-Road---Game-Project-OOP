@@ -5,7 +5,7 @@ using namespace stValue;
 
 class Entity {
     public:
-        Entity(string entityName_, COORD pos1, COORD size_, string defaultValue_ = " ", bool colorBG_ = true);
+        Entity(string entityName_, COORD pos1, COORD size_);
         void draw();
         COORD getPos();
         COORD remainStartPos, remainEndPos;
@@ -15,13 +15,11 @@ class Entity {
         void verify();
         COORD startPos, size;
         string entityName;
-        bool colorBG;
-        string defaultValue;
 };
 
 class DynamicEntity : public Entity {
     public: 
-        DynamicEntity(string entityName_, COORD pos1, COORD size_, string defaultValue_ = " ", bool colorBG_ = true);
+        DynamicEntity(string entityName_, COORD pos1, COORD size_);
         void up(int step);
         void down(int step);
         void left(int step);

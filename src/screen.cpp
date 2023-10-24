@@ -4,7 +4,7 @@
 Screen::Screen(int width_, int height_) : width(width_), height(height_), firstScreen(true)  {} 
 
 MenuScreen::MenuScreen() {
-    rocket = new DynamicEntity("rocket.txt", {1, 10}, {8, 15}, string(1, char(219)), false);
+    rocket = new DynamicEntity("rocket.txt", {1, 10}, {8, 15});
     rocketMove = 0;
 };
 
@@ -69,22 +69,15 @@ void GameScreen::draw()
 	{
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
 		frame->draw();
-		//Import "Level" - i cannot load level.txt although it's still correct
 		importImage.drawASCII("score.txt", {146, 5});
     	importImage.drawASCII("level.txt", {146, 15});
 		firstScreen = false;
 	}
-    // if (enemyMove < 3) {
     enemy->draw();
-    // // Move the enemy to the right
     enemy->right(1);
     enemyMove++;
-    // }
-    // Check if it's time to reset the enemy's position
-    if (enemyMove == 20)
-    {
+    if (enemyMove == 20) {
 		enemyMove = 0;
-        // Reset the enemy's position to the left
         enemy->teleport({5, 5});
     }
 
