@@ -48,8 +48,6 @@ void ImportImage:: drawImage(string pathFile, COORD pos) {
         else if (x == preX) {
             pos.Y++;
         }
-        // cout << x << " " << y << " " << charDisplay << " " << colorCode << endl;
-        // continue;
         if (colorCode == BG_MAGENTA) {
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
             continue;
