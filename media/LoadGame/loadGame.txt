@@ -1,0 +1,3 @@
+player1 2 200
+Tien 4 500
+Thai 3 300
