@@ -12,7 +12,6 @@ MenuScreen::~MenuScreen() {
     delete rocket;
 }
 
-
 void MenuScreen::draw() {
     if (firstScreen) {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
@@ -54,7 +53,6 @@ GameScreen::GameScreen()
 {
 	frame = new Entity("redFrame.txt", {1, 1} , {209, 48});
 	enemy = new DynamicEntity("enemy1.txt", {5,5}, {6, 6});
-
 };
 
 GameScreen::~GameScreen()
@@ -94,3 +92,11 @@ void GameScreen::draw()
 
 	// Button* score = new Button("score", {142,15}, WHITE, GREEN);
 	// score->draw();
+
+LoadGameScreen::LoadGameScreen() {
+    
+}
+
+LoadGameScreen::~LoadGameScreen() {
+    
+}
