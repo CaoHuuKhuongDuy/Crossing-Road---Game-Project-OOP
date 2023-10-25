@@ -42,3 +42,13 @@ class GameScreen : public Screen
         DynamicEntity* enemy;
         int enemyMove = 0;
 };
+
+class LoadGameScreen : public Screen{
+    public:
+        LoadGameScreen();
+        ~LoadGameScreen();
+        void draw() override;
+    private:
+        string buttonName[4] = {"player1", "player2", "player3", "player4"};
+        int chooseButton = 0;
+};
