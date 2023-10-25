@@ -4,7 +4,7 @@
 Screen::Screen(int width_, int height_) : width(width_), height(height_), firstScreen(true)  {} 
 
 MenuScreen::MenuScreen() {
-    rocket = new DynamicEntity("rocket.txt", {1, 10}, {8, 15});
+    rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
     rocketMove = 0;
 };
 
@@ -25,28 +25,22 @@ void MenuScreen::draw() {
         jupiter->draw();
         sartun->draw();
         venus->draw();
+        for (int i = 0; i < 6; i++) 
+            listButton.addButton(new Button(buttonName[i], {62, SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
     }
-	Button *buttons[6];
-    for (int i = 0; i < 6; i++) 
-        buttons[i] = new Button(buttonName[i], {50, SHORT(i * 4 + 13)}, WHITE, GREEN);
+    listButton.draw();
     if (kbhit()) {
-        int c = getch();
-        if (c == 80) (chooseButton += 1) %= 6;
+        int c = _getch();
+        if (c == 32) listButton.changeIdButtonChoosen(listButton.getIdButtonChoosen() + 1);
     }
-    buttons[chooseButton]->toggleHighlight();
-    for (int i = 0; i < 6; i++)
-        buttons[i]->draw();
-    for (int i = 0; i < 6; i++)
-        delete buttons[i];
+
     rocket->draw();
-    // if (rocket->getPos().X == 1) rocket->teleport({9, 10});
-    // else rocket->teleport({1, 10});
     rocketMove++;
     rocket->up(1);
-    if (rocketMove == 5) {
+    if (rocketMove == 20) {
         rocketMove = 0;
-        rocket->teleport({1, 10});
+        rocket->teleport({1, 25});
     }
 }
 

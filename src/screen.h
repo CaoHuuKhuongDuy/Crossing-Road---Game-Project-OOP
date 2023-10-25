@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "staticVariable.h"
-#include"entity.h"
+#include "entity.h"
 #include "button.h"
 #include <iostream>
 
@@ -14,6 +14,7 @@ class Screen {
         virtual void draw() = 0;
     protected:
         bool firstScreen;
+        ListButton listButton;
     private:
         int width, height;
 };
@@ -25,7 +26,6 @@ class MenuScreen: public Screen {
     	void draw() override;
     private:
      	string buttonName[6] = {"newgame","loadgame","leaderboard","setting","credit","exit"};   	
-        int chooseButton = 0;
         DynamicEntity *rocket;
         int rocketMove;
 };

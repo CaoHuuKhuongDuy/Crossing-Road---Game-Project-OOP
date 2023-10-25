@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <iostream>
+#include <vector>
 #include "staticVariable.h"
 
 using namespace stValue;
@@ -18,5 +19,17 @@ class Button {
         int colorButton, colorNormal, colorClicked;
         bool highlighted;
         void changeText();
-        
+};
+
+class ListButton {
+    public:
+        ListButton();
+        ~ListButton();
+        void addButton(Button* button);
+        void changeIdButtonChoosen(int nxtId);
+        int getIdButtonChoosen();
+        void draw();
+    private:
+        int idButtonChoosen;
+        vector <Button*> listButton;
 };
