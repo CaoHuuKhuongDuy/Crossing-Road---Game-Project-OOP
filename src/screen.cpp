@@ -100,3 +100,23 @@ LoadGameScreen::LoadGameScreen() {
 LoadGameScreen::~LoadGameScreen() {
     
 }
+
+void LoadGameScreen::draw() {
+    if (firstScreen) {
+        appConsole.setFullscreenBackgroundColor(BG_BLUE);
+        importImage.drawASCII("LoadGameSaved.txt", {340, 20});
+        firstScreen = false;
+    }
+	Button *buttons[4];
+    for (int i = 0; i < 4; i++) 
+        buttons[i] = new Button(buttonName[i], {50, SHORT(i * 4 + 13)}, WHITE, GREEN);
+    if (kbhit()) {
+        int c = getch();
+        if (c == 80) (chooseButton += 1) %= 6;
+    }
+    buttons[chooseButton]->toggleHighlight();
+    for (int i = 0; i < 4; i++)
+        buttons[i]->draw();
+    for (int i = 0; i < 4; i++)
+        delete buttons[i];
+}
