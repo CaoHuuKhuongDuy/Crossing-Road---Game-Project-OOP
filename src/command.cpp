@@ -1,6 +1,6 @@
-// #include "command.h"
+#include "command.h"
 
-// void EnterGameCommand::excute(Screen *&mainScreen) {
-//     delete mainScreen;
-//     mainScreen = new GameScreen();
-// }
+void EnterGameCommand::excute(Screen *&mainScreen) {
+    delete mainScreen;
+    mainScreen = new GameScreen();
+}
