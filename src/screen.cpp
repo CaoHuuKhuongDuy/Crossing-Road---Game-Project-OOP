@@ -25,7 +25,7 @@ void MenuScreen::draw() {
         sartun->draw();
         venus->draw();
         for (int i = 0; i < 6; i++) 
-            listButton.addButton(new Button(buttonName[i], {62, SHORT(i * 4 + 13)}, WHITE, GREEN));
+            listButton.addButton(new Button(buttonName[i], {80 - buttonName[i].length()*2 , SHORT(i * 4 + 14)}, WHITE, CYAN));
         firstScreen = false;
     }
     listButton.draw();
