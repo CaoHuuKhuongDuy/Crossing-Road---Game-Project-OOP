@@ -3,6 +3,7 @@
 #include "staticVariable.h"
 #include "entity.h"
 #include "button.h"
+#include "handlerInput.h"
 #include <iostream>
 
 using namespace stValue;
@@ -10,10 +11,12 @@ using namespace std;
 
 class Screen {
     public:
-        Screen(int width = FIX_WIDTH, int height = FIX_HEIGHT);
+        Screen(HandlerInput *handlerInput_, int width = FIX_WIDTH, int height = FIX_HEIGHT);
         virtual void draw() = 0;
-        ButtonList buttonList;
+        Command *handleInput();
     protected:
+        HandlerInput *handlerInputMainScreen;
+        ButtonList buttonList;
         bool firstScreen;
     private:
         int width, height;

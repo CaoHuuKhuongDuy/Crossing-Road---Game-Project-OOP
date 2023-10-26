@@ -1,15 +1,21 @@
 #include "screen.h"
 
 
-Screen::Screen(int width_, int height_) : width(width_), height(height_), firstScreen(true)  {} 
+Screen::Screen(HandlerInput *handlerInput_, int width_, int height_) : 
+    handlerInputMainScreen(handlerInput_), width(width_), height(height_), firstScreen(true)  {} 
 
-MenuScreen::MenuScreen() {
+Command *Screen::handleInput() {
+    return handlerInputMainScreen->handlerInput(buttonList);
+}
+
+MenuScreen::MenuScreen() : Screen(new HandlerMenuInput()) {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
     rocketMove = 0;
 };
 
 MenuScreen::~MenuScreen() {
     delete rocket;
+    delete handlerInputMainScreen;
 }
 
 void MenuScreen::draw() {
@@ -38,7 +44,7 @@ void MenuScreen::draw() {
     }
 }
 
-GameScreen::GameScreen()
+GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
 	frame = new Entity("redFrame.txt", {1, 1} , {209, 48});
 	enemy = new DynamicEntity("enemy1.txt", {5,5}, {6, 6});
@@ -82,7 +88,7 @@ void GameScreen::draw()
 	// Button* score = new Button("score", {142,15}, WHITE, GREEN);
 	// score->draw();
 
-LoadGameScreen::LoadGameScreen() {
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()) {
     
 }
 

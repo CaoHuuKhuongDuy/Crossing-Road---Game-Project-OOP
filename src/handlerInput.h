@@ -5,17 +5,32 @@
 
 class HandlerInput {
     public:
-        virtual Command *handlerInput(Screen *&mainScreen, ButtonList &buttonList) = 0;
+        virtual Command *handlerInput(ButtonList &buttonList) = 0;
     protected:
         int getUserInput();        
-        void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
 };
 
 class HandlerMenuInput : public HandlerInput {
     public:
         HandlerMenuInput();
-        Command *handlerInput(Screen *&mainScreen, ButtonList &buttonList);
+        ~HandlerMenuInput();
+        Command *handlerInput(ButtonList &buttonList);
     private:
         Command *enterGame;
 };
+
+class HandlerGameInput : public HandlerInput {
+    public:
+        HandlerGameInput();
+        ~HandlerGameInput();
+        Command *handlerInput(ButtonList &buttonList);
+};
+
+class HandlerLoadInput : public HandlerInput {
+    public:
+        Command *handlerInput(ButtonList &buttonList);
+
+};
+
+
 

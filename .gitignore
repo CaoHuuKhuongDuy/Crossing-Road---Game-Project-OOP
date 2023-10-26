@@ -7,3 +7,5 @@ CrossingRoad_VS/
 src/*.o
 
 src/*.exe
+
+src/test/
