@@ -1,7 +1,5 @@
 #include "screen.h"
 
-Screen::Screen(int width_, int height_) : width(width_), height(height_), firstScreen(true) {}
-
 Screen::Screen(HandlerInput *handlerInput_, int width_, int height_) : 
     handlerInputMainScreen(handlerInput_), width(width_), height(height_), firstScreen(true)  {} 
 
