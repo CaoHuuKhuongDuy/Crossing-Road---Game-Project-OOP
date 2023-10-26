@@ -38,12 +38,20 @@ class GameScreen : public Screen
     public:
         GameScreen();
         ~GameScreen();
+
+        
+        void spawnEnemy(DynamicEntity*, double speed = 1);
+        void resetEnemyAtEdge(DynamicEntity* entity, SHORT posEdge, int index);
         void draw() override;
 
     private:
         Entity* frame;
-        DynamicEntity* enemy;
-        int enemyMove = 0;
+        Entity* edge1, *edge2;
+        DynamicEntity** enemy;
+
+        //Number of enemy will be updated when the level changes
+        int numberEnemy = 9;
+        bool isAllDraw = false;
 };
 
 class LoadGameScreen : public Screen{
