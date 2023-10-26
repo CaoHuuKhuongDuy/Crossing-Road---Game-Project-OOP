@@ -25,15 +25,10 @@ void MenuScreen::draw() {
         sartun->draw();
         venus->draw();
         for (int i = 0; i < 6; i++) 
-            listButton.addButton(new Button(buttonName[i], {62, SHORT(i * 4 + 13)}, WHITE, GREEN));
+            buttonList.addButton(new Button(buttonName[i], {62, SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
     }
-    listButton.draw();
-    if (kbhit()) {
-        int c = _getch();
-        if (c == 32) listButton.changeIdButtonChoosen(listButton.getIdButtonChoosen() + 1);
-    }
-
+    buttonList.draw();
     rocket->draw();
     rocketMove++;
     rocket->up(1);

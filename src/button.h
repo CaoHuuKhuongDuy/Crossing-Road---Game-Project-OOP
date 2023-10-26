@@ -21,15 +21,15 @@ class Button {
         void changeText();
 };
 
-class ListButton {
+class ButtonList {
     public:
-        ListButton();
-        ~ListButton();
+        ButtonList();
+        ~ButtonList();
         void addButton(Button* button);
         void changeIdButtonChoosen(int nxtId);
         int getIdButtonChoosen();
         void draw();
     private:
         int idButtonChoosen;
-        vector <Button*> listButton;
+        vector <Button*> buttonList;
 };

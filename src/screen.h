@@ -12,9 +12,9 @@ class Screen {
     public:
         Screen(int width = FIX_WIDTH, int height = FIX_HEIGHT);
         virtual void draw() = 0;
+        ButtonList buttonList;
     protected:
         bool firstScreen;
-        ListButton listButton;
     private:
         int width, height;
 };

@@ -3,6 +3,7 @@
 #include <vector>
 #include <conio.h>
 #include "console.h"
+#include "handlerInput.h"
 
 Screen* handleScreen(Screen* curScreen) {
     return curScreen;
@@ -14,12 +15,17 @@ signed main() {
     char keyPress = 0;
     int debug = 0;
     Screen *mainScreen = new MenuScreen();
+    HandlerInput *handlerInputMainScreen = new HandlerMenuInput();
     while (true) {
         mainScreen = handleScreen(mainScreen);   
+        handlerInputMainScreen->handlerInput(mainScreen, mainScreen->buttonList);
         mainScreen->draw();
     	Sleep(1);
     }
-   int x;
-   cin >> x;
-   return 0;
+    delete mainScreen;
+    delete handlerInputMainScreen;
+
+    int x;
+    cin >> x;
+    return 0;
 }
