@@ -8,6 +8,7 @@ class Entity {
         Entity(string entityName_, COORD pos1, COORD size_);
         void draw();
         COORD getPos();
+        COORD getEndPos();
     protected:
         // EntityType type;
         COORD remainStartPos, remainEndPos;

@@ -61,7 +61,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput())
         // Tính toán vị trí Y dựa trên hàng
         SHORT yPos = 7 + row * 15;
 
-        enemy[i] = new DynamicEntity("enemy1.txt", {-1, yPos}, {6, 6});
+        enemy[i] = new DynamicEntity("ufo.txt", {-1, yPos}, {6, 6});
     }
 
     edge1 = new Entity("edge.txt", {1, 1}, {0, 0});

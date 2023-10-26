@@ -25,6 +25,13 @@ COORD Entity::getPos() {
     return startPos;
 }
 
+COORD Entity::getEndPos() {
+    COORD endPos = startPos;
+    endPos.X += size.X - 1;
+    endPos.Y += size.Y - 1;
+    return endPos;
+}
+
 
 void Entity::removeRemainFrame() {
     if (remainStartPos.X != -1) {
