@@ -51,8 +51,10 @@ class GameScreen : public Screen
         DynamicEntity* basic; 
         DynamicEntity* phonix;
 
+        int cnt = 0;
+
         //Number of enemy will be updated when the level changes
-        int numberEnemy = 9;
+        int numberEnemy = 12;
         bool isAllDraw = false;
 };
 

@@ -33,7 +33,7 @@ void MenuScreen::draw()
         sartun->draw();
         venus->draw();
         for (int i = 0; i < 6; i++) 
-            buttonList.addButton(new Button(buttonName[i], {80 - buttonName[i].length()*2, SHORT(i * 4 + 13)}, WHITE, GREEN));
+            buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length()*2), SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
     }
     buttonList.draw();
@@ -56,15 +56,14 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput())
 //    int enemiesPerRow = numberEnemy / 3; // Sá»‘ lÆ°á»£ng enemies trÃªn má»—i hÃ ng
 //
    enemy = new DynamicEntity *[7];    
-   for (int i = 0; i < 7; ++i)
+   for (int i = 0; i < numberEnemy; ++i)
    {
 //        SHORT row = i / enemiesPerRow; // XÃ¡c Ä‘á»‹nh hÃ ng cho enemy hiá»‡n táº¡i
 //
-//        // TÃ­nh toÃ¡n vá»‹ trÃ­ Y dá»±a trÃªn hÃ ng
 //        SHORT yPos = 7 + row * 15;
 //
         int r = rand()%150;
-        enemy[i] = new DynamicEntity("coolUfo.txt", {20 + r, i*5+3}, {11, 5});
+        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(20 + r), SHORT(i*5+3)}, {11, 5});
    }
 //
 //    edge1 = new Entity("edge.txt", {1, 1}, {0, 0});
@@ -77,8 +76,8 @@ GameScreen::~GameScreen()
     for (int i = 0; i < numberEnemy; ++i)
         delete enemy[i];
     delete enemy;
-    delete edge1;
-    delete edge2;
+    // delete edge1;
+    // delete edge2;
 }
 
 void GameScreen::spawnEnemy(DynamicEntity *entity, double speed)
@@ -108,51 +107,53 @@ void GameScreen::draw()
 //        importImage.drawASCII("level.txt", {146, 5});
 //        importImage.drawASCII("score.txt", {146, 15});
         firstScreen = false;
-        for( int i=0; i< 7;i++){
-          enemy[i]->draw();
-        }
     }
+    // edge1->draw();
+    // edge2->draw();
 
-    
-//    edge1->draw();
-//    edge2->draw();
+    // const int step = numberEnemy / 3;
 
-//    const int step = numberEnemy / 3;
-//
-//    for (int i = 0; i < numberEnemy; i += step)
-//    {
-//        spawnEnemy(enemy[i]);
-//    }
-//    if (!isAllDraw)
-//    {
-//        for (int j = 0; j < step - 1; ++j)
-//        {
-//            for (int i = 1; i < numberEnemy; i += step)
-//            {
-//                if (enemy[i + j - 1]->getPos().X >= SHORT(45))
-//                {
-//                    spawnEnemy(enemy[i + j]);
-//                    if (j == step - 2)
-//                        isAllDraw = true;
-//                }
-//            }
-//        }
-//    }
-//    else
-//    {
-//        for (int j = 0; j < step - 1; ++j)
-//        {
-//            for (int i = 1; i < numberEnemy; i += step)
-//            {
-////                spawnEnemy(enemy[i + j]);
-//            }
-//        }
-//    }
-//
-//    for (int i = 0; i < numberEnemy; ++i)
-//    {
-////        resetEnemyAtEdge(enemy[i], 134, i);
-//    }
+
+
+    // for (int i = 0; i < numberEnemy; i += step)
+    // {
+    //     spawnEnemy(enemy[i]);
+    // }
+
+    // if (isAllDraw)
+    // {
+    //     for (int j = 0; j < step - 1; ++j)
+    //     {
+    //         for (int i = 1; i < numberEnemy; i += step)
+    //         {
+    //             spawnEnemy(enemy[i + j]);
+    //         }
+    //     }
+    // }
+
+
+    // else
+    // {
+    //     for (int j = 0; j < step - 1; ++j)
+    //     {
+    //         for (int i = 1; i < numberEnemy; i += step)
+    //         {
+    //             if (enemy[i + j - 1]->getPos().X >= SHORT(70))
+    //             {
+
+    //                 spawnEnemy(enemy[i + j]);
+    //             }
+    //             if (i + j == numberEnemy - 1)
+    //                 isAllDraw = true;
+    //         }
+
+    //     }
+    // }
+
+    // for (int i = 0; i < numberEnemy; ++i)
+    // {
+    //     resetEnemyAtEdge(enemy[i], 134, i);
+    // }
 }
 
 LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()) {
