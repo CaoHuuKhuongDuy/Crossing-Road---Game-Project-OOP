@@ -50,20 +50,22 @@ void MenuScreen::draw()
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
     frame = new Entity("gameFrame.txt", {0,0}, {168, 43});
-   	basic = new DynamicEntity("basic.txt", {42,39}, {11, 5});
+   	basic = new DynamicEntity("phonix.txt", {75,39}, {11, 5});
 //    enemy = new DynamicEntity *[numberEnemy];
 //
 //    int enemiesPerRow = numberEnemy / 3; // Sá»‘ lÆ°á»£ng enemies trÃªn má»—i hÃ ng
 //
-//    for (int i = 0; i < numberEnemy; ++i)
-//    {
+   enemy = new DynamicEntity *[7];    
+   for (int i = 0; i < 7; ++i)
+   {
 //        SHORT row = i / enemiesPerRow; // XÃ¡c Ä‘á»‹nh hÃ ng cho enemy hiá»‡n táº¡i
 //
 //        // TÃ­nh toÃ¡n vá»‹ trÃ­ Y dá»±a trÃªn hÃ ng
 //        SHORT yPos = 7 + row * 15;
 //
-//        enemy[i] = new DynamicEntity("creb.txt", {-1, yPos}, {6, 6});
-//    }
+        int r = rand()%150;
+        enemy[i] = new DynamicEntity("coolUfo.txt", {20 + r, i*5+3}, {11, 5});
+   }
 //
 //    edge1 = new Entity("edge.txt", {1, 1}, {0, 0});
 //    edge2 = new Entity("edge.txt", {140, 1}, {0, 0});
@@ -106,7 +108,12 @@ void GameScreen::draw()
 //        importImage.drawASCII("level.txt", {146, 5});
 //        importImage.drawASCII("score.txt", {146, 15});
         firstScreen = false;
+        for( int i=0; i< 7;i++){
+          enemy[i]->draw();
+        }
     }
+
+    
 //    edge1->draw();
 //    edge2->draw();
 
