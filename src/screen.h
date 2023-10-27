@@ -48,6 +48,8 @@ class GameScreen : public Screen
         Entity* frame;
         Entity* edge1, *edge2;
         DynamicEntity** enemy;
+        DynamicEntity* basic; 
+        DynamicEntity* phonix;
 
         //Number of enemy will be updated when the level changes
         int numberEnemy = 9;
