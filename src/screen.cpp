@@ -33,7 +33,7 @@ void MenuScreen::draw()
         sartun->draw();
         venus->draw();
         for (int i = 0; i < 6; i++) 
-            buttonList.addButton(new Button(buttonName[i], {62, SHORT(i * 4 + 13)}, WHITE, GREEN));
+            buttonList.addButton(new Button(buttonName[i], {80 - buttonName[i].length()*2, SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
     }
     buttonList.draw();
@@ -49,23 +49,24 @@ void MenuScreen::draw()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
-    frame = new Entity("redFrame.txt", {1, 2}, {209, 47});
-    enemy = new DynamicEntity *[numberEnemy];
-
-    int enemiesPerRow = numberEnemy / 3; // Số lượng enemies trên mỗi hàng
-
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        SHORT row = i / enemiesPerRow; // Xác định hàng cho enemy hiện tại
-
-        // Tính toán vị trí Y dựa trên hàng
-        SHORT yPos = 7 + row * 15;
-
-        enemy[i] = new DynamicEntity("ufo.txt", {-1, yPos}, {6, 6});
-    }
-
-    edge1 = new Entity("edge.txt", {1, 1}, {0, 0});
-    edge2 = new Entity("edge.txt", {140, 1}, {0, 0});
+    frame = new Entity("gameFrame.txt", {0,0}, {168, 43});
+   	basic = new DynamicEntity("basic.txt", {42,39}, {11, 5});
+//    enemy = new DynamicEntity *[numberEnemy];
+//
+//    int enemiesPerRow = numberEnemy / 3; // Sá»‘ lÆ°á»£ng enemies trÃªn má»—i hÃ ng
+//
+//    for (int i = 0; i < numberEnemy; ++i)
+//    {
+//        SHORT row = i / enemiesPerRow; // XÃ¡c Ä‘á»‹nh hÃ ng cho enemy hiá»‡n táº¡i
+//
+//        // TÃ­nh toÃ¡n vá»‹ trÃ­ Y dá»±a trÃªn hÃ ng
+//        SHORT yPos = 7 + row * 15;
+//
+//        enemy[i] = new DynamicEntity("creb.txt", {-1, yPos}, {6, 6});
+//    }
+//
+//    edge1 = new Entity("edge.txt", {1, 1}, {0, 0});
+//    edge2 = new Entity("edge.txt", {140, 1}, {0, 0});
 }
 
 GameScreen::~GameScreen()
@@ -96,53 +97,55 @@ void GameScreen::resetEnemyAtEdge(DynamicEntity *enemy, SHORT posEdge, int index
 
 void GameScreen::draw()
 {
+
     if (firstScreen)
     {
-        appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        frame->draw();
-        importImage.drawASCII("level.txt", {146, 5});
-        importImage.drawASCII("score.txt", {146, 15});
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);
+  	    frame->draw();
+      	basic->draw();
+//        importImage.drawASCII("level.txt", {146, 5});
+//        importImage.drawASCII("score.txt", {146, 15});
         firstScreen = false;
     }
-    edge1->draw();
-    edge2->draw();
+//    edge1->draw();
+//    edge2->draw();
 
-    const int step = numberEnemy / 3;
-
-    for (int i = 0; i < numberEnemy; i += step)
-    {
-        spawnEnemy(enemy[i]);
-    }
-    if (!isAllDraw)
-    {
-        for (int j = 0; j < step - 1; ++j)
-        {
-            for (int i = 1; i < numberEnemy; i += step)
-            {
-                if (enemy[i + j - 1]->getPos().X >= SHORT(45))
-                {
-                    spawnEnemy(enemy[i + j]);
-                    if (j == step - 2)
-                        isAllDraw = true;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (int j = 0; j < step - 1; ++j)
-        {
-            for (int i = 1; i < numberEnemy; i += step)
-            {
-                spawnEnemy(enemy[i + j]);
-            }
-        }
-    }
-
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        resetEnemyAtEdge(enemy[i], 134, i);
-    }
+//    const int step = numberEnemy / 3;
+//
+//    for (int i = 0; i < numberEnemy; i += step)
+//    {
+//        spawnEnemy(enemy[i]);
+//    }
+//    if (!isAllDraw)
+//    {
+//        for (int j = 0; j < step - 1; ++j)
+//        {
+//            for (int i = 1; i < numberEnemy; i += step)
+//            {
+//                if (enemy[i + j - 1]->getPos().X >= SHORT(45))
+//                {
+//                    spawnEnemy(enemy[i + j]);
+//                    if (j == step - 2)
+//                        isAllDraw = true;
+//                }
+//            }
+//        }
+//    }
+//    else
+//    {
+//        for (int j = 0; j < step - 1; ++j)
+//        {
+//            for (int i = 1; i < numberEnemy; i += step)
+//            {
+////                spawnEnemy(enemy[i + j]);
+//            }
+//        }
+//    }
+//
+//    for (int i = 0; i < numberEnemy; ++i)
+//    {
+////        resetEnemyAtEdge(enemy[i], 134, i);
+//    }
 }
 
 LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()) {
