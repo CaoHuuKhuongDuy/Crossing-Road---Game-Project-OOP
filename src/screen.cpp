@@ -50,13 +50,19 @@ void MenuScreen::draw()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
-    frame = new Entity("gameFrame.txt", {0, 0}, {168, 43});
+    SHORT frameWidth = 168;  // Width of the "frame" entity
+    SHORT frameHeight = 43;  // Height of the "frame" entity
+    SHORT frameX = (appConsole.getWindowSize().X - frameWidth) / 2;
+    SHORT frameY = 0;  // Positioned at the top edge
+
+
+    frame = new Entity("gameFrame.txt", {frameX, frameY}, {frameWidth, frameHeight});
 
     //The size of phoenix must be in range of desktop console
     SHORT heroWidth = 11;
-    SHORT heroHeight = 5;
+    SHORT heroHeight = 3;
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - heroWidth) / 2;
-    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y - heroHeight) ;
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y - heroHeight);
     basic = new DynamicEntity("phonix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight});
     enemy = new DynamicEntity *[numberEnemy];
     for (int i = 0; i < numberEnemy; ++i)
