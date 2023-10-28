@@ -51,8 +51,9 @@ void MenuScreen::draw()
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
     SHORT frameWidth = 168;  // Width of the "frame" entity
-    SHORT frameHeight = 43;  // Height of the "frame" entity
+    SHORT frameHeight = 42;  // Height of the "frame" entity
     SHORT frameX = (appConsole.getWindowSize().X - frameWidth) / 2;
+    // SHORT frameX = 0;  
     SHORT frameY = 0;  // Positioned at the top edge
 
 
@@ -114,6 +115,10 @@ void GameScreen::draw()
         basic->draw();
         firstScreen = false;
     }
+    for (int i = 0; i < numberEnemy; i++)
+    {
+        enemy[i]->draw();
+    }
 
     // const int step = numberEnemy / 3;
 
@@ -174,21 +179,42 @@ void LoadGameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        importImage.drawASCII("LoadGameSaved.txt", {340, 20});
-        firstScreen = false;
+
+
+        // importImage.drawImage("LoadGameSaved.txt", {53, 2});
+        // for (int i = 0; i < 4; i++) {
+        //     buttonList.addButton(new Button("credit", {SHORT(80 - 6 * 2), SHORT(i * 4 + 13)}, WHITE, BLACK));
+        // }
+
+
+
+        // for (int i = 0 ; i < 4; i++) {
+        //     if (i < 2) {
+        //         buttonList.addButton(new Button("credit", {SHORT(12 + 84 * i), SHORT(14)}, WHITE, BLACK));
+        //     }
+        //     else {
+        //         buttonList.addButton(new Button("credit", {SHORT(12 + 84 * (i - 2)), SHORT(14 + 14)}, WHITE, BLACK));
+        //     }
+        // }
+
+        // buttonList.draw();  
+
+
+
+        // firstScreen = false;
+        // Entity *title = new Entity("LoadGameSaved.txt", {53, 2}, {63, 5});
+        // title->draw();
+        // for (int i = 0 ; i < 4; i++) {
+        //     if (i < 2) {
+        //         importImage.drawCustomImage("tien", {SHORT(32 + 84 * i), SHORT(14)});
+        //     }
+        //     else {
+        //         importImage.drawCustomImage("bang", {SHORT(32 + 84 * (i - 2)), SHORT(14 + 14)});
+        //     }
+        // }
+
+
+
     }
-    Button *buttons[4];
-    for (int i = 0; i < 4; i++)
-        buttons[i] = new Button(buttonName[i], {50, SHORT(i * 4 + 13)}, WHITE, GREEN);
-    if (kbhit())
-    {
-        int c = getch();
-        if (c == 80)
-            (chooseButton += 1) %= 6;
-    }
-    buttons[chooseButton]->toggleHighlight();
-    for (int i = 0; i < 4; i++)
-        buttons[i]->draw();
-    for (int i = 0; i < 4; i++)
-        delete buttons[i];
+
 }
