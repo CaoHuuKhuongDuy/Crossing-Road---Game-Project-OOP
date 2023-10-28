@@ -1,13 +1,14 @@
 #include "screen.h"
 
-Screen::Screen(HandlerInput *handlerInput_, int width_, int height_) : 
-    handlerInputMainScreen(handlerInput_), width(width_), height(height_), firstScreen(true)  {} 
+Screen::Screen(HandlerInput *handlerInput_, int width_, int height_) : handlerInputMainScreen(handlerInput_), width(width_), height(height_), firstScreen(true) {}
 
-Command *Screen::handleInput() {
+Command *Screen::handleInput()
+{
     return handlerInputMainScreen->handlerInput(buttonList);
 }
 
-MenuScreen::MenuScreen() : Screen(new HandlerMenuInput()) {
+MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
+{
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
     rocketMove = 0;
 };
@@ -32,8 +33,8 @@ void MenuScreen::draw()
         jupiter->draw();
         sartun->draw();
         venus->draw();
-        for (int i = 0; i < 6; i++) 
-            buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length()*2), SHORT(i * 4 + 13)}, WHITE, GREEN));
+        for (int i = 0; i < 6; i++)
+            buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
     }
     buttonList.draw();
@@ -49,35 +50,36 @@ void MenuScreen::draw()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
-    frame = new Entity("gameFrame.txt", {0,0}, {168, 43});
-   	basic = new DynamicEntity("phonix.txt", {75,39}, {11, 5});
-//    enemy = new DynamicEntity *[numberEnemy];
-//
-//    int enemiesPerRow = numberEnemy / 3; // Sá»‘ lÆ°á»£ng enemies trÃªn má»—i hÃ ng
-//
-   enemy = new DynamicEntity *[7];    
-   for (int i = 0; i < numberEnemy; ++i)
-   {
-//        SHORT row = i / enemiesPerRow; // XÃ¡c Ä‘á»‹nh hÃ ng cho enemy hiá»‡n táº¡i
-//
-//        SHORT yPos = 7 + row * 15;
-//
-        int r = rand()%150;
-        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(20 + r), SHORT(i*5+3)}, {11, 5});
-   }
-//
-//    edge1 = new Entity("edge.txt", {1, 1}, {0, 0});
-//    edge2 = new Entity("edge.txt", {140, 1}, {0, 0});
+    frame = new Entity("gameFrame.txt", {0, 0}, {168, 43});
+
+    //The size of phoenix must be in range of desktop console
+    SHORT heroWidth = 11;
+    SHORT heroHeight = 5;
+    SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - heroWidth) / 2;
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y - heroHeight) ;
+    basic = new DynamicEntity("phonix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight});
+    enemy = new DynamicEntity *[numberEnemy];
+    for (int i = 0; i < numberEnemy; ++i)
+    {
+        int r = rand() % 150;
+        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(20), SHORT(i * 5 + 3)}, {11, 5});
+    }
 }
 
 GameScreen::~GameScreen()
 {
     delete frame;
     for (int i = 0; i < numberEnemy; ++i)
+    {
         delete enemy[i];
+        enemy[i] = nullptr;
+    }
     delete enemy;
-    // delete edge1;
-    // delete edge2;
+    delete basic;
+
+    frame = nullptr;
+    enemy = nullptr;
+    basic = nullptr;
 }
 
 void GameScreen::spawnEnemy(DynamicEntity *entity, double speed)
@@ -102,18 +104,12 @@ void GameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
-  	    frame->draw();
-      	basic->draw();
-//        importImage.drawASCII("level.txt", {146, 5});
-//        importImage.drawASCII("score.txt", {146, 15});
+        frame->draw();
+        basic->draw();
         firstScreen = false;
     }
-    // edge1->draw();
-    // edge2->draw();
 
     // const int step = numberEnemy / 3;
-
-
 
     // for (int i = 0; i < numberEnemy; i += step)
     // {
@@ -131,7 +127,6 @@ void GameScreen::draw()
     //     }
     // }
 
-
     // else
     // {
     //     for (int j = 0; j < step - 1; ++j)
@@ -146,8 +141,12 @@ void GameScreen::draw()
     //             if (i + j == numberEnemy - 1)
     //                 isAllDraw = true;
     //         }
-
     //     }
+    // }
+
+    // for(int i = 0; i < numberEnemy / 3; ++i)
+    // {
+
     // }
 
     // for (int i = 0; i < numberEnemy; ++i)
@@ -156,8 +155,8 @@ void GameScreen::draw()
     // }
 }
 
-LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()) {
-    
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())
+{
 }
 
 LoadGameScreen::~LoadGameScreen()

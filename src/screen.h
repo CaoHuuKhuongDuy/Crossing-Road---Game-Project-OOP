@@ -46,7 +46,6 @@ class GameScreen : public Screen
 
     private:
         Entity* frame;
-        Entity* edge1, *edge2;
         DynamicEntity** enemy;
         DynamicEntity* basic; 
         DynamicEntity* phonix;
@@ -54,7 +53,7 @@ class GameScreen : public Screen
         int cnt = 0;
 
         //Number of enemy will be updated when the level changes
-        int numberEnemy = 12;
+        int numberEnemy = 7;
         bool isAllDraw = false;
 };
 
