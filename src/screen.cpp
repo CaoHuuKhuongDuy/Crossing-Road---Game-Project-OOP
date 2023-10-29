@@ -23,6 +23,8 @@ void MenuScreen::draw()
 {
     if (firstScreen)
     {
+        char *path = "haha.wav";
+        PlaySound(path, NULL, SND_FILENAME | SND_LOOP| SND_ASYNC );       
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
         importImage.drawASCII("crossingroad.txt", {36, 5});
