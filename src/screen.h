@@ -39,22 +39,23 @@ class GameScreen : public Screen
         GameScreen();
         ~GameScreen();
 
-        
+        void allocateEnemy();
         void spawnEnemy(DynamicEntity*, double speed = 1);
-        void resetEnemyAtEdge(DynamicEntity* entity, SHORT posEdge, int index);
+        void resetEnemyIFAtEdge(DynamicEntity* entity, SHORT posEdge_X);
+        void resetHeroIFAtEdge(DynamicEntity* entity, SHORT posEdge_Y);
         void draw() override;
 
     private:
         Entity* frame;
+        Entity *score;
+        Entity *level;
         DynamicEntity** enemy;
-        DynamicEntity* basic; 
-        DynamicEntity* phonix;
-
-        int cnt = 0;
-
-        //Number of enemy will be updated when the level changes
-        int numberEnemy = 7;
-        bool isAllDraw = false;
+        DynamicEntity* phoenix; 
+        SHORT heroWidth = 11;
+        SHORT heroHeight = 3;
+        const int numberEnemy = 15;
+        int INTlevel = 1;
+        long int LONGINTscore = 0;
 };
 
 class LoadGameScreen : public Screen{

@@ -48,45 +48,64 @@ void MenuScreen::draw()
     }
 }
 
+void GameScreen::allocateEnemy()
+{
+    int random = rand() % (appConsole.getWindowSize().X / 2 - 25);
+    for (int i = 0; i < 4; ++i)
+    {
+        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5)}, {13, 5});
+    }
+    random = rand() % (appConsole.getWindowSize().X / 2 - 25);
+    for (int i = 0; i < 4; ++i)
+    {
+        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5 + 5 + 2-1)}, {13, 5});
+    }
+    random = rand() % (appConsole.getWindowSize().X / 2 - 25);
+    for (int i = 0; i < 4; ++i)
+    {
+        enemy[i + 6] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5 + 5 + 5 + 2 - 1)}, {13, 5});
+    }
+    random = rand() % (appConsole.getWindowSize().X / 2 - 25);
+    for (int i = 0; i < 4; ++i)
+    {
+        enemy[i + 9] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT((heroHeight + 3) * 2 + 5 + 5 + 3 + 5 + 5 - 1)}, {13, 5});
+    }
+    random = rand() % (appConsole.getWindowSize().X / 2 - 25);
+    for (int i = 0; i < 4; ++i)
+    {
+        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT((heroHeight + 3) * 2 + 5 + 5 + 3 + 5 + 5 + 5 - 1)}, {13, 5});
+    }
+}
+
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
-    SHORT frameWidth = 168;  // Width of the "frame" entity
-    SHORT frameHeight = 42;  // Height of the "frame" entity
-    SHORT frameX = (appConsole.getWindowSize().X - frameWidth) / 2;
-    // SHORT frameX = 0;  
-    SHORT frameY = 0;  // Positioned at the top edge
+    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 42) / 2), 0}, {190, 42});
+    // string STRINGlevel = to_string(INTlevel);
+    // string STRINGscore = to_string(LONGINTscore);
+    // level = new Entity(to_string(INTlevel) + ".txt");
+    // score = new Entity(to_string(LONGINTscore) + ".txt");
 
-
-    frame = new Entity("gameFrame.txt", {frameX, frameY}, {frameWidth, frameHeight});
-
-    //The size of phoenix must be in range of desktop console
-    SHORT heroWidth = 11;
-    SHORT heroHeight = 3;
+    // The size of phoenix must be in range of desktop console
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - heroWidth) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y - heroHeight);
-    basic = new DynamicEntity("phonix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight});
+    phoenix = new DynamicEntity("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight});
     enemy = new DynamicEntity *[numberEnemy];
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        int r = rand() % 150;
-        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(20), SHORT(i * 5 + 3)}, {11, 5});
-    }
+    allocateEnemy();
+
 }
 
 GameScreen::~GameScreen()
 {
-    delete frame;
+    delete frame; frame = nullptr;
+    delete level; level = nullptr;
+    delete score; score = nullptr;
+    
     for (int i = 0; i < numberEnemy; ++i)
     {
-        delete enemy[i];
-        enemy[i] = nullptr;
+        delete enemy[i]; enemy[i] = nullptr;
     }
-    delete enemy;
-    delete basic;
-
-    frame = nullptr;
-    enemy = nullptr;
-    basic = nullptr;
+    delete enemy;  enemy = nullptr;
+    delete phoenix; phoenix = nullptr;
 }
 
 void GameScreen::spawnEnemy(DynamicEntity *entity, double speed)
@@ -95,75 +114,53 @@ void GameScreen::spawnEnemy(DynamicEntity *entity, double speed)
     entity->right(speed);
 }
 
-void GameScreen::resetEnemyAtEdge(DynamicEntity *enemy, SHORT posEdge, int index)
+void GameScreen::resetEnemyIFAtEdge(DynamicEntity *enemy, SHORT posEdge_X)
 {
-    if (enemy->getPos().X >= SHORT(posEdge))
+    if (enemy->getEndPos().X >= SHORT(posEdge_X))
     {
-        SHORT row = index / (numberEnemy / 3);
-        SHORT yPos = 7 + row * 15;
-        enemy->teleport({-1, yPos});
+        SHORT temp = enemy->getPos().Y;
+        enemy->teleport({0, temp});
     }
 }
 
+void GameScreen::resetHeroIFAtEdge(DynamicEntity* hero, SHORT posEdge_Y)
+{
+    if (hero->getEndPos().Y < posEdge_Y)
+    {
+        firstScreen = true;
+        LONGINTscore += 100;
+        INTlevel = LONGINTscore / 1000 + 1;
+    }
+}
+
+
 void GameScreen::draw()
 {
-
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        basic->draw();
+        // level->draw();
+        // score->draw();
+        phoenix->draw();
         firstScreen = false;
     }
     for (int i = 0; i < numberEnemy; i++)
     {
-        enemy[i]->draw();
+        spawnEnemy(enemy[i], INTlevel);
     }
 
-    // const int step = numberEnemy / 3;
+    for (int i = 0; i < numberEnemy; ++i)
+    {
+        resetEnemyIFAtEdge(enemy[i], appConsole.getWindowSize().X - 1);
+    }
 
-    // for (int i = 0; i < numberEnemy; i += step)
-    // {
-    //     spawnEnemy(enemy[i]);
-    // }
+    
 
-    // if (isAllDraw)
-    // {
-    //     for (int j = 0; j < step - 1; ++j)
-    //     {
-    //         for (int i = 1; i < numberEnemy; i += step)
-    //         {
-    //             spawnEnemy(enemy[i + j]);
-    //         }
-    //     }
-    // }
+    //If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
+    resetHeroIFAtEdge(phoenix, 5);
 
-    // else
-    // {
-    //     for (int j = 0; j < step - 1; ++j)
-    //     {
-    //         for (int i = 1; i < numberEnemy; i += step)
-    //         {
-    //             if (enemy[i + j - 1]->getPos().X >= SHORT(70))
-    //             {
 
-    //                 spawnEnemy(enemy[i + j]);
-    //             }
-    //             if (i + j == numberEnemy - 1)
-    //                 isAllDraw = true;
-    //         }
-    //     }
-    // }
-
-    // for(int i = 0; i < numberEnemy / 3; ++i)
-    // {
-
-    // }
-
-    // for (int i = 0; i < numberEnemy; ++i)
-    // {
-    //     resetEnemyAtEdge(enemy[i], 134, i);
-    // }
 }
 
 LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())
@@ -180,13 +177,10 @@ void LoadGameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
 
-
         // importImage.drawImage("LoadGameSaved.txt", {53, 2});
         // for (int i = 0; i < 4; i++) {
         //     buttonList.addButton(new Button("credit", {SHORT(80 - 6 * 2), SHORT(i * 4 + 13)}, WHITE, BLACK));
         // }
-
-
 
         // for (int i = 0 ; i < 4; i++) {
         //     if (i < 2) {
@@ -197,9 +191,7 @@ void LoadGameScreen::draw()
         //     }
         // }
 
-        // buttonList.draw();  
-
-
+        // buttonList.draw();
 
         // firstScreen = false;
         // Entity *title = new Entity("LoadGameSaved.txt", {53, 2}, {63, 5});
@@ -212,9 +204,5 @@ void LoadGameScreen::draw()
         //         importImage.drawCustomImage("bang", {SHORT(32 + 84 * (i - 2)), SHORT(14 + 14)});
         //     }
         // }
-
-
-
     }
-
 }
