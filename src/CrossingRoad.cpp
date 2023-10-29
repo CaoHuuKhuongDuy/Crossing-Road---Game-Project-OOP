@@ -21,7 +21,7 @@ signed main() {
         mainScreen->draw();
         command = mainScreen->handleInput();
         if (command) {
-            command->excute(mainScreen);
+            command->execute(mainScreen);
             delete command;
         }
         // screen->draw();
