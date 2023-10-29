@@ -30,16 +30,16 @@ using namespace std;
 // 	MOVE_LEFT
 // } DIRECTION;
 
-// typedef enum
+// enum class CommandType
 // {
-// 	MOVE_LEFT,
-// 	MOVE_RIGHT,
 // 	MOVE_UP,
 // 	MOVE_DOWN,
+// 	MOVE_LEFT,
+// 	MOVE_RIGHT,
 // 	PAUSE_GAME,
 // 	SAVE_GAME, 
 // 	LOAD_GAME
-// } COMMAND;
+// };
 
 
 
