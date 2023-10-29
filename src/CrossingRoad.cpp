@@ -16,18 +16,19 @@ signed main() {
     int debug = 0;
     Screen *mainScreen = new MenuScreen();
     Command *command;
-    LoadGameScreen *screen = new LoadGameScreen;
+    // LoadGameScreen *screen = new LoadGameScreen;
     while (true) {
-        // mainScreen->draw();
-        // command = mainScreen->handleInput();
-        // if (command) {
-        //     command->excute(mainScreen);
-        //     delete command;
-        // }
-        screen->draw();
+        mainScreen->draw();
+        command = mainScreen->handleInput();
+        if (command) {
+            command->excute(mainScreen);
+            delete command;
+        }
+        // screen->draw();
     	Sleep(1);
     }
     delete mainScreen;
+    // delete screen;
     int x;
     cin >> x;
     return 0;
