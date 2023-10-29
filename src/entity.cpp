@@ -93,3 +93,9 @@ void DynamicEntity::up(int step) {
 void DynamicEntity::down(int step) {
     teleport({startPos.X, SHORT(startPos.Y + step)});
 }
+
+
+Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_, int level_)
+    : DynamicEntity(entityName_, pos1, size_), score(score_), level(level_)
+{
+}
