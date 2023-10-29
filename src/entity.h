@@ -38,8 +38,18 @@ protected:
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, int score_, int level_);
+    Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_);
+    bool checkCollision(DynamicEntity* enemy);
+    SHORT getHeroWidth();
+    SHORT getHeroHeight();
+    int getHeroLevel();
+    long int getHeroScore();
+    void setHeroLevel(const int&);
+    void setHeroScore(const long int&);
+    void updateHeroExp();
 private:
+    SHORT heroWidth = 13;
+    SHORT heroHeight = 5;
     int level;
-    int score;
+    long int score;
 };
