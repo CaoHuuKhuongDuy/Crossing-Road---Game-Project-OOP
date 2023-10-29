@@ -53,33 +53,33 @@ void GameScreen::allocateEnemy()
     int random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5)}, {13, 5});
+        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(3)}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5 + 5 + 2-1)}, {13, 5});
+        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(8)}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 6] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(heroHeight + 5 + 5 + 5 + 2 - 1)}, {13, 5});
+        enemy[i + 6] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(18)}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 9] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT((heroHeight + 3) * 2 + 5 + 5 + 3 + 5 + 5 - 1)}, {13, 5});
+        enemy[i + 9] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(23)}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT((heroHeight + 3) * 2 + 5 + 5 + 3 + 5 + 5 + 5 - 1)}, {13, 5});
+        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (heroWidth + 40) * i + 13 * (i - 1)), SHORT(33)}, {13, 5});
     }
 }
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput())
 {
-    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 42) / 2), 0}, {190, 42});
+    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     // string STRINGlevel = to_string(INTlevel);
     // string STRINGscore = to_string(LONGINTscore);
     // level = new Entity(to_string(INTlevel) + ".txt");
