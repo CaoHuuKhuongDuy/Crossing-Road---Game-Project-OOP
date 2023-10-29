@@ -7,6 +7,11 @@ Command *Screen::handleInput()
     return handlerInputMainScreen->handlerInput(buttonList);
 }
 
+Command *GameScreen::handleInput()
+{
+    return handlerInputMainScreen->handlerInput();
+}
+
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
@@ -86,14 +91,12 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput())
     // string STRINGscore = to_string(LONGINTscore);
     // level = new Entity(to_string(INTlevel) + ".txt");
     // score = new Entity(to_string(LONGINTscore) + ".txt");
-
     // The size of phoenix must be in range of desktop console
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - heroWidth) / 2;
-    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y - heroHeight);
-    phoenix = new DynamicEntity("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight});
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y + 10);
+    phoenix = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {heroWidth, heroHeight},LONGINTscore, INTlevel);
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
-
 }
 
 GameScreen::~GameScreen()
@@ -101,7 +104,7 @@ GameScreen::~GameScreen()
     delete frame; frame = nullptr;
     delete level; level = nullptr;
     delete score; score = nullptr;
-    
+    delete command; command = nullptr;
     for (int i = 0; i < numberEnemy; ++i)
     {
         delete enemy[i]; enemy[i] = nullptr;
@@ -127,11 +130,12 @@ void GameScreen::resetEnemyIFAtEdge(DynamicEntity *enemy, SHORT posEdge_X)
 
 void GameScreen::resetHeroIFAtEdge(DynamicEntity* hero, SHORT posEdge_Y)
 {
-    if (hero->getEndPos().Y < posEdge_Y)
+    if (hero->getEndPos().Y <= posEdge_Y)
     {
         firstScreen = true;
         LONGINTscore += 100;
         INTlevel = LONGINTscore / 1000 + 1;
+        hero->teleport({hero->getPos().X, SHORT(appConsole.getWindowSize().Y + 10)});
     }
 }
 
@@ -144,9 +148,9 @@ void GameScreen::draw()
         frame->draw();
         // level->draw();
         // score->draw();
-        phoenix->draw();
         firstScreen = false;
     }
+    phoenix->draw();
     for (int i = 0; i < numberEnemy; i++)
     {
         spawnEnemy(enemy[i], INTlevel);
@@ -156,22 +160,27 @@ void GameScreen::draw()
     {
         resetEnemyIFAtEdge(enemy[i], appConsole.getWindowSize().X - 1);
     }
-
     
 
+    command = handlerInputMainScreen->handlerInput();
+
+    if (command != nullptr) {
+        command->execute(phoenix);
+    }
+
     //If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
-    resetHeroIFAtEdge(phoenix, 5);
+    resetHeroIFAtEdge(phoenix, 6);
 
 
 }
 
-LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())
-{
-}
+// LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())
+// {
+// }
 
-LoadGameScreen::~LoadGameScreen()
-{
-}
+// LoadGameScreen::~LoadGameScreen()
+// {
+// }
 
 void LoadGameScreen::draw()
 {
