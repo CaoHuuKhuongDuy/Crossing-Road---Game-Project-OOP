@@ -45,11 +45,10 @@ public:
     ~GameScreen();
 
     Command *handleInput() override;
-
     void allocateEnemy();
     void spawnEnemy(DynamicEntity *, double speed = 1);
     void resetEnemyIFAtEdge(DynamicEntity *entity, SHORT posEdge_X);
-    void resetHeroIFAtEdge(DynamicEntity *entity, SHORT posEdge_Y);
+    void resetHeroIFAtEdge(Hero *hero, SHORT posEdge_Y);
     void draw() override;
 
 private:
@@ -58,9 +57,7 @@ private:
     Entity *level;
     DynamicEntity **enemy;
     Command *command;
-    Hero *phoenix;
-    SHORT heroWidth = 13;
-    SHORT heroHeight = 5;
+    Hero *hero;
     const int numberEnemy = 15;
     int INTlevel = 1;
     long int LONGINTscore = 0;
