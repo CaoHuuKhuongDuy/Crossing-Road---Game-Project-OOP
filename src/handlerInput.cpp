@@ -15,6 +15,7 @@ HandlerMenuInput::~HandlerMenuInput() {
 }
 
 
+
 Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
     int userInput = getUserInput();
     if (userInput == -1) return nullptr;
@@ -27,11 +28,45 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
-HandlerGameInput::HandlerGameInput() {}
 
-HandlerGameInput::~HandlerGameInput() {}
+HandlerGameInput::HandlerGameInput() {
+    buttonUP = new MoveUpCommand();
+    buttonDOWN = new MoveDownCommand();
+    buttonLEFT = new MoveLeftCommand();
+    buttonRIGHT = new MoveRightCommand();
+}
 
-Command *HandlerGameInput::handlerInput(ButtonList &buttonList) {
+HandlerGameInput::~HandlerGameInput() 
+{
+    delete buttonUP;
+    delete buttonDOWN;
+    delete buttonLEFT;
+    delete buttonRIGHT;
+}
+
+Command *HandlerGameInput::handlerInput()
+{
+    int userInput = getUserInput();
+    if (userInput == -1)
+        return nullptr;
+
+    if (userInput == 119)
+    {
+        return buttonUP;
+    }
+    if (userInput == 115)
+    {
+        return buttonDOWN;
+    }
+    if (userInput == 97)
+    {
+        return buttonLEFT;
+    }
+    if (userInput == 100)
+    {
+        return buttonRIGHT;
+    }
+
     return nullptr;
 }
 
