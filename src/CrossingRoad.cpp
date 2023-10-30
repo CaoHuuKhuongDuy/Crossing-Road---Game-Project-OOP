@@ -10,10 +10,12 @@ signed main() {
     Screen *mainScreen = new MenuScreen();
     Command *command;
     // LoadGameScreen *screen = new LoadGameScreen;
-    while (true) {
+    while (true)
+    {
         mainScreen->draw();
         command = mainScreen->handleInput();
-        if (command) {
+        if (command)
+        {
             command->execute(mainScreen);
             delete command;
         }

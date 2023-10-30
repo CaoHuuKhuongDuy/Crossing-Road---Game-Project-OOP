@@ -95,6 +95,29 @@ void DynamicEntity::down(int step)
     teleport({startPos.X, SHORT(startPos.Y + step)});
 }
 
+void DynamicEntity::spawnDynamicEntity(double speed)
+{
+    this->draw();
+    this->right(speed);
+}
+void DynamicEntity::resetDynamicEntity()
+{
+    this->teleport({0, this->getPos().Y});
+}
+
+bool DynamicEntity::isAtEdge(SHORT posEdge_X)
+{
+    if(this->getEndPos().X >= SHORT(posEdge_X))
+        return true;
+    return false;
+}
+
+
+void Hero::resetDynamicEntity()
+{
+    this->teleport({this->getPos().X, SHORT(appConsole.getWindowSize().Y + 10)});
+}
+
 Hero::Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_)
     : DynamicEntity(entityName_, pos1, size_), score(score_), level(level_) {}
 SHORT Hero::getHeroWidth()
@@ -130,7 +153,7 @@ void Hero::updateHeroExp()
     this->score += 100;
 }
 
-bool Hero::checkCollision(DynamicEntity* enemy)
+bool Hero::isCollision(DynamicEntity* enemy)
 {
     if (enemy == nullptr) return false;
     COORD startPos1 = enemy->getPos();
@@ -143,4 +166,11 @@ bool Hero::checkCollision(DynamicEntity* enemy)
         return true;
     return false;
 
+}
+
+bool Hero::isAtEdge(SHORT posEdge_Y)
+{
+    if (this->getEndPos().Y <= posEdge_Y)
+        return true;
+    return false;
 }

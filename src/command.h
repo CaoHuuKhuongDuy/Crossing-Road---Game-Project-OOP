@@ -48,6 +48,5 @@ class MoveRightCommand : public Command
 {
 public:
     void execute(Screen *&mainScreen) override {};
-
     void execute(Hero *hero) override;
 };

@@ -6,10 +6,10 @@ int HandlerInput::getUserInput() {
 }
 
 
-HandlerMenuInput::HandlerMenuInput() {
+HandlerMenuInput::HandlerMenuInput()
+{
     enterGame = new EnterGameCommand();
 }
-
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
 }
