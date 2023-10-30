@@ -9,8 +9,3 @@ void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
 void EnterGameCommand::excute(Screen *&mainScreen) {
     changeScreen(mainScreen, new GameScreen());
 }
-
-
-// void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {}
-
-// void EnterGameCommand::excute(Screen *&mainScreen) {}

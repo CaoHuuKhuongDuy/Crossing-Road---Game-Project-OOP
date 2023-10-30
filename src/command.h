@@ -1,7 +1,5 @@
 #pragma once 
-// #include "screen.h"
 class Screen;
-class GameScreen;
 class Command {
     public:
         virtual void excute(Screen *&mainScreen) = 0;

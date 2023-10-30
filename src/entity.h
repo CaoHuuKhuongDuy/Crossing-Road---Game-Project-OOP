@@ -1,7 +1,6 @@
 #include "staticVariable.h"
 
 using namespace stValue;
-// enum class EntityType { Hero, Boss, TreeBoss, BusBoss, CarBoss, Rocket };
 
 class Entity {
     public:
@@ -10,7 +9,6 @@ class Entity {
         COORD getPos();
         COORD getEndPos();
     protected:
-        // EntityType type;
         COORD remainStartPos, remainEndPos;
         void removeRemainFrame();
         void verify();
