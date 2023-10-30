@@ -70,7 +70,7 @@ void GameScreen::allocateEnemy()
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(18)}, {20, 5});
+        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), SHORT(18)}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
@@ -90,10 +90,6 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput())
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y + 10);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {13, 5}, LONGINTscore, INTlevel);
-
-
-    // level = new Entity(to_string(INTlevel) + ".txt");
-    // score = new Entity(to_string(LONGINTscore) + ".txt");
     // The size of phoenix must be in range of desktop console
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
@@ -123,19 +119,33 @@ GameScreen::~GameScreen()
 
 void GameScreen::draw()
 {
+    string STRINGlevel = to_string(hero->getHeroLevel());
+    string STRINGscore = to_string(hero->getHeroScore());
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        // level->draw();
-        // score->draw();
+	    string substring; 
+	    level = new Entity *[STRINGlevel.length()];
+	    string temp2 =  to_string(LONGINTscore);
+	    score = new Entity *[STRINGscore.length()];
+    for(int i=0;i<STRINGlevel.length();i++){
+    	substring = STRINGlevel.substr(i,1);
+    	level[i] = new Entity("number" + substring  + ".txt",{SHORT(appConsole.getWindowSize().X - 15) + i*4,0},{SHORT(3),3});
+		}
+    for(int i=0;i<STRINGscore.length();i++){
+      	substring = STRINGscore.substr(i,1);
+        score[i] = new Entity("number" + substring + ".txt",{SHORT(30+i*4),0},{SHORT(3),3});
+		}
         firstScreen = false;
     }
-    string STRINGlevel = to_string(hero->getHeroLevel());
-    string STRINGscore = to_string(hero->getHeroScore());
-    appConsole.writeAt(STRINGscore, BLACK, {SHORT(75),0});
-    appConsole.writeAt(STRINGlevel, BLACK, {SHORT(appConsole.getWindowSize().X - 10), 0});
     hero->draw();
+    for(int i=0;i<STRINGlevel.length();i++){
+        level[i]->draw();
+    }
+    for(int i=0;i<STRINGscore.length();i++){
+         score[i]->draw();
+        }
     for(int i = 0; i < numberEnemy; ++i)
     {
         enemy[i]->spawnDynamicEntity(hero->getHeroLevel());
@@ -158,13 +168,17 @@ void GameScreen::draw()
         }
     }
     
+    
     // If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
     if (hero->isAtEdge(6))
     {
         hero->resetDynamicEntity();
         hero->updateHeroExp();
         hero->draw();
+        delete []level;
+        delete []score;        
         firstScreen = true;
+        
     }
 
 
