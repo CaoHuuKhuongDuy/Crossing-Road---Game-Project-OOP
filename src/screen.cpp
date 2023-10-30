@@ -120,30 +120,6 @@ GameScreen::~GameScreen()
     hero = nullptr;
 }
 
-void GameScreen::spawnEnemy(DynamicEntity *entity, double speed)
-{
-    entity->draw();
-    entity->right(speed);
-}
-
-void GameScreen::resetEnemyIFAtEdge(DynamicEntity *enemy, SHORT posEdge_X)
-{
-    if (enemy->getEndPos().X >= SHORT(posEdge_X))
-    {
-        SHORT temp = enemy->getPos().Y;
-        enemy->teleport({0, temp});
-    }
-}
-
-void GameScreen::resetHeroIFAtEdge(Hero *hero, SHORT posEdge_Y)
-{
-    if (hero->getEndPos().Y <= posEdge_Y)
-    {
-        firstScreen = true;
-        hero->updateHeroExp();
-        hero->teleport({hero->getPos().X, SHORT(appConsole.getWindowSize().Y + 10)});
-    }
-}
 
 void GameScreen::draw()
 {
@@ -156,34 +132,35 @@ void GameScreen::draw()
         firstScreen = false;
     }
     hero->draw();
-    for (int i = 0; i < numberEnemy; i++)
+    for(int i = 0; i < numberEnemy; ++i)
     {
-        spawnEnemy(enemy[i], INTlevel);
+        enemy[i]->spawnDynamicEntity(hero->getHeroLevel());
+        if (enemy[i]->isAtEdge(appConsole.getWindowSize().X - 1))
+            enemy[i]->resetDynamicEntity();
     }
-
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        resetEnemyIFAtEdge(enemy[i], appConsole.getWindowSize().X - 1);
-    }
-
     command = handlerInputMainScreen->handlerInput();
-
     if (command != nullptr)
     {
         command->execute(hero);
     }
+
     for (int i = 0; i < numberEnemy; ++i)
     {
-
-        if (hero->checkCollision(enemy[i]) == true)
+        if (hero->isCollision(enemy[i]) == true)
         {
             firstScreen = true;
-            hero->teleport({hero->getPos().X, SHORT(appConsole.getWindowSize().Y + 10)});
+            hero->updateHeroExp();
+            hero->resetDynamicEntity();
+            return;
         }
     }
 
     // If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
-    resetHeroIFAtEdge(hero, 6);
+    if (hero->isAtEdge(6))
+    {
+        firstScreen = true;
+        hero->resetDynamicEntity();
+    }
 }
 
 // LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())

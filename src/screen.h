@@ -46,9 +46,6 @@ public:
 
     Command *handleInput() override;
     void allocateEnemy();
-    void spawnEnemy(DynamicEntity *, double speed = 1);
-    void resetEnemyIFAtEdge(DynamicEntity *entity, SHORT posEdge_X);
-    void resetHeroIFAtEdge(Hero *hero, SHORT posEdge_Y);
     void draw() override;
 
 private:
