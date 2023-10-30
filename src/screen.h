@@ -71,3 +71,37 @@ private:
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
     int chooseButton = 0;
 };
+
+class CreditScreen : public Screen 
+{
+public:	
+	CreditScreen();
+	~CreditScreen();
+    Command *handleInput() override;
+	void draw() override;
+private: 
+   DynamicEntity **text[17]; 
+   Entity* frame;
+   int count = 0;
+   int idx = 0;
+   string textCredit[17] = {
+   	        "product by group 6",
+   			"cao huu khuong duy",
+  			"debug and clean code",
+   			"logic game",
+			"handle input game",     			
+   			"nguyen thanh thai",
+  			"debug and clean code",
+   			"logic game",
+   			"artist",			      			
+   			"tu chi tien",
+   			"save and load",
+   			"tester",
+   			"artist",
+   			"ngo hai bang",
+   			"artist and music",
+   			"debug and clean code",
+   			"logic game"
+   };	
+};
+
