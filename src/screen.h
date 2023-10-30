@@ -50,13 +50,13 @@ public:
 
 private:
     Entity *frame;
-    Entity *score;
-    Entity *level;
+    Entity ** score;
+    Entity ** level;
     DynamicEntity **enemy;
     Command *command;
     Hero *hero;
     const int numberEnemy = 15;
-    long int LONGINTscore = 0;
+    long int LONGINTscore = 1000;
     int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
 
