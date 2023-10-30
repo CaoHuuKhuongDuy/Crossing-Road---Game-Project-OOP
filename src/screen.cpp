@@ -227,3 +227,86 @@ void LoadGameScreen::draw()
         // }
     }
 }
+
+CreditScreen::CreditScreen() : Screen(new HandlerGameInput())
+{
+	frame = new Entity("creditFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+	for(int i=0;i<17;i++)	text[i] = new DynamicEntity *[textCredit[i].length()];
+}
+
+CreditScreen:: ~ CreditScreen() 
+{
+    for (int i = 0; i < 11; ++i)
+    {
+        delete text[i];
+        text[i] = nullptr;
+    }
+    delete[] text;
+
+}
+
+void CreditScreen::draw()
+{ 
+	    if (firstScreen)
+    {
+        appConsole.setFullscreenBackgroundColor(BG_BLACK);
+        frame->draw();
+        if(idx==0){
+           for(int i=0;i<textCredit[idx].length();i++){
+          string substring = textCredit[idx] .substr(i,1);
+          text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
+		}	
+		}
+		else{
+	      for(int i=0;i<textCredit[idx].length();i++){
+          string substring = textCredit[idx] .substr(i,1);
+          text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*2,16},{SHORT(6),5});     
+		  for(int i=0;i<textCredit[idx+1].length();i++){
+          string substring = textCredit[idx+1] .substr(i,1);
+          text[idx+1][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+1].length()*2,24},{SHORT(6),5});       	  	
+		}
+		for(int i=0;i<textCredit[idx+2].length();i++){
+          string substring = textCredit[idx+2] .substr(i,1);
+          text[idx+2][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+2].length()*2,32},{SHORT(6),5});       	  	
+		}
+		for(int i=0;i<textCredit[idx+3].length();i++){
+          string substring = textCredit[idx+3] .substr(i,1);
+          text[idx+3][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+3].length()*2,40},{SHORT(6),5});       	  	
+		}
+	}
+}
+	 firstScreen = false;	
+	}
+	if(idx==0){
+		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
+	    if(count==27){
+		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+		idx++;
+		if(idx> 17) idx = 0;
+		firstScreen = true;
+		count=0;
+	}
+	}
+	else{
+		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
+	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
+	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
+	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
+	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
+	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
+	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
+	    if(count==15){
+		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+		idx= idx +4;
+		if(idx>16) idx = 0;
+		firstScreen = true;
+		count=0;
+	}
+	}
+
+	count ++;
+	
+
+}
