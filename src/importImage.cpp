@@ -83,3 +83,9 @@ void ImportImage::drawASCII(string pathFile, COORD pos, int textColor) {
     }
     fi.close();
 }
+
+void ImportImage::drawCustomImage(string pathImage, COORD pos) {
+    for (int i = 0; i < pathImage.length(); i++) {
+        drawImage(pathImage.substr(i, 1) + ".txt", {SHORT(pos.X += 6), SHORT(pos.Y)});
+    }
+}

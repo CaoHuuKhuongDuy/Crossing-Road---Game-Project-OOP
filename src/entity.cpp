@@ -90,6 +90,57 @@ void DynamicEntity::up(int step) {
     teleport({startPos.X, SHORT(startPos.Y - step)});
 }
 
-void DynamicEntity::down(int step) {
+void DynamicEntity::down(int step)
+{
     teleport({startPos.X, SHORT(startPos.Y + step)});
+}
+
+Hero::Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_)
+    : DynamicEntity(entityName_, pos1, size_), score(score_), level(level_) {}
+SHORT Hero::getHeroWidth()
+{
+    return this->heroWidth;
+}
+SHORT Hero::getHeroHeight()
+{
+    return this->heroHeight;
+}
+int Hero::getHeroLevel()
+{
+    return this->level;
+}
+long int Hero::getHeroScore()
+{
+    return this->score;
+}
+
+void Hero::setHeroLevel(const int& level)
+{
+    this->level = level;
+}
+
+void Hero::setHeroScore(const long int& score)
+{
+    this->score = score;
+}
+
+void Hero::updateHeroExp()
+{
+    this->level = int(floor(this->score / 1000)) + 1;
+    this->score += 100;
+}
+
+bool Hero::checkCollision(DynamicEntity* enemy)
+{
+    if (enemy == nullptr) return false;
+    COORD startPos1 = enemy->getPos();
+    COORD endPos1 = enemy->getEndPos();
+    COORD startPos2 = this->getPos();
+    COORD endPos2 = this->getEndPos();
+
+    if (startPos1.X <= endPos2.X && endPos1.X >= startPos2.X &&
+        startPos1.Y <= endPos2.Y && endPos1.Y >= startPos2.Y)
+        return true;
+    return false;
+
 }
