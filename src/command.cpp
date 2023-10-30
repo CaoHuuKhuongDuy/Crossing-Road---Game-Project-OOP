@@ -15,22 +15,22 @@ void EnterGameCommand::execute(Screen *&mainScreen) {
 
 void MoveUpCommand::execute(Hero *hero)
 {
-    hero->up(1);
+    hero->up(5);
 }
 
 void MoveDownCommand::execute(Hero *hero)
 {
-    hero->down(1);
+    hero->down(5);
 }
 
 void MoveLeftCommand::execute(Hero *hero)
 {
-    hero->left(1);
+    hero->left(5);
 }
 
 void MoveRightCommand::execute(Hero *hero)
 {
-    hero->right(1);
+    hero->right(5);
 }
 
 

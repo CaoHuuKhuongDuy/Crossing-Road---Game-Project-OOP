@@ -56,8 +56,8 @@ private:
     Command *command;
     Hero *hero;
     const int numberEnemy = 15;
-    int INTlevel = 1;
     long int LONGINTscore = 0;
+    int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
 
 class LoadGameScreen : public Screen

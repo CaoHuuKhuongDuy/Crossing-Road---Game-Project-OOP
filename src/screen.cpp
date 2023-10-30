@@ -60,7 +60,7 @@ void GameScreen::allocateEnemy()
     int random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3)}, {13, 5});
+        enemy[i] = new DynamicEntity("stone.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
@@ -70,12 +70,12 @@ void GameScreen::allocateEnemy()
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 6] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(18)}, {13, 5});
+        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(18)}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 9] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(23)}, {13, 5});
+        enemy[i + 9] = new DynamicEntity("stone.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(23)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
@@ -90,8 +90,8 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput())
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y + 10);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {13, 5}, LONGINTscore, INTlevel);
-    // string STRINGlevel = to_string(INTlevel);
-    // string STRINGscore = to_string(LONGINTscore);
+
+
     // level = new Entity(to_string(INTlevel) + ".txt");
     // score = new Entity(to_string(LONGINTscore) + ".txt");
     // The size of phoenix must be in range of desktop console
@@ -131,6 +131,10 @@ void GameScreen::draw()
         // score->draw();
         firstScreen = false;
     }
+    string STRINGlevel = to_string(hero->getHeroLevel());
+    string STRINGscore = to_string(hero->getHeroScore());
+    appConsole.writeAt(STRINGscore, BLACK, {SHORT(75),0});
+    appConsole.writeAt(STRINGlevel, BLACK, {SHORT(appConsole.getWindowSize().X - 10), 0});
     hero->draw();
     for(int i = 0; i < numberEnemy; ++i)
     {
@@ -149,18 +153,21 @@ void GameScreen::draw()
         if (hero->isCollision(enemy[i]) == true)
         {
             firstScreen = true;
-            hero->updateHeroExp();
             hero->resetDynamicEntity();
             return;
         }
     }
-
+    
     // If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
     if (hero->isAtEdge(6))
     {
-        firstScreen = true;
         hero->resetDynamicEntity();
+        hero->updateHeroExp();
+        hero->draw();
+        firstScreen = true;
     }
+
+
 }
 
 // LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())

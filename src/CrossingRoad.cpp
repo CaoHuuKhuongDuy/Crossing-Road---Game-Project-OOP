@@ -20,7 +20,7 @@ signed main() {
             delete command;
         }
         // screen->draw();
-    	Sleep(1);
+    	Sleep(10);
     }
     delete mainScreen;
     // delete screen;
