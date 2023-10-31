@@ -46,21 +46,18 @@ public:
 
     Command *handleInput() override;
     void allocateEnemy();
-    void spawnEnemy(DynamicEntity *, double speed = 1);
-    void resetEnemyIFAtEdge(DynamicEntity *entity, SHORT posEdge_X);
-    void resetHeroIFAtEdge(Hero *hero, SHORT posEdge_Y);
     void draw() override;
 
 private:
     Entity *frame;
-    Entity *score;
-    Entity *level;
+    Entity ** score;
+    Entity ** level;
     DynamicEntity **enemy;
     Command *command;
     Hero *hero;
     const int numberEnemy = 15;
-    int INTlevel = 1;
     long int LONGINTscore = 0;
+    int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
 
 class LoadGameScreen : public Screen
@@ -74,3 +71,37 @@ private:
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
     int chooseButton = 0;
 };
+
+class CreditScreen : public Screen 
+{
+public:	
+	CreditScreen();
+	~CreditScreen();
+    Command *handleInput() override;
+	void draw() override;
+private: 
+   DynamicEntity **text[17]; 
+   Entity* frame;
+   int count = 0;
+   int idx = 0;
+   string textCredit[17] = {
+   	        "product by group 6",
+   			"cao huu khuong duy",
+  			"debug and clean code",
+   			"logic game",
+			"handle input game",     			
+   			"nguyen thanh thai",
+  			"debug and clean code",
+   			"logic game",
+   			"artist",			      			
+   			"tu chi tien",
+   			"save and load",
+   			"tester",
+   			"artist",
+   			"ngo hai bang",
+   			"artist and music",
+   			"debug and clean code",
+   			"logic game"
+   };	
+};
+

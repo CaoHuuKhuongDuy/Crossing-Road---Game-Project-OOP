@@ -20,6 +20,9 @@ class DynamicEntity : public Entity
 {
 public:
     DynamicEntity(string entityName_, COORD pos1, COORD size_);
+    bool isAtEdge(SHORT posEdge_X);
+    virtual void resetDynamicEntity();
+    void spawnDynamicEntity(double speed = 1);
     void up(int step);
     void down(int step);
     void left(int step);
@@ -37,17 +40,19 @@ class Hero : public DynamicEntity
 {
 public:
     Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_);
-    bool checkCollision(DynamicEntity* enemy);
     SHORT getHeroWidth();
     SHORT getHeroHeight();
-    int getHeroLevel();
-    long int getHeroScore();
     void setHeroLevel(const int&);
     void setHeroScore(const long int&);
     void updateHeroExp();
+    void resetDynamicEntity();
+    bool isAtEdge(SHORT posEdge_Y);
+    bool isCollision(DynamicEntity* enemy);
+    int getHeroLevel();
+    long int getHeroScore();
 private:
     SHORT heroWidth = 13;
     SHORT heroHeight = 5;
-    int level;
-    long int score;
+    int level = 1;
+    long int score = 0;
 };
