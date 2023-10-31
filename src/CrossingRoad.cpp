@@ -11,7 +11,9 @@ signed main() {
     // int debug = 0;
     mainScreen = new MenuScreen();
     Command *command;
-    while (true) {
+    LoadGameScreen *screen = new LoadGameScreen;
+    while (true)
+    {
         mainScreen->draw();
         command = mainScreen->handleInput();
         if (command) {
@@ -21,5 +23,8 @@ signed main() {
     	Sleep(10);
     }
     delete mainScreen;
+    delete screen;
+    int x;
+    cin >> x;
     return 0;
 }

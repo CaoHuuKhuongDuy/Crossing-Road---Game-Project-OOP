@@ -45,6 +45,6 @@ private:
 
 class HandlerLoadInput : public HandlerInput
 {
-public:
-    Command *handlerInput(ButtonList &buttonList);
+    public:
+        Command *handlerInput(ButtonList &buttonList);
 };
