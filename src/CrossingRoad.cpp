@@ -14,13 +14,14 @@ signed main() {
     LoadGameScreen *screen = new LoadGameScreen;
     while (true)
     {
-        mainScreen->draw();
-        command = mainScreen->handleInput();
-        if (command) {
-            command->execute();
-            delete command;
-        }
-    	Sleep(10);
+        screen->draw();
+        // mainScreen->draw();
+        // command = mainScreen->handleInput();
+        // if (command) {
+        //     command->execute();
+        //     delete command;
+        // }
+    	// Sleep(10);
     }
     delete mainScreen;
     delete screen;

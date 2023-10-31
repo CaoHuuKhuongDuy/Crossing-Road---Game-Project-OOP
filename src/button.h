@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "staticVariable.h"
+#include "importImage.h"
 
 using namespace stValue;
 using namespace std;

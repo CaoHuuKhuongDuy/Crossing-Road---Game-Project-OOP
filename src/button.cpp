@@ -17,7 +17,13 @@ void Button::changeText() {
 
 void Button::draw() {
     changeText();
-    importImage.drawASCII(text, pos, colorButton);
+    if (text[0] != '@') {
+        importImage.drawASCII(text, pos, colorButton);
+    }
+    else {
+        text.erase(0, 1);
+        importImage.drawCustomImage(text.erase(text.size() - 4, 4), pos);
+    }
 }
 
 ButtonList::ButtonList() : idButtonChoosen(0) {}
