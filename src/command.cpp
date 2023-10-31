@@ -9,31 +9,42 @@ void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
 }
 
 
-void EnterGameCommand::execute(Screen *&mainScreen) {
+void EnterGameCommand::execute() {
     changeScreen(mainScreen, new GameScreen());
 }
 
-void MoveUpCommand::execute(Hero *hero)
-{
-    hero->up(1);
+MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
+MoveEntityCommand::~MoveEntityCommand() {
+    delete hero;
 }
 
-void MoveDownCommand::execute(Hero *hero)
+MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
+
+void MoveUpCommand::execute()
 {
-    hero->down(1);
+    hero->up(hero->getSpeed());
 }
 
-void MoveLeftCommand::execute(Hero *hero)
+MoveDownCommand::MoveDownCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
+
+
+void MoveDownCommand::execute()
 {
-    hero->left(1);
+    hero->down(hero->getSpeed());
 }
 
-void MoveRightCommand::execute(Hero *hero)
+MoveLeftCommand::MoveLeftCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
+
+
+void MoveLeftCommand::execute()
 {
-    hero->right(1);
+    hero->left(hero->getSpeed());
 }
 
+MoveRightCommand::MoveRightCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
-// void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {}
+void MoveRightCommand::execute()
+{
+    hero->right(hero->getSpeed());
+}
 
-// void EnterGameCommand::excute(Screen *&mainScreen) {}

@@ -25,9 +25,11 @@ public:
     void left(int step);
     void right(int step);
     void teleport(COORD pos);
+    int getSpeed();
 
 protected:
     void caculateRemainFrame(COORD oldPos);
+    int speed;
 };
 
 

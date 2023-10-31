@@ -46,7 +46,7 @@ void Entity::draw() {
 }
 
 DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_) 
-    : Entity(entityName_, pos1, size_) {};
+    : Entity(entityName_, pos1, size_), speed(5) {};
 
 
 void DynamicEntity::caculateRemainFrame(COORD oldPos) {
@@ -95,8 +95,12 @@ void DynamicEntity::down(int step)
     teleport({startPos.X, SHORT(startPos.Y + step)});
 }
 
+int DynamicEntity::getSpeed() {
+    return speed;
+}
+
 Hero::Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_)
-    : DynamicEntity(entityName_, pos1, size_), score(score_), level(level_) {}
+    : DynamicEntity(entityName_, pos1, size_), score(score_), level(level_){}
 SHORT Hero::getHeroWidth()
 {
     return this->heroWidth;

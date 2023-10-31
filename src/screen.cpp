@@ -84,17 +84,14 @@ void GameScreen::allocateEnemy()
     }
 }
 
-GameScreen::GameScreen() : Screen(new HandlerGameInput())
+GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
-    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y + 10);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {13, 5}, LONGINTscore, INTlevel);
-    // string STRINGlevel = to_string(INTlevel);
-    // string STRINGscore = to_string(LONGINTscore);
-    // level = new Entity(to_string(INTlevel) + ".txt");
-    // score = new Entity(to_string(LONGINTscore) + ".txt");
-    // The size of phoenix must be in range of desktop console
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, LONGINTscore, INTlevel);
+    string STRINGlevel = to_string(INTlevel);
+    string STRINGscore = to_string(LONGINTscore);
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
 }
@@ -151,8 +148,6 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        // level->draw();
-        // score->draw();
         firstScreen = false;
     }
     hero->draw();
@@ -166,12 +161,7 @@ void GameScreen::draw()
         resetEnemyIFAtEdge(enemy[i], appConsole.getWindowSize().X - 1);
     }
 
-    command = handlerInputMainScreen->handlerInput();
-
-    if (command != nullptr)
-    {
-        command->execute(hero);
-    }
+    
     for (int i = 0; i < numberEnemy; ++i)
     {
 

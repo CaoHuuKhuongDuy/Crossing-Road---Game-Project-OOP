@@ -1,53 +1,52 @@
 #pragma once
-// #include "screen.h"
+#include <vector>
 class Screen;
-class GameScreen;
+// class GameScreen;
 class Hero;
 
-class Command
-{
-public:
-    virtual void execute(Screen *&mainScreen) {}
-    virtual void execute(Hero *hero) {}
+class Command {
+    public:
+        virtual void execute() = 0;
 
-protected:
-    void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
+    protected:
+        void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
 };
 
-class EnterGameCommand : public Command
-{
-public:
-    void execute(Screen *&mainScreen) override;
-    void execute(Hero *hero) override {};
+
+class EnterGameCommand : public Command {
+    public:
+        void execute() override;
 };
 
-class MoveUpCommand : public Command
-{
-public:
-    void execute(Screen *&mainScreen) override {};
-
-    void execute(Hero *hero) override;
+class MoveEntityCommand : public Command {
+    public:
+        MoveEntityCommand(Hero *&hero_);
+        ~MoveEntityCommand();
+        virtual void execute() = 0;
+    protected:
+        Hero *&hero;
 };
 
-class MoveDownCommand : public Command
-{
-public:
-    void execute(Screen *&mainScreen) override {};
-    void execute(Hero *hero) override;
+class MoveUpCommand : public MoveEntityCommand {
+    public:
+        MoveUpCommand(Hero *&hero_);
+        void execute() override;
 };
 
-class MoveLeftCommand : public Command
-{
-public:
-    void execute(Screen *&mainScreen) override {};
-
-    void execute(Hero *hero) override;
+class MoveDownCommand : public MoveEntityCommand {
+    public:
+        MoveDownCommand(Hero *&hero_);
+        void execute() override;
 };
 
-class MoveRightCommand : public Command
-{
-public:
-    void execute(Screen *&mainScreen) override {};
+class MoveLeftCommand : public MoveEntityCommand {
+    public:
+        MoveLeftCommand(Hero *&hero_);
+        void execute() override;
+};
 
-    void execute(Hero *hero) override;
+class MoveRightCommand : public MoveEntityCommand {
+    public:
+        MoveRightCommand(Hero *&hero_);
+        void execute() override;
 };

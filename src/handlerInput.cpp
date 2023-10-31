@@ -29,11 +29,11 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
 }
 
 
-HandlerGameInput::HandlerGameInput() {
-    buttonUP = new MoveUpCommand();
-    buttonDOWN = new MoveDownCommand();
-    buttonLEFT = new MoveLeftCommand();
-    buttonRIGHT = new MoveRightCommand();
+HandlerGameInput::HandlerGameInput(Hero *&hero) {
+    buttonUP = new MoveUpCommand(hero);
+    buttonDOWN = new MoveDownCommand(hero);
+    buttonLEFT = new MoveLeftCommand(hero);
+    buttonRIGHT = new MoveRightCommand(hero);
 }
 
 HandlerGameInput::~HandlerGameInput() 

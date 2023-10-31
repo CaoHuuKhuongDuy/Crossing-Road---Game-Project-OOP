@@ -12,7 +12,7 @@ void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
-    cfi.dwFontSize = {7, 17};
+    cfi.dwFontSize = {7, 16};
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);

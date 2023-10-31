@@ -28,7 +28,7 @@ private:
 class HandlerGameInput : public HandlerInput
 {
 public:
-    HandlerGameInput();
+    HandlerGameInput(Hero *&hero);
     ~HandlerGameInput();
     Command *handlerInput(ButtonList &buttonList) override {return nullptr;}
     Command *handlerInput() override;
