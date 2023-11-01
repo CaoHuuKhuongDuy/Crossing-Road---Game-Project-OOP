@@ -20,7 +20,12 @@ protected:
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;
     bool firstScreen;
-
+    string path = "../media/LoadGame/loadGame.txt";
+    struct playerData {
+        string name;
+        string level;
+        string score;
+    };
 private:
     int width, height;
 };
@@ -65,9 +70,10 @@ class LoadGameScreen : public Screen
 public:
     LoadGameScreen();
     ~LoadGameScreen();
+    Command *handleInput() override;
     void draw() override;
-
 private:
+    Entity *frame;
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
     int chooseButton = 0;
 };

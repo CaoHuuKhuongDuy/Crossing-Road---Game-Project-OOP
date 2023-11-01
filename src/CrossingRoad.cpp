@@ -32,5 +32,7 @@ signed main() {
     	Sleep(10);
     }
     delete mainScreen;
+    int x;
+    cin >> x;
     return 0;
 }

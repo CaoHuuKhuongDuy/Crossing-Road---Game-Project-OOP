@@ -12,6 +12,15 @@ Command *GameScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
+Command *LoadGameScreen::handleInput()
+{
+    return handlerInputMainScreen->handlerInput();
+}
+
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput()) {
+    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+};
+
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
@@ -132,6 +141,18 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
+	    string substring; 
+	    level = new Entity *[STRINGlevel.length()];
+	    string temp2 =  to_string(LONGINTscore);
+	    score = new Entity *[STRINGscore.length()];
+    for(int i=0;i<STRINGlevel.length();i++){
+    	substring = STRINGlevel.substr(i,1);
+    	level[i] = new Entity("number" + substring  + ".txt",{SHORT(appConsole.getWindowSize().X - 15 + i*4),0},{SHORT(3),3});
+		}
+    for(int i=0;i<STRINGscore.length();i++){
+      	substring = STRINGscore.substr(i,1);
+        score[i] = new Entity("number" + substring + ".txt",{SHORT(30+i*4),0},{SHORT(3),3});
+		}
         firstScreen = false;
     }
     hero->draw();
@@ -174,47 +195,40 @@ void GameScreen::draw()
 
 }
 
-// LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput())
-// {
-// }
-
-// LoadGameScreen::~LoadGameScreen()
-// {
-// }
+LoadGameScreen::~LoadGameScreen()
+{
+    delete frame;
+}
 
 void LoadGameScreen::draw()
-{
+{   
+    ifstream fin(path);
+    playerData data[4];
+    int i = 0;
+    while (!fin.eof()) {
+        fin >> data[i].name;
+        fin >> data[i].level;
+        fin >> data[i].score;
+        i++;
+    }
+
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
+        frame->draw();
+        importImage.drawCustomImage("@name", {0, 15});
+        importImage.drawCustomImage("@level", {0, 25});
+        importImage.drawCustomImage("@score", {0, 35});
+        for (int i = 0 ; i < 4; i++) {
+            buttonList.addButton(new Button("@" + data[i].name, {SHORT(42 + i*32), SHORT(15)}, WHITE, GREEN));
+            importImage.drawCustomImage("@" + data[i].level, {SHORT(42 + i*32), SHORT(25)});
+            importImage.drawCustomImage("@" + data[i].score, {SHORT(42 + i*32), SHORT(35)});
+        }
 
-        // importImage.drawImage("LoadGameSaved.txt", {53, 2});
-        // for (int i = 0; i < 4; i++) {
-        //     buttonList.addButton(new Button("credit", {SHORT(80 - 6 * 2), SHORT(i * 4 + 13)}, WHITE, BLACK));
-        // }
+        buttonList.draw();
 
-        // for (int i = 0 ; i < 4; i++) {
-        //     if (i < 2) {
-        //         buttonList.addButton(new Button("credit", {SHORT(12 + 84 * i), SHORT(14)}, WHITE, BLACK));
-        //     }
-        //     else {
-        //         buttonList.addButton(new Button("credit", {SHORT(12 + 84 * (i - 2)), SHORT(14 + 14)}, WHITE, BLACK));
-        //     }
-        // }
-
-        // buttonList.draw();
-
-        // firstScreen = false;
-        // Entity *title = new Entity("LoadGameSaved.txt", {53, 2}, {63, 5});
-        // title->draw();
-        // for (int i = 0 ; i < 4; i++) {
-        //     if (i < 2) {
-        //         importImage.drawCustomImage("tien", {SHORT(32 + 84 * i), SHORT(14)});
-        //     }
-        //     else {
-        //         importImage.drawCustomImage("bang", {SHORT(32 + 84 * (i - 2)), SHORT(14 + 14)});
-        //     }
-        // }
+        firstScreen = false;
+        importImage.drawImage("LoadGameSaved.txt", {43, 2});
     }
 }
 
