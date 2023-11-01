@@ -90,7 +90,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, LONGINTscore, INTlevel);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
 }
@@ -108,8 +108,8 @@ GameScreen::~GameScreen()
 
 void GameScreen::draw()
 {
-    string STRINGlevel = to_string(INTlevel);
-    string STRINGscore = to_string(LONGINTscore);
+    string STRINGlevel = to_string(hero->getHeroLevel());
+    string STRINGscore = to_string(hero->getHeroScore());
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
@@ -226,7 +226,7 @@ void CreditScreen::draw()
         if(idx==0){
            for(int i=0;i<textCredit[idx].length();i++){
           string substring = textCredit[idx] .substr(i,1);
-          text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
+          text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*4),43},{SHORT(6),5});       	
 		}	
 		}
 		else{
