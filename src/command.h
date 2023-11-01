@@ -21,7 +21,6 @@ class EnterGameCommand : public Command {
 class MoveEntityCommand : public Command {
     public:
         MoveEntityCommand(Hero *&hero_);
-        ~MoveEntityCommand();
         virtual void execute() = 0;
     protected:
         Hero *&hero;

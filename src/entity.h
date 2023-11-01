@@ -23,10 +23,10 @@ public:
     bool isAtEdge(SHORT posEdge_X);
     virtual void resetDynamicEntity();
     void spawnDynamicEntity(double speed = 1);
-    void up(int step);
-    void down(int step);
-    void left(int step);
-    void right(int step);
+    void up(int step = 1);
+    void down(int step = 1);
+    void left(int step = 1);
+    void right(int step = 1);
     void teleport(COORD pos);
     int getSpeed();
 

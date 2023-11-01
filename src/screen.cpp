@@ -90,54 +90,48 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, LONGINTscore, INTlevel);
-    string STRINGlevel = to_string(INTlevel);
-    string STRINGscore = to_string(LONGINTscore);
     enemy = new DynamicEntity *[numberEnemy];
+
+    string STRINGlevel = to_string(hero->getHeroLevel());
+    string STRINGscore = to_string(hero->getHeroScore());
+    string substring; 
+    level = new Entity *[STRINGlevel.length()];
+    string temp2 =  to_string(LONGINTscore);
+    score = new Entity *[STRINGscore.length()];
+    for(int i=0;i<STRINGlevel.length();i++) {
+        substring = STRINGlevel.substr(i,1);
+        level[i] = new Entity("number" + substring  + ".txt",{SHORT(appConsole.getWindowSize().X - 15) + i*4,0},{SHORT(3),3});
+    }
+    for(int i=0;i<STRINGscore.length();i++) {
+        substring = STRINGscore.substr(i,1);
+        score[i] = new Entity("number" + substring + ".txt",{SHORT(30+i*4),0},{SHORT(3),3});
+	}
+
     allocateEnemy();
 }
 
 GameScreen::~GameScreen()
 {
     delete frame;
-    frame = nullptr;
     delete level;
-    level = nullptr;
     delete score;
-    score = nullptr;
     delete command;
-    command = nullptr;
     for (int i = 0; i < numberEnemy; ++i)
-    {
         delete enemy[i];
-        enemy[i] = nullptr;
-    }
+       
     delete enemy;
-    enemy = nullptr;
     delete hero;
-    hero = nullptr;
 }
 
 
 void GameScreen::draw()
 {
-    string STRINGlevel = to_string(hero->getHeroLevel());
-    string STRINGscore = to_string(hero->getHeroScore());
+    string STRINGlevel = to_string(INTlevel);
+    string STRINGscore = to_string(LONGINTscore);
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-	    string substring; 
-	    level = new Entity *[STRINGlevel.length()];
-	    string temp2 =  to_string(LONGINTscore);
-	    score = new Entity *[STRINGscore.length()];
-    for(int i=0;i<STRINGlevel.length();i++){
-    	substring = STRINGlevel.substr(i,1);
-    	level[i] = new Entity("number" + substring  + ".txt",{SHORT(appConsole.getWindowSize().X - 15) + i*4,0},{SHORT(3),3});
-		}
-    for(int i=0;i<STRINGscore.length();i++){
-      	substring = STRINGscore.substr(i,1);
-        score[i] = new Entity("number" + substring + ".txt",{SHORT(30+i*4),0},{SHORT(3),3});
-		}
         firstScreen = false;
     }
     hero->draw();

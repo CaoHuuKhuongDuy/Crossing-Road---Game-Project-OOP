@@ -14,9 +14,6 @@ void EnterGameCommand::execute() {
 }
 
 MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
-MoveEntityCommand::~MoveEntityCommand() {
-    delete hero;
-}
 
 MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 

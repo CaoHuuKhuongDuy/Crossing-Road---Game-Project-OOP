@@ -47,9 +47,6 @@ HandlerGameInput::~HandlerGameInput()
 Command *HandlerGameInput::handlerInput()
 {
     int userInput = getUserInput();
-    if (userInput == -1)
-        return nullptr;
-
     if (userInput == 119)
     {
         return buttonUP;
