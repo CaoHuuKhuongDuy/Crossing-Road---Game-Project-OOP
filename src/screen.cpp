@@ -221,7 +221,7 @@ void CreditScreen::draw()
 { 
 	    if (firstScreen)
     {
-        appConsole.setFullscreenBackgroundColor(BG_BLACK);
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
         if(idx==0){
            for(int i=0;i<textCredit[idx].length();i++){
