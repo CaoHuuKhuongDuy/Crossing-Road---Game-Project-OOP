@@ -264,18 +264,18 @@ void LoadGameScreen::draw()
 // 		else{
 // 	      for(int i=0;i<textCredit[idx].length();i++){
 //           string substring = textCredit[idx] .substr(i,1);
-//           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*2,16},{SHORT(6),5});     
+//           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
 // 		  for(int i=0;i<textCredit[idx+1].length();i++){
 //           string substring = textCredit[idx+1] .substr(i,1);
-//           text[idx+1][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+1].length()*2,24},{SHORT(6),5});       	  	
+//           text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
 // 		}
 // 		for(int i=0;i<textCredit[idx+2].length();i++){
 //           string substring = textCredit[idx+2] .substr(i,1);
-//           text[idx+2][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+2].length()*2,32},{SHORT(6),5});       	  	
+//           text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
 // 		}
 // 		for(int i=0;i<textCredit[idx+3].length();i++){
 //           string substring = textCredit[idx+3] .substr(i,1);
-//           text[idx+3][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx+3].length()*2,40},{SHORT(6),5});       	  	
+//           text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
 // 		}
 // 	}
 // }
