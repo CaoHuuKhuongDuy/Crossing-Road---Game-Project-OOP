@@ -23,6 +23,7 @@ public:
 
 private:
     Command *enterGame;
+    Command *enterLoadGame;
 };
 
 class HandlerGameInput : public HandlerInput

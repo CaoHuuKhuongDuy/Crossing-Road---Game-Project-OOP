@@ -55,10 +55,7 @@ public:
 
 private:
     Entity *frame;
-    Entity ** score;
-    Entity ** level;
     DynamicEntity **enemy;
-    Command *command;
     Hero *hero;
     const int numberEnemy = 15;
     long int LONGINTscore = 0;

@@ -28,6 +28,7 @@ int ImportImage::convertBGColor2TextColor(int colorBackground) {
 
 void ImportImage:: drawImage(string pathFile, COORD pos) {
     pathFile = pathColorCode + pathFile;
+    // cout << pathFile << endl;
     ifstream fi(pathFile, ios::binary);
     int tmpY = pos.Y;
     int x = -1, y, colorCode;
@@ -84,8 +85,9 @@ void ImportImage::drawASCII(string pathFile, COORD pos, int textColor) {
     fi.close();
 }
 
-void ImportImage::drawCustomImage(string pathImage, COORD pos) {
+void ImportImage::drawCustomImage(string pathImage, COORD pos, bool numberSpecial) {
     for (int i = 0; i < pathImage.length(); i++) {
-        drawImage(pathImage.substr(i, 1) + ".txt", {SHORT(pos.X += 6), SHORT(pos.Y)});
+        if (!numberSpecial) drawImage(pathImage[i] + ".txt", {SHORT(pos.X += 6), SHORT(pos.Y)});
+        else drawImage("number" + string(1, pathImage[i]) + ".txt", {SHORT(pos.X += 4), pos.Y});
     }
 }

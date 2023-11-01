@@ -23,7 +23,7 @@ signed main() {
     //     Sleep(100);
     // }
     // return 0;
-    mainScreen = new GameScreen();
+    mainScreen = new MenuScreen();
     Command *command;
     while (true) {
         mainScreen->draw();

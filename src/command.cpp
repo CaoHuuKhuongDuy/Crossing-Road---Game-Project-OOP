@@ -13,6 +13,10 @@ void EnterGameCommand::execute() {
     changeScreen(mainScreen, new GameScreen());
 }
 
+void EnterLoadGameCommand::execute() {
+    changeScreen(mainScreen, new LoadGameScreen());
+}
+
 MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
 
 MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
