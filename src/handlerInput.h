@@ -24,6 +24,7 @@ public:
 private:
     Command *enterGame;
     Command *enterLoadGame;
+    Command *enterCredit;
 };
 
 class HandlerGameInput : public HandlerInput
@@ -39,9 +40,6 @@ private:
     Command *buttonDOWN;
     Command *buttonLEFT;
     Command *buttonRIGHT;
-    // Command *buttonPAUSE;
-    // Command *buttonSAVE;
-    // Command *buttonLOAD;
 };
 
 class HandlerLoadInput : public HandlerInput

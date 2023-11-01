@@ -17,6 +17,10 @@ void EnterLoadGameCommand::execute() {
     changeScreen(mainScreen, new LoadGameScreen());
 }
 
+void EnterCreditCommand::execute() {
+    changeScreen(mainScreen, new CreditScreen());
+}
+
 MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
 
 MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}

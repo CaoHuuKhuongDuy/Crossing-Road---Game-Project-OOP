@@ -23,6 +23,11 @@ class EnterLoadGameCommand : public Command {
         void execute() override;
 };
 
+class EnterCreditCommand : public Command {
+    public:
+        void execute() override;
+};
+
 class MoveEntityCommand : public Command {
     public:
         MoveEntityCommand(Hero *&hero_);
