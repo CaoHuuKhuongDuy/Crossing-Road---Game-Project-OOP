@@ -19,7 +19,7 @@ signed main() {
     // cout << appConsole.getWindowSize().X << " " << appConsole.getWindowSize().Y << endl;
     // appConsole.writeAt("heelo", RED, {449, 10});
     // return 0;
-    mainScreen = new GameScreen();
+    mainScreen = new MenuScreen();
     Command *command;
     while (true) {
         mainScreen->draw();
