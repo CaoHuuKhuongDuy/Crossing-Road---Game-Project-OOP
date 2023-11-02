@@ -12,10 +12,6 @@ Command *GameScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
-Command *LeaderBoardScreen::handleInput()
-{
-    return handlerInputMainScreen->handlerInput();
-}
 
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
@@ -94,7 +90,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, LONGINTscore, INTlevel);
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
 }
@@ -112,8 +108,8 @@ GameScreen::~GameScreen()
 
 void GameScreen::draw()
 {
-    string STRINGlevel = to_string(hero->getHeroLevel());
-    string STRINGscore = to_string(hero->getHeroScore());
+    string STRINGlevel = to_string(INTlevel);
+    string STRINGscore = to_string(LONGINTscore);
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
@@ -185,13 +181,13 @@ void LoadGameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         frame->draw();
-        importImage.drawCustomImage("name", {0, 15});
-        importImage.drawCustomImage("level", {0, 25});
-        importImage.drawCustomImage("score", {0, 35});
+        importImage.drawCustomImage("@name", {0, 15});
+        importImage.drawCustomImage("@level", {0, 25});
+        importImage.drawCustomImage("@score", {0, 35});
         for (int i = 0 ; i < 4; i++) {
             buttonList.addButton(new Button("@" + data[i].name, {SHORT(42 + i*32), SHORT(15)}, WHITE, GREEN));
-            importImage.drawCustomImage( data[i].level, {SHORT(42 + i*32), SHORT(25)});
-            importImage.drawCustomImage( data[i].score, {SHORT(42 + i*32), SHORT(35)});
+            importImage.drawCustomImage("@" + data[i].level, {SHORT(42 + i*32), SHORT(25)});
+            importImage.drawCustomImage("@" + data[i].score, {SHORT(42 + i*32), SHORT(35)});
         }
 
         buttonList.draw();
@@ -224,120 +220,66 @@ Command *CreditScreen::handleInput() {
 
 void CreditScreen::draw()
 { 
-    if (firstScreen)  {
-        appConsole.setFullscreenBackgroundColor(BG_CYAN);
-        frame->draw();
-        if(idx==0){
-           for(int i=0;i<textCredit[idx].length();i++){
-          string substring = textCredit[idx] .substr(i,1);
-          text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*4),43},{SHORT(6),5});       	
-		}	
-		}
-		else{
-	      for(int i=0;i<textCredit[idx].length();i++){
-          string substring = textCredit[idx] .substr(i,1);
-          text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
-		  for(int i=0;i<textCredit[idx+1].length();i++){
-          string substring = textCredit[idx+1] .substr(i,1);
-          text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
-		}
-		for(int i=0;i<textCredit[idx+2].length();i++){
-          string substring = textCredit[idx+2] .substr(i,1);
-          text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
-		}
-		for(int i=0;i<textCredit[idx+3].length();i++){
-          string substring = textCredit[idx+3] .substr(i,1);
-          text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
-		}
-	}
-}
-	 firstScreen = false;	
-	}
-	if(idx==0){
-		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
-	    if(count==27){
-		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-		idx++;
-		if(idx> 17) idx = 0;
-		firstScreen = true;
-		count=0;
-	}
-	}
-	else{
-		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
-	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
-	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
-	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
-	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
-	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
-	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
-	    if(count==15){
-		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-		idx= idx +4;
-		if(idx>16) idx = 0;
-		firstScreen = true;
-		count=0;
-	}
-	}
+// 	    if (firstScreen)
+//     {
+//         appConsole.setFullscreenBackgroundColor(BG_BLACK);
+//         frame->draw();
+//         if(idx==0){
+//            for(int i=0;i<textCredit[idx].length();i++){
+//           string substring = textCredit[idx] .substr(i,1);
+//           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
+// 		}	
+// 		}
+// 		else{
+// 	      for(int i=0;i<textCredit[idx].length();i++){
+//           string substring = textCredit[idx] .substr(i,1);
+//           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
+// 		  for(int i=0;i<textCredit[idx+1].length();i++){
+//           string substring = textCredit[idx+1] .substr(i,1);
+//           text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
+// 		}
+// 		for(int i=0;i<textCredit[idx+2].length();i++){
+//           string substring = textCredit[idx+2] .substr(i,1);
+//           text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
+// 		}
+// 		for(int i=0;i<textCredit[idx+3].length();i++){
+//           string substring = textCredit[idx+3] .substr(i,1);
+//           text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
+// 		}
+// 	}
+// }
+// 	 firstScreen = false;	
+// 	}
+// 	if(idx==0){
+// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
+// 	    if(count==27){
+// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+// 		idx++;
+// 		if(idx> 17) idx = 0;
+// 		firstScreen = true;
+// 		count=0;
+// 	}
+// 	}
+// 	else{
+// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
+// 	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
+// 	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
+// 	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
+// 	    if(count==15){
+// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+// 		idx= idx +4;
+// 		if(idx>16) idx = 0;
+// 		firstScreen = true;
+// 		count=0;
+// 	}
+// 	}
 
-	count ++;
+// 	count ++;
 	
 
-}
-
-LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerMenuInput()) {
-    frame = new Entity("leaderFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-    title = new Entity("rank.txt",{SHORT((appConsole.getWindowSize().X-70) / 2),1},{25,6});
-    moon =  new DynamicEntity("moon.txt",{SHORT(6),SHORT(6)},{SHORT(16),SHORT(16)});
-    star =  new DynamicEntity("Star.txt",{SHORT(140),SHORT(38)},{SHORT(16),SHORT(16)});
-};
-
-LeaderBoardScreen::~LeaderBoardScreen() {
-	delete frame;
-	delete star;
-	delete moon;
-	delete title;
-}
-
-void LeaderBoardScreen:: swap(playerData &a, playerData &b)
-{
-  playerData temp = a;
-  a = b;
-  b = temp;
-}
-
-
-void LeaderBoardScreen:: draw(){
-    ifstream fin(path);
-    playerData data[4];
-    int i = 0;
-    while (!fin.eof()) {
-        fin >> data[i].name;
-        fin >> data[i].level;
-        fin >> data[i].score;
-        i++;
-    }
-    for(int i = 0;i<4;i++){
-    	for(int j=0;j<4;j++){
-    		if(stoi(data[i].score)>stoi(data[j].score)) swap(data[i],data[j]);
-		}
-	}
-    if (firstScreen)
-    {
-        appConsole.setFullscreenBackgroundColor(BG_CYAN);
-        frame->draw();
-        title->draw();
-        importImage.drawCustomImage("name", {45, 10},false);
-        importImage.drawCustomImage("score", {80, 10},false);
-        for(int i = 2;i>=0;i--){
-        importImage.drawCustomImage(data[i].name, {47, SHORT(18+i*7)},false);
-        importImage.drawCustomImage(data[i].score, {82, SHORT(18+i*7)},false);  
-	
-		}       
-        moon->draw();
-        star->draw();
-        firstScreen = false;
-    }	
 }

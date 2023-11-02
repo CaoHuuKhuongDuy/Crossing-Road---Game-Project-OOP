@@ -39,7 +39,7 @@ protected:
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, long int score_);
+    Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_);
     SHORT getHeroWidth();
     SHORT getHeroHeight();
     void setHeroLevel(const int&);
@@ -51,7 +51,7 @@ public:
     int getHeroLevel();
     long int getHeroScore();
 private:
-    SHORT heroWidth = 11;
+    SHORT heroWidth = 13;
     SHORT heroHeight = 5;
     int level = 1;
     long int score = 0;
