@@ -29,6 +29,7 @@ public:
     void right(int step = 1);
     void teleport(COORD pos);
     int getSpeed();
+    void setSpeed(const int& speed);
 
 protected:
     void caculateRemainFrame(COORD oldPos);
@@ -39,12 +40,13 @@ protected:
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, long int score_, int level_);
+    Hero(string entityName_, COORD pos1, COORD size_, long int score_);
     SHORT getHeroWidth();
     SHORT getHeroHeight();
     void setHeroLevel(const int&);
     void setHeroScore(const long int&);
     void updateHeroExp();
+    void updateHeroExp(const int&);
     void resetDynamicEntity();
     bool isAtEdge(SHORT posEdge_Y);
     bool isCollision(DynamicEntity* enemy);
@@ -53,6 +55,6 @@ public:
 private:
     SHORT heroWidth = 13;
     SHORT heroHeight = 5;
-    int level = 1;
     long int score = 0;
+    int level = int(floor(score / 300)) + 1;
 };
