@@ -27,7 +27,7 @@ MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveUpCommand::execute()
 {
-    hero->up(hero->getSpeed());
+    hero->up(5);
 }
 
 MoveDownCommand::MoveDownCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
@@ -35,7 +35,7 @@ MoveDownCommand::MoveDownCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveDownCommand::execute()
 {
-    hero->down(hero->getSpeed());
+    hero->down(5);
 }
 
 MoveLeftCommand::MoveLeftCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
@@ -43,13 +43,13 @@ MoveLeftCommand::MoveLeftCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveLeftCommand::execute()
 {
-    hero->left(hero->getSpeed());
+    hero->left(5);
 }
 
 MoveRightCommand::MoveRightCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveRightCommand::execute()
 {
-    hero->right(hero->getSpeed());
+    hero->right(5);
 }
 
