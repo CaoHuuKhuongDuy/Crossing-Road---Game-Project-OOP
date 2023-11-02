@@ -1,4 +1,5 @@
 #include "console.h"
+#include "staticVariable.h"
 
 // Console::Console() : currentBackgroundColor(0), currentTextColor(0) {}
 
@@ -12,21 +13,18 @@ void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
-    cfi.dwFontSize = {7, 16};
+    cfi.dwFontSize = stValue::FONT_SIZE;
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
 void Console::setWindowSize() {
-    szConsole = GetConsoleWindow();
-    ShowWindow(szConsole, SW_MAXIMIZE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(hConsole, &csbi);
-    COORD bufferSize = { csbi.dwMaximumWindowSize.X, csbi.dwMaximumWindowSize.Y };
-    size = csbi.dwMaximumWindowSize;
-    SetConsoleScreenBufferSize(hConsole, bufferSize);
     setFontSize();
+    // Adjust buffer size:
+    if (!SetConsoleScreenBufferSize(hConsole, size))
+        throw std::runtime_error("Unable to resize screen buffer.");
+    ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 }
 
 void Console::init() {
@@ -38,6 +36,7 @@ void Console::init() {
     GetConsoleCursorInfo(hConsole, &cursorInfo);
     cursorInfo.bVisible = false;
     SetConsoleCursorInfo(hConsole, &cursorInfo);
+    size = stValue::FIX_SIZE;
     setWindowSize();
 };
 
@@ -83,13 +82,13 @@ void Console::setFullscreenBackgroundColor(int colorCode) {
     SetConsoleTextAttribute(hConsole, bufferInfo.wAttributes);
 
      CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
 
     // Set the buffer size to match the window size
     COORD newSize;
     newSize.X = csbi.srWindow.Right - csbi.srWindow.Left + 1; // Width of the window
     newSize.Y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1; // Height of the window
-    SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), newSize);
+    SetConsoleScreenBufferSize(hConsole, newSize);
 }
 
 int Console::getBackgroundColor() {
@@ -115,7 +114,8 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     else {
         setTextColor(colorText);
     }
-    std::cout << text << std::endl;
+    // std::cout << text << std::endl;
+    WriteConsole(hConsole, text.c_str(), text.size(), nullptr, nullptr);
     setTextColor(WHITE);
 }
 

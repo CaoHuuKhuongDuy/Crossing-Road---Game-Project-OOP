@@ -1,6 +1,6 @@
 #include "screen.h"
 
-Screen::Screen(HandlerInput *handlerInput_, int width_, int height_) : handlerInputMainScreen(handlerInput_), width(width_), height(height_), firstScreen(true) {}
+Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
 
 Command *Screen::handleInput()
 {
@@ -116,9 +116,10 @@ void GameScreen::draw()
         frame->draw();
         firstScreen = false;
     }
+    hero->draw();
+    // return;
     importImage.drawCustomImage(STRINGlevel, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
     importImage.drawCustomImage(STRINGscore, {70, 0}, true);
-    hero->draw();
     for(int i = 0; i < numberEnemy; ++i)
     {
         enemy[i]->spawnDynamicEntity(hero->getHeroLevel());
@@ -219,66 +220,66 @@ Command *CreditScreen::handleInput() {
 
 void CreditScreen::draw()
 { 
-	    if (firstScreen)
-    {
-        appConsole.setFullscreenBackgroundColor(BG_BLACK);
-        frame->draw();
-        if(idx==0){
-           for(int i=0;i<textCredit[idx].length();i++){
-          string substring = textCredit[idx] .substr(i,1);
-          text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
-		}	
-		}
-		else{
-	      for(int i=0;i<textCredit[idx].length();i++){
-          string substring = textCredit[idx] .substr(i,1);
-          text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
-		  for(int i=0;i<textCredit[idx+1].length();i++){
-          string substring = textCredit[idx+1] .substr(i,1);
-          text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
-		}
-		for(int i=0;i<textCredit[idx+2].length();i++){
-          string substring = textCredit[idx+2] .substr(i,1);
-          text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
-		}
-		for(int i=0;i<textCredit[idx+3].length();i++){
-          string substring = textCredit[idx+3] .substr(i,1);
-          text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
-		}
-	}
-}
-	 firstScreen = false;	
-	}
-	if(idx==0){
-		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
-	    if(count==27){
-		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-		idx++;
-		if(idx> 17) idx = 0;
-		firstScreen = true;
-		count=0;
-	}
-	}
-	else{
-		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
-	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
-	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
-	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
-	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
-	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
-	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
-	    if(count==15){
-		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-		idx= idx +4;
-		if(idx>16) idx = 0;
-		firstScreen = true;
-		count=0;
-	}
-	}
+// 	    if (firstScreen)
+//     {
+//         appConsole.setFullscreenBackgroundColor(BG_BLACK);
+//         frame->draw();
+//         if(idx==0){
+//            for(int i=0;i<textCredit[idx].length();i++){
+//           string substring = textCredit[idx] .substr(i,1);
+//           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
+// 		}	
+// 		}
+// 		else{
+// 	      for(int i=0;i<textCredit[idx].length();i++){
+//           string substring = textCredit[idx] .substr(i,1);
+//           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
+// 		  for(int i=0;i<textCredit[idx+1].length();i++){
+//           string substring = textCredit[idx+1] .substr(i,1);
+//           text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
+// 		}
+// 		for(int i=0;i<textCredit[idx+2].length();i++){
+//           string substring = textCredit[idx+2] .substr(i,1);
+//           text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
+// 		}
+// 		for(int i=0;i<textCredit[idx+3].length();i++){
+//           string substring = textCredit[idx+3] .substr(i,1);
+//           text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
+// 		}
+// 	}
+// }
+// 	 firstScreen = false;	
+// 	}
+// 	if(idx==0){
+// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
+// 	    if(count==27){
+// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+// 		idx++;
+// 		if(idx> 17) idx = 0;
+// 		firstScreen = true;
+// 		count=0;
+// 	}
+// 	}
+// 	else{
+// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
+// 	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
+// 	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
+// 	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
+// 	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
+// 	    if(count==15){
+// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+// 		idx= idx +4;
+// 		if(idx>16) idx = 0;
+// 		firstScreen = true;
+// 		count=0;
+// 	}
+// 	}
 
-	count ++;
+// 	count ++;
 	
 
 }

@@ -2,7 +2,8 @@
 #include "screen.h"
 
 namespace stValue {
-	int FIX_WIDTH = 800, FIX_HEIGHT = 720;
+	COORD FIX_SIZE = {211, 51};
+    COORD FONT_SIZE = {7, 16};
     int DEFAULT_STEP = 5;
 	string GAME_NAME = "Crossing Road";
 	Console appConsole;

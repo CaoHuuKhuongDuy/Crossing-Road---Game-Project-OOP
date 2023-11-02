@@ -5,7 +5,8 @@
 #include <conio.h>
 #include <windows.h>
 
-
+// #define endl '\n'
+// #define endl '\n'
 #define BLACK 0
 #define BLUE (FOREGROUND_BLUE)
 #define GREEN (FOREGROUND_GREEN)

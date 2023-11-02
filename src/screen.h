@@ -12,7 +12,7 @@ using namespace std;
 class Screen
 {
 public:
-    Screen(HandlerInput *handlerInput_, int width = FIX_WIDTH, int height = FIX_HEIGHT);
+    Screen(HandlerInput *handlerInput_);
     virtual void draw() = 0;
     virtual Command *handleInput();
 
@@ -26,8 +26,6 @@ protected:
         string level;
         string score;
     };
-private:
-    int width, height;
 };
 
 class MenuScreen : public Screen
