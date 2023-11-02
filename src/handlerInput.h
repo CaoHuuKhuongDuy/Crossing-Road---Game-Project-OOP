@@ -25,6 +25,7 @@ private:
     Command *enterGame;
     Command *enterLoadGame;
     Command *enterCredit;
+    Command *enterLeader;
 };
 
 class HandlerGameInput : public HandlerInput
@@ -47,3 +48,4 @@ class HandlerLoadInput : public HandlerInput
     public:
         Command *handlerInput(ButtonList &buttonList);
 };
+
