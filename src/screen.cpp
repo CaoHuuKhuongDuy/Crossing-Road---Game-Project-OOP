@@ -160,12 +160,12 @@ Command *LoadGameScreen::handleInput()
 
 LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput())
 {
-    // frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
 };
 
 LoadGameScreen::~LoadGameScreen()
 {
-    // delete frame;
+    delete frame;
 }
 
 void LoadGameScreen::draw()
@@ -184,7 +184,7 @@ void LoadGameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        // frame->draw();
+        frame->draw();
         importImage.drawCustomImage("@name", {0, 15});
         importImage.drawCustomImage("@level", {0, 25});
         importImage.drawCustomImage("@score", {0, 35});
