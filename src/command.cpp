@@ -1,28 +1,25 @@
 #include "command.h"
 #include "screen.h"
 
-
-
-void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
+void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen)
+{
     delete mainScreen;
     mainScreen = nxtScreen;
 }
 
-
-void EnterGameCommand::execute() {
+void EnterGameCommand::execute()
+{
     changeScreen(mainScreen, new GameScreen());
 }
 
-void EnterLoadGameCommand::execute() {
+void EnterLoadGameCommand::execute()
+{
     changeScreen(mainScreen, new LoadGameScreen());
 }
 
-void EnterCreditCommand::execute() {
+void EnterCreditCommand::execute()
+{
     changeScreen(mainScreen, new CreditScreen());
-}
-
-void EnterLeaderCommand::execute() {
-    changeScreen(mainScreen, new LeaderBoardScreen());
 }
 
 MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
@@ -31,28 +28,26 @@ MoveUpCommand::MoveUpCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveUpCommand::execute()
 {
-    hero->up(hero->getSpeed());
+    hero->up(5);
 }
 
 MoveDownCommand::MoveDownCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
-
 void MoveDownCommand::execute()
 {
-    hero->down(hero->getSpeed());
+    hero->down(5);
 }
 
 MoveLeftCommand::MoveLeftCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
-
 void MoveLeftCommand::execute()
 {
-    hero->left(hero->getSpeed());
+    hero->left(5);
 }
 
 MoveRightCommand::MoveRightCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
 void MoveRightCommand::execute()
 {
-    hero->right(hero->getSpeed());
+    hero->right(5);
 }

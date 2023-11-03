@@ -2,25 +2,28 @@
 
 Button::Button() {}
 
-Button::Button(std::string text_, COORD pos_, int colorNormal_, int colorClicked_) 
-    : text( text_ + ".txt"), pos(pos_), colorButton(colorNormal_), colorNormal(colorNormal_), colorClicked(colorClicked_), highlighted(false){};
+Button::Button(std::string text_, COORD pos_, int colorNormal_, int colorClicked_)
+    : text(text_ + ".txt"), pos(pos_), colorButton(colorNormal_), colorNormal(colorNormal_), colorClicked(colorClicked_), highlighted(false){};
 
-
-void Button::toggleHighlight() {
+void Button::toggleHighlight()
+{
     highlighted = !highlighted;
 }
 
-void Button::changeText() {
+void Button::changeText()
+{
     colorButton = (highlighted ? colorClicked : colorNormal);
-
 }
 
-void Button::draw() {
+void Button::draw()
+{
     changeText();
-    if (text[0] != '@') {
+    if (text[0] != '@')
+    {
         importImage.drawASCII(text, pos, colorButton);
     }
-    else {
+    else
+    {
         text.erase(0, 1);
         importImage.drawCustomImage(text.erase(text.size() - 4, 4), pos);
     }
@@ -28,29 +31,36 @@ void Button::draw() {
 
 ButtonList::ButtonList() : idButtonChoosen(0) {}
 
-ButtonList::~ButtonList() {
+ButtonList::~ButtonList()
+{
     for (int i = 0; i < buttonList.size(); i++)
         delete buttonList[i];
 }
 
-int ButtonList::getIdButtonChoosen() {
+int ButtonList::getIdButtonChoosen()
+{
     return idButtonChoosen;
 }
 
-void ButtonList::changeIdButtonChoosen(int nxtId) {
+void ButtonList::changeIdButtonChoosen(int nxtId)
+{
     int len = buttonList.size();
-    if (len == 0) return;
+    if (len == 0)
+        return;
     buttonList[idButtonChoosen]->toggleHighlight();
     (idButtonChoosen = nxtId + len) %= len;
     buttonList[idButtonChoosen]->toggleHighlight();
 }
 
-void ButtonList::draw() {
+void ButtonList::draw()
+{
     for (Button *&button : buttonList)
         button->draw();
 }
 
-void ButtonList::addButton(Button *button) {
+void ButtonList::addButton(Button *button)
+{
     buttonList.push_back(button);
-    if (buttonList.size() - idButtonChoosen == 1) buttonList[idButtonChoosen]->toggleHighlight();
+    if (buttonList.size() - idButtonChoosen == 1)
+        buttonList[idButtonChoosen]->toggleHighlight();
 }
