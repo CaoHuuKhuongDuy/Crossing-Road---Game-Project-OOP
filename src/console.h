@@ -33,36 +33,38 @@
 #define BG_ORANGE (BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY)
 #define BG_DEFAULT (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
 
+
+
 #define DEFAULT_BACKGROUD BG_DEFAULT
 
-class Console
-{
-public:
-    void setFont(const wchar_t *fontType = L"Consolas");
 
-    void setFontSize();
+class Console {
+    public:
+        void setFont(const wchar_t* fontType = L"Consolas");
 
-    void setWindowSize();
+        void setFontSize();
 
-    void init();
+        void setWindowSize();
 
-    void setTextColor(int colorCode);
+        void init();
 
-    void setBackgroundColor(int colorCode);
+        void setTextColor(int colorCode);
 
-    void setFullscreenBackgroundColor(int colorCode);
+        void setBackgroundColor(int colorCode);
 
-    int getBackgroundColor();
+        void setFullscreenBackgroundColor(int colorCode);
+        
+        int getBackgroundColor();
+    
+        COORD getWindowSize();
 
-    COORD getWindowSize();
+        void setCursorPosition(COORD pos);
 
-    void setCursorPosition(COORD pos);
+        void writeAt(std::string text, int colorText, COORD posCursor = {-1, -1}, int colorBackground = -1);
 
-    void writeAt(std::string text, int colorText, COORD posCursor = {-1, -1}, int colorBackground = -1);
+        COORD getCursorPosition();
 
-    COORD getCursorPosition();
-
-    void clear(COORD p1 = {-1, -1}, COORD p2 = {-1, -1});
+        void clear(COORD p1 = {-1, -1}, COORD p2 = {-1, -1}); 
 
 private:
     HANDLE hConsole;

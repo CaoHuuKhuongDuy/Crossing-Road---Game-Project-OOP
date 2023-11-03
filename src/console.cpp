@@ -3,15 +3,13 @@
 
 // Console::Console() : currentBackgroundColor(0), currentTextColor(0) {}
 
-void Console::setFont(const wchar_t *fontType)
-{
+void Console::setFont(const wchar_t* fontType) {
     CONSOLE_FONT_INFOEX cfi;
     wcscpy_s(cfi.FaceName, fontType); // Font name (you can change this)
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
-void Console::setFontSize()
-{
+void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
@@ -21,8 +19,7 @@ void Console::setFontSize()
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
-void Console::setWindowSize()
-{
+void Console::setWindowSize() {
     setFontSize();
     // Adjust buffer size:
     if (!SetConsoleScreenBufferSize(hConsole, size))
@@ -30,8 +27,7 @@ void Console::setWindowSize()
     ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 }
 
-void Console::init()
-{
+void Console::init() {
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     szConsole = GetConsoleWindow();
     LONG style = GetWindowLong(szConsole, GWL_STYLE);
@@ -46,22 +42,22 @@ void Console::init()
 
 void Console::setTextColor(int color)
 {
-    WORD wColor;
-    if (GetConsoleScreenBufferInfo(hConsole, &csbi))
-    {
-        wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
-        SetConsoleTextAttribute(hConsole, wColor);
-    }
+	WORD wColor;
+     if(GetConsoleScreenBufferInfo(hConsole, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
+          SetConsoleTextAttribute(hConsole, wColor);
+	}
     currentTextColor = color;
 }
 
-void Console::setBackgroundColor(int colorCode)
-{
+void Console::setBackgroundColor(int colorCode) {
     SetConsoleTextAttribute(hConsole, colorCode);
 }
 
-void Console::setFullscreenBackgroundColor(int colorCode)
-{
+
+
+void Console::setFullscreenBackgroundColor(int colorCode) {
 
     // Define the desired background color (e.g., blue)
 
@@ -77,7 +73,7 @@ void Console::setFullscreenBackgroundColor(int colorCode)
     bufferSize.Y = bufferInfo.dwSize.Y;
 
     DWORD cellCount = bufferSize.X * bufferSize.Y;
-    COORD home = {0, 0};
+    COORD home = { 0, 0 };
     DWORD count;
 
     FillConsoleOutputCharacter(hConsole, ' ', cellCount, home, &count);
@@ -85,7 +81,7 @@ void Console::setFullscreenBackgroundColor(int colorCode)
 
     SetConsoleTextAttribute(hConsole, bufferInfo.wAttributes);
 
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
+     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(hConsole, &csbi);
 
     // Set the buffer size to match the window size
@@ -95,34 +91,27 @@ void Console::setFullscreenBackgroundColor(int colorCode)
     SetConsoleScreenBufferSize(hConsole, newSize);
 }
 
-int Console::getBackgroundColor()
-{
+int Console::getBackgroundColor() {
     return currentBackgroundColor;
 }
 
-COORD Console::getWindowSize()
-{
+COORD Console::getWindowSize() {
     return size;
 }
 
-void Console::setCursorPosition(COORD pos)
-{
+void Console::setCursorPosition(COORD pos) {
     SetConsoleCursorPosition(hConsole, pos);
+
 }
 
-void Console::writeAt(std::string text, int colorText, COORD posCursor, int colorBackground)
-{
-    if (posCursor.X == -1 || posCursor.Y == -1)
-    {
+void Console::writeAt(std::string text, int colorText, COORD posCursor, int colorBackground) {
+    if (posCursor.X == -1 || posCursor.Y == -1) {
         posCursor = getCursorPosition();
     }
-    if (colorBackground == -1)
-        colorBackground = currentBackgroundColor;
+    if (colorBackground == -1) colorBackground = currentBackgroundColor;
     setCursorPosition(posCursor);
-    if (colorText == -1)
-        setBackgroundColor(colorBackground);
-    else
-    {
+    if (colorText == -1) setBackgroundColor(colorBackground);
+    else {
         setTextColor(colorText);
     }
     // std::cout << text << std::endl;
@@ -130,8 +119,7 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     setTextColor(WHITE);
 }
 
-COORD Console::getCursorPosition()
-{
+COORD Console::getCursorPosition() {
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     COORD coord;
     coord.X = csbi.dwCursorPosition.X;
@@ -139,25 +127,21 @@ COORD Console::getCursorPosition()
     return coord;
 }
 
-void Console::clear(COORD p1, COORD p2)
-{
-    if (p1.X == -1 || p1.Y == -1 || p2.X == -1 || p2.Y == -1)
-    {
+void Console::clear(COORD p1, COORD p2) {
+    if (p1.X == -1 || p1.Y == -1 || p2.X == -1 || p2.Y == -1) {
         system("cls");
         return;
     }
-    if (p1.X > p2.X)
-        std::swap(p1.X, p2.X);
-    if (p1.Y > p2.Y)
-        std::swap(p1.Y, p2.Y);
+    if (p1.X > p2.X) std::swap(p1.X, p2.X);
+    if (p1.Y > p2.Y) std::swap(p1.Y, p2.Y);
     std::string replace = "";
     for (int i = p1.X; i <= p2.X; i++)
         replace += " ";
-    for (int i = p1.Y; i <= p2.Y; i++)
-    {
+    for (int i = p1.Y; i <= p2.Y; i++) {
         writeAt(replace, -1, {p1.X, SHORT(i)});
     }
 }
+
 
 // (3, 0) (0, 3) => (0, 0) (3, 3)
 

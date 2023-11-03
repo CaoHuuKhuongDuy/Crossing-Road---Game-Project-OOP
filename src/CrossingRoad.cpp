@@ -5,8 +5,7 @@
 
 using namespace stValue;
 
-signed main()
-{
+signed main() {
     appConsole.init();
     importImage.init(&appConsole);
     // appConsole.setFullscreenBackgroundColor(BG_RED);
@@ -22,13 +21,11 @@ signed main()
     // return 0;
     mainScreen = new MenuScreen();
     Command *command;
-    while (true)
-    {
+    while (true) {
         mainScreen->draw();
         command = mainScreen->handleInput();
-        if (command)
-            command->execute();
-        Sleep(10);
+        if (command) command->execute();
+    	Sleep(10);
     }
     delete mainScreen;
     int x;

@@ -19,7 +19,7 @@ public:
     HandlerMenuInput();
     ~HandlerMenuInput();
     Command *handlerInput(ButtonList &buttonList) override;
-    Command *handlerInput() override { return nullptr; }
+    Command *handlerInput() override {return nullptr;}
 
 private:
     Command *enterGame;
@@ -32,7 +32,7 @@ class HandlerGameInput : public HandlerInput
 public:
     HandlerGameInput(Hero *&hero);
     ~HandlerGameInput();
-    Command *handlerInput(ButtonList &buttonList) override { return nullptr; }
+    Command *handlerInput(ButtonList &buttonList) override {return nullptr;}
     Command *handlerInput() override;
 
 private:
@@ -44,6 +44,6 @@ private:
 
 class HandlerLoadInput : public HandlerInput
 {
-public:
-    Command *handlerInput(ButtonList &buttonList);
+    public:
+        Command *handlerInput(ButtonList &buttonList);
 };
