@@ -29,7 +29,6 @@ public:
     void right(int step = 1);
     void teleport(COORD pos);
     int getSpeed();
-    void setSpeed(const int& speed);
 
 protected:
     void caculateRemainFrame(COORD oldPos);
@@ -46,15 +45,14 @@ public:
     void setHeroLevel(const int&);
     void setHeroScore(const long int&);
     void updateHeroExp();
-    void updateHeroExp(const int&);
     void resetDynamicEntity();
     bool isAtEdge(SHORT posEdge_Y);
     bool isCollision(DynamicEntity* enemy);
     int getHeroLevel();
     long int getHeroScore();
 private:
-    SHORT heroWidth = 13;
+    SHORT heroWidth = 11;
     SHORT heroHeight = 5;
+    int level = 1;
     long int score = 0;
-    int level = int(floor(score / 300)) + 1;
 };

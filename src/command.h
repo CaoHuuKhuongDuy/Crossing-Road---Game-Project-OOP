@@ -28,6 +28,11 @@ class EnterCreditCommand : public Command {
         void execute() override;
 };
 
+class EnterLeaderCommand : public Command {
+    public:
+        void execute() override;
+};
+
 class MoveEntityCommand : public Command {
     public:
         MoveEntityCommand(Hero *&hero_);
