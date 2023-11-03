@@ -65,7 +65,7 @@ void GameScreen::allocateEnemy()
     int random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3)}, {11, 5});
+        enemy[i] = new DynamicEntity("stone.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3+5)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
@@ -80,7 +80,7 @@ void GameScreen::allocateEnemy()
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 9] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(23)}, {11, 5});
+        enemy[i + 9] = new DynamicEntity("stone.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), SHORT(23+5)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
