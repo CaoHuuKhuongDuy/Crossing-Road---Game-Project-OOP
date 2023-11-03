@@ -106,17 +106,3 @@ private:
    };	
 };
 
-class LeaderBoardScreen : public Screen
-{
-public:
-    LeaderBoardScreen();
-    ~LeaderBoardScreen();
-    Command *handleInput() override;
-    void swap(playerData &a, playerData &b);
-    void draw() override;
-private:    
-    Entity *frame;
-    Entity *title;
-    DynamicEntity* moon, * star; 
-   };
-
