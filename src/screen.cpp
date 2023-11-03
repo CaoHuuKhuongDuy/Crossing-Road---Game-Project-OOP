@@ -42,8 +42,8 @@ void MenuScreen::draw()
         importImage.drawASCII("crossingroad.txt", {36, 5});
         importImage.drawASCII("frame.txt", {45, 12});
         Entity *jupiter = new Entity("jupiter.txt", {20, 22}, {12, 11});
-        Entity *sartun = new Entity("sartun.txt", {170, 7}, {21, 20});
-        Entity *venus = new Entity("venus.txt", {140, 31}, {23, 15});
+        Entity *sartun = new Entity("sartun.txt", {148, 7}, {21, 20});
+        Entity *venus = new Entity("venus.txt", {128, 31}, {23, 15});
         jupiter->draw();
         sartun->draw();
         venus->draw();
@@ -242,9 +242,9 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("level", {0, 25});
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0 ; i < 4; i++) {
-            buttonList.addButton(new Button("@" + data[i].name, {SHORT(42 + i*32), SHORT(15)}, WHITE, GREEN));
-            importImage.drawCustomImage("@" + data[i].level, {SHORT(42 + i*32), SHORT(25)});
-            importImage.drawCustomImage("@" + data[i].score, {SHORT(42 + i*32), SHORT(35)});
+            buttonList.addButton(new Button("#" + data[i].name, {SHORT(42 + i*32), SHORT(15)}, WHITE, GREEN));
+            importImage.drawCustomImage("#" + data[i].level, {SHORT(42 + i*32), SHORT(25)});
+            importImage.drawCustomImage("#" + data[i].score, {SHORT(42 + i*32), SHORT(35)});
         }
 
         buttonList.draw();

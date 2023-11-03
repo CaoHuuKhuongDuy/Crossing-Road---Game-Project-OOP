@@ -17,7 +17,7 @@ void Button::changeText() {
 
 void Button::draw() {
     changeText();
-    if (text[0] != '@') {
+    if (text[0] != '#') {
         importImage.drawASCII(text, pos, colorButton);
     }
     else {
