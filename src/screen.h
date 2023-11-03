@@ -70,7 +70,7 @@ public:
     void draw() override;
 
 private:
-    Entity *frame;
+    // Entity *frame;
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
     int chooseButton = 0;
 };
