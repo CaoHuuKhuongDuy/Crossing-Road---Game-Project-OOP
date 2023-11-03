@@ -95,6 +95,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
+    finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
@@ -107,7 +108,7 @@ GameScreen::~GameScreen()
     delete frame;
     for (int i = 0; i < numberEnemy; ++i)
         delete enemy[i];
-       
+    delete finish_line;   
     delete enemy;
     delete hero;
 }
@@ -126,7 +127,7 @@ void GameScreen::draw()
         importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
     for (int i = 0; i < 6; ++i)
     {
-		chac[i] = new Entity(arr[i]+".txt", {108 + 12*i , 31}, {5, 5});
+		chac[i] = new Entity(arr[i]+".txt", {SHORT(108 + 12*i) , 31}, {5, 5});
 		chac[i]->draw();    	
 	}
 	while(checkEnter){
@@ -168,6 +169,7 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
+        finish_line->draw();
         for(int i = 0; i < numberEnemy; ++i)
             enemy[i]->setSpeed(hero->getHeroLevel());
         firstScreen = false;
@@ -217,14 +219,9 @@ Command *LoadGameScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
-LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput()) {
-    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-};
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput()) {};
 
-LoadGameScreen::~LoadGameScreen()
-{
-    delete frame;
-}
+LoadGameScreen::~LoadGameScreen() {}
 
 void LoadGameScreen::draw()
 {   
@@ -241,7 +238,6 @@ void LoadGameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        frame->draw();
         importImage.drawCustomImage("name", {0, 15});
         importImage.drawCustomImage("level", {0, 25});
         importImage.drawCustomImage("score", {0, 35});
@@ -282,13 +278,13 @@ Command *CreditScreen::handleInput() {
 void CreditScreen::draw()
 { 
  	    if (firstScreen)
-     {
+        {
          appConsole.setFullscreenBackgroundColor(BG_CYAN);
          frame->draw();
          if(idx==0){
             for(int i=0;i<textCredit[idx].length();i++){
            string substring = textCredit[idx] .substr(i,1);
-           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
+           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*4),43},{SHORT(6),5});       	
  		}	
  		}
  		else{

@@ -54,6 +54,7 @@ public:
 
 private:
     Entity *frame;
+    Entity *finish_line;
     Entity *welcome;
     Entity **chac;
     DynamicEntity **enemy;
@@ -73,7 +74,6 @@ public:
     Command *handleInput() override;
     void draw() override;
 private:
-    Entity *frame;
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
     int chooseButton = 0;
 };

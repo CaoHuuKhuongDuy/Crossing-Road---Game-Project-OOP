@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw
 
 # Define the image size and colors
 image_width = 211
-image_height = 5
+image_height = 4  # Reduce the number of rows to 4
 background_color = (255, 255, 255)  # White
 row_colors = [(0, 0, 0), (255, 255, 255)]  # Black and White
 yellow_color = (255, 255, 0)  # Yellow
@@ -13,10 +13,10 @@ draw = ImageDraw.Draw(image)
 
 # Define the patterns for the finish line rows
 patterns = [
-    [0, 1] * (image_width // 2),  # Row 1: Black and White
-    [1, 0] * (image_width // 2),  # Row 2: White and Black
-    [0, 1] * (image_width // 2),  # Row 3: Black and White (same as Row 1)
-    [1, 0] * (image_width // 2)   # Row 4: White and Black (same as Row 2)
+    [1, 0] * (image_width // 2),  # Row 1: White and Black
+    [0, 1] * (image_width // 2),  # Row 2: Black and White
+    [1, 0] * (image_width // 2),  # Row 3: White and Black
+    [0, 1] * (image_width // 2)   # Row 4: Black and White
 ]
 
 # Draw the finish line pattern row by row
@@ -27,11 +27,8 @@ for row, pattern in enumerate(patterns):
 
 # Draw the yellow fifth row
 for col in range(image_width):
-    draw.point((col, 4), fill=yellow_color)
+    draw.point((col, 3), fill=yellow_color)  # Reduced the row number to 3
 
 # Save the image to a file
 image.save("finish_line.png")
 image.show()  # Show the generated image
-
-# If you want to display the image using your preferred image viewer, replace the last line with:
-# image.show()
