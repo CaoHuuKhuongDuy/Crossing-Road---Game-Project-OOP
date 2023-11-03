@@ -94,6 +94,7 @@ void GameScreen::allocateEnemy()
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    finish_line = new Entity("finish_line.txt", {0, 3}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
@@ -109,6 +110,7 @@ GameScreen::~GameScreen()
        
     delete enemy;
     delete hero;
+    delete finish_line;
 }
 
 
@@ -120,6 +122,7 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
+        finish_line->draw();
         for(int i = 0; i < numberEnemy; ++i)
             enemy[i]->setSpeed(hero->getHeroLevel());
         firstScreen = false;

@@ -52,6 +52,7 @@ public:
     void draw() override;
 
 private:
+    Entity *finish_line;
     Entity *frame;
     DynamicEntity **enemy;
     Hero *hero;
