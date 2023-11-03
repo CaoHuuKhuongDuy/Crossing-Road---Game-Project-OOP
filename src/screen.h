@@ -20,6 +20,7 @@ protected:
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;
     bool firstScreen;
+    bool firstGame = true;
     string path = "../media/LoadGame/loadGame.txt";
     struct playerData {
         string name;
@@ -52,11 +53,14 @@ public:
     void draw() override;
 
 private:
-    Entity *finish_line;
     Entity *frame;
+    Entity *welcome;
+    Entity **chac;
     DynamicEntity **enemy;
     Hero *hero;
     const int numberEnemy = 15;
+    string name = "";
+    string arr[6] = {"@","@","@","@","@","@"};
     // long int LONGINTscore = 0;
     // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
