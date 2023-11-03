@@ -1,10 +1,11 @@
 #include "handlerInput.h"
 
-int HandlerInput::getUserInput() {
-    if (!_kbhit()) return -1;
+int HandlerInput::getUserInput()
+{
+    if (!_kbhit())
+        return -1;
     return _getch();
 }
-
 
 HandlerMenuInput::HandlerMenuInput()
 {
@@ -12,35 +13,42 @@ HandlerMenuInput::HandlerMenuInput()
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
 }
-HandlerMenuInput::~HandlerMenuInput() {
+HandlerMenuInput::~HandlerMenuInput()
+{
     delete enterGame;
 }
 
-
-
-Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
+Command *HandlerMenuInput::handlerInput(ButtonList &buttonList)
+{
     int userInput = getUserInput();
-    if (userInput == -1) return nullptr;
-    if (userInput == 72) buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
-    if (userInput == 80) buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
-    if (userInput == 13) {
+    if (userInput == -1)
+        return nullptr;
+    if (userInput == 72)
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
+    if (userInput == 80)
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
+    if (userInput == 13)
+    {
         int buttonId = buttonList.getIdButtonChoosen();
-        if (buttonId == 0) return enterGame;
-        if (buttonId == 1) return enterLoadGame;
-        if (buttonId == 4) return enterCredit;
+        if (buttonId == 0)
+            return enterGame;
+        if (buttonId == 1)
+            return enterLoadGame;
+        if (buttonId == 4)
+            return enterCredit;
     }
     return nullptr;
 }
 
-
-HandlerGameInput::HandlerGameInput(Hero *&hero) {
+HandlerGameInput::HandlerGameInput(Hero *&hero)
+{
     buttonUP = new MoveUpCommand(hero);
     buttonDOWN = new MoveDownCommand(hero);
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
 }
 
-HandlerGameInput::~HandlerGameInput() 
+HandlerGameInput::~HandlerGameInput()
 {
     delete buttonUP;
     delete buttonDOWN;
@@ -71,10 +79,10 @@ Command *HandlerGameInput::handlerInput()
     return nullptr;
 }
 
-Command *HandlerLoadInput::handlerInput(ButtonList &buttonList) {
+Command *HandlerLoadInput::handlerInput(ButtonList &buttonList)
+{
     return nullptr;
 }
-
 
 // Up Arrow: 72
 // Down Arrow: 80
