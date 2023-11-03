@@ -11,6 +11,7 @@ HandlerMenuInput::HandlerMenuInput()
     enterGame = new EnterGameCommand();
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
+    enterLeader = new EnterLeaderCommand();
 }
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
@@ -27,6 +28,7 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
         int buttonId = buttonList.getIdButtonChoosen();
         if (buttonId == 0) return enterGame;
         if (buttonId == 1) return enterLoadGame;
+        if (buttonId == 2) return enterLeader;
         if (buttonId == 4) return enterCredit;
     }
     return nullptr;
