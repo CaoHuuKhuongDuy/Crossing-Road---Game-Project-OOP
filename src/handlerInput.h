@@ -25,6 +25,7 @@ private:
     Command *enterGame;
     Command *enterLoadGame;
     Command *enterCredit;
+    Command *enterLeader;
 };
 
 class HandlerGameInput : public HandlerInput
