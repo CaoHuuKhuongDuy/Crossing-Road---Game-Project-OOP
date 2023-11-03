@@ -1,9 +1,11 @@
 #include "entity.h"
-void display(COORD pos) {
+void display(COORD pos)
+{
     cout << pos.X << " " << pos.Y << endl;
 }
 
-void Entity::verify() {
+void Entity::verify()
+{
     COORD sizeScreen = appConsole.getWindowSize();
     sizeScreen.Y--;
     startPos.X = max(startPos.X, SHORT(0));
@@ -15,78 +17,91 @@ void Entity::verify() {
 // X + size - 1 < sizeScren
 // x <= sizeScreen + 1 - size
 
-Entity::Entity(string entityName_, COORD pos1, COORD size_) 
-    : entityName(entityName_), startPos(pos1), size(size_){
+Entity::Entity(string entityName_, COORD pos1, COORD size_)
+    : entityName(entityName_), startPos(pos1), size(size_)
+{
     remainStartPos = remainEndPos = {-1, -1};
     verify();
 }
 
-COORD Entity::getPos() {
+COORD Entity::getPos()
+{
     return startPos;
 }
 
-COORD Entity::getEndPos() {
+COORD Entity::getEndPos()
+{
     COORD endPos = startPos;
     endPos.X += size.X - 1;
     endPos.Y += size.Y - 1;
     return endPos;
 }
 
-
-void Entity::removeRemainFrame() {
-    if (remainStartPos.X != -1) {
+void Entity::removeRemainFrame()
+{
+    if (remainStartPos.X != -1)
+    {
         appConsole.clear(remainStartPos, remainEndPos);
         remainStartPos = remainEndPos = {-1, -1};
     }
 }
 
-void Entity::draw() {
+void Entity::draw()
+{
     removeRemainFrame();
     importImage.drawImage(entityName, startPos);
 }
 
-DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_) 
-    : Entity(entityName_, pos1, size_), speed(5) {};
+DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_)
+    : Entity(entityName_, pos1, size_), speed(5){};
 
-
-void DynamicEntity::caculateRemainFrame(COORD oldPos) {
+void DynamicEntity::caculateRemainFrame(COORD oldPos)
+{
     removeRemainFrame();
-    if (startPos.Y > oldPos.Y) {
+    if (startPos.Y > oldPos.Y)
+    {
         remainStartPos = oldPos;
         remainEndPos = {SHORT(oldPos.X + size.X - 1), min(SHORT(oldPos.Y + size.Y - 1), SHORT(startPos.Y - 1))};
     }
-    if (startPos.Y < oldPos.Y) {
+    if (startPos.Y < oldPos.Y)
+    {
         remainEndPos = {SHORT(oldPos.X + size.X - 1), SHORT(oldPos.Y + size.Y - 1)};
         remainStartPos = {oldPos.X, max(SHORT(startPos.Y + size.Y), oldPos.Y)};
     }
 
-    if (startPos.X > oldPos.X) {
+    if (startPos.X > oldPos.X)
+    {
         remainStartPos = oldPos;
         remainEndPos = {min(SHORT(oldPos.X + size.X - 1), SHORT(startPos.X - 1)), SHORT(oldPos.Y + size.Y - 1)};
     }
 
-    if (startPos.X < oldPos.X) {
+    if (startPos.X < oldPos.X)
+    {
         remainEndPos = {SHORT(oldPos.X + size.X - 1), SHORT(oldPos.Y + size.Y - 1)};
         remainStartPos = {max(oldPos.X, SHORT(startPos.X + size.X)), oldPos.Y};
     }
 }
 
-void DynamicEntity::teleport(COORD pos) {
+void DynamicEntity::teleport(COORD pos)
+{
     COORD oldPos = startPos;
     startPos = pos;
     verify();
     caculateRemainFrame(oldPos);
 }
 
-void DynamicEntity::left(int step) {
+void DynamicEntity::left(int step)
+{
     teleport({SHORT(startPos.X - step), startPos.Y});
 }
 
-void DynamicEntity::right(int step) {
+void DynamicEntity::right(int step)
+{
     teleport({SHORT(startPos.X + step), startPos.Y});
 }
 
-void DynamicEntity::up(int step) {
+void DynamicEntity::up(int step)
+{
     teleport({startPos.X, SHORT(startPos.Y - step)});
 }
 
@@ -107,20 +122,20 @@ void DynamicEntity::resetDynamicEntity()
 
 bool DynamicEntity::isAtEdge(SHORT posEdge_X)
 {
-    if(this->getEndPos().X >= SHORT(posEdge_X))
+    if (this->getEndPos().X >= SHORT(posEdge_X))
         return true;
     return false;
 }
 
-int DynamicEntity::getSpeed() {
+int DynamicEntity::getSpeed()
+{
     return speed;
 }
 
-void DynamicEntity::setSpeed(const int& speed)
+void DynamicEntity::setSpeed(const int &speed)
 {
     this->speed = speed;
 }
-
 
 void Hero::resetDynamicEntity()
 {
@@ -128,7 +143,7 @@ void Hero::resetDynamicEntity()
 }
 
 Hero::Hero(string entityName_, COORD pos1, COORD size_, long int score_)
-    : DynamicEntity(entityName_, pos1, size_), score(score_){}
+    : DynamicEntity(entityName_, pos1, size_), score(score_) {}
 SHORT Hero::getHeroWidth()
 {
     return this->heroWidth;
@@ -146,12 +161,12 @@ long int Hero::getHeroScore()
     return this->score;
 }
 
-void Hero::setHeroLevel(const int& level)
+void Hero::setHeroLevel(const int &level)
 {
     this->level = level;
 }
 
-void Hero::setHeroScore(const long int& score)
+void Hero::setHeroScore(const long int &score)
 {
     this->score = score;
 }
@@ -162,16 +177,16 @@ void Hero::updateHeroExp()
     this->level = int(floor(this->score / 300)) + 1;
 }
 
-void Hero::updateHeroExp(const int& score)
+void Hero::updateHeroExp(const int &score)
 {
     this->score = score;
     this->level = int(floor(this->score / 300)) + 1;
 }
 
-
-bool Hero::isCollision(DynamicEntity* enemy)
+bool Hero::isCollision(DynamicEntity *enemy)
 {
-    if (enemy == nullptr) return false;
+    if (enemy == nullptr)
+        return false;
     COORD startPos1 = enemy->getPos();
     COORD endPos1 = enemy->getEndPos();
     COORD startPos2 = this->getPos();
@@ -181,7 +196,6 @@ bool Hero::isCollision(DynamicEntity* enemy)
         startPos1.Y <= endPos2.Y && endPos1.Y >= startPos2.Y)
         return true;
     return false;
-
 }
 
 bool Hero::isAtEdge(SHORT posEdge_Y)

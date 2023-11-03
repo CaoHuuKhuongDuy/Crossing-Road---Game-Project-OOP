@@ -12,7 +12,6 @@ Command *GameScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
-
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
@@ -61,36 +60,36 @@ void GameScreen::allocateEnemy()
     int random = rand() % (appConsole.getWindowSize().X / 2 - 15);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3+5)}, {11, 5});
+        enemy[i] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(3 + 5)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(8+5)}, {13, 5});
+        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(8 + 5)}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 30);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), SHORT(18+5)}, {20, 5});
+        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), SHORT(18 + 5)}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 9);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 9] = new DynamicEntity("stone.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(23)}, {11, 5});
+        enemy[i + 9] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), SHORT(23 + 5)}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 18);
     for (int i = 0; i < 4; ++i)
     {
-        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(33+5)}, {13, 5});
+        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), SHORT(33 + 5)}, {13, 5});
     }
 }
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
-    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    frame = new Entity("frameGame.txt", {0, 0}, {215, 120});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {15, 15}, 0);
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
 }
@@ -100,11 +99,10 @@ GameScreen::~GameScreen()
     delete frame;
     for (int i = 0; i < numberEnemy; ++i)
         delete enemy[i];
-       
+
     delete enemy;
     delete hero;
 }
-
 
 void GameScreen::draw()
 {
@@ -114,7 +112,7 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        for(int i = 0; i < numberEnemy; ++i)
+        for (int i = 0; i < numberEnemy; ++i)
             enemy[i]->setSpeed(hero->getHeroLevel());
         firstScreen = false;
     }
@@ -122,7 +120,7 @@ void GameScreen::draw()
     // return;
     importImage.drawCustomImage(STRINGlevel, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
     importImage.drawCustomImage(STRINGscore, {70, 0}, true);
-    for(int i = 0; i < numberEnemy; ++i)
+    for (int i = 0; i < numberEnemy; ++i)
     {
         enemy[i]->spawnDynamicEntity(enemy[i]->getSpeed());
         if (enemy[i]->isAtEdge(appConsole.getWindowSize().X - 1))
@@ -135,27 +133,24 @@ void GameScreen::draw()
         {
             if (hero->isAtEdge(7))
                 hero->updateHeroExp();
-            else 
+            else
                 hero->updateHeroExp(0);
             hero->resetDynamicEntity();
-            hero->draw();        
+            hero->draw();
             firstScreen = true;
             return;
         }
     }
-    
-    
+
     // If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
     // if (hero->isAtEdge(6))
     // {
     //     hero->resetDynamicEntity();
     //     hero->updateHeroExp();
-    //     hero->draw();        
+    //     hero->draw();
     //     firstScreen = true;
-        
+
     // }
-
-
 }
 
 Command *LoadGameScreen::handleInput()
@@ -163,7 +158,8 @@ Command *LoadGameScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
-LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput()) {
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput())
+{
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
 };
 
@@ -173,11 +169,12 @@ LoadGameScreen::~LoadGameScreen()
 }
 
 void LoadGameScreen::draw()
-{   
+{
     ifstream fin(path);
     playerData data[4];
     int i = 0;
-    while (!fin.eof()) {
+    while (!fin.eof())
+    {
         fin >> data[i].name;
         fin >> data[i].level;
         fin >> data[i].score;
@@ -191,10 +188,11 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("@name", {0, 15});
         importImage.drawCustomImage("@level", {0, 25});
         importImage.drawCustomImage("@score", {0, 35});
-        for (int i = 0 ; i < 4; i++) {
-            buttonList.addButton(new Button("@" + data[i].name, {SHORT(42 + i*32), SHORT(15)}, WHITE, GREEN));
-            importImage.drawCustomImage("@" + data[i].level, {SHORT(42 + i*32), SHORT(25)});
-            importImage.drawCustomImage("@" + data[i].score, {SHORT(42 + i*32), SHORT(35)});
+        for (int i = 0; i < 4; i++)
+        {
+            buttonList.addButton(new Button("@" + data[i].name, {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
+            importImage.drawCustomImage("@" + data[i].level, {SHORT(42 + i * 32), SHORT(25)});
+            importImage.drawCustomImage("@" + data[i].score, {SHORT(42 + i * 32), SHORT(35)});
         }
 
         buttonList.draw();
@@ -206,11 +204,12 @@ void LoadGameScreen::draw()
 
 CreditScreen::CreditScreen() : Screen(new HandlerMenuInput())
 {
-	frame = new Entity("creditFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-	for(int i=0;i<17;i++)	text[i] = new DynamicEntity *[textCredit[i].length()];
+    frame = new Entity("creditFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    for (int i = 0; i < 17; i++)
+        text[i] = new DynamicEntity *[textCredit[i].length()];
 }
 
-CreditScreen:: ~ CreditScreen() 
+CreditScreen::~CreditScreen()
 {
     for (int i = 0; i < 11; ++i)
     {
@@ -218,75 +217,73 @@ CreditScreen:: ~ CreditScreen()
         text[i] = nullptr;
     }
     delete[] text;
-
 }
 
-Command *CreditScreen::handleInput() {
+Command *CreditScreen::handleInput()
+{
     return nullptr;
 }
 
 void CreditScreen::draw()
-{ 
-// 	    if (firstScreen)
-//     {
-//         appConsole.setFullscreenBackgroundColor(BG_BLACK);
-//         frame->draw();
-//         if(idx==0){
-//            for(int i=0;i<textCredit[idx].length();i++){
-//           string substring = textCredit[idx] .substr(i,1);
-//           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});       	
-// 		}	
-// 		}
-// 		else{
-// 	      for(int i=0;i<textCredit[idx].length();i++){
-//           string substring = textCredit[idx] .substr(i,1);
-//           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});     
-// 		  for(int i=0;i<textCredit[idx+1].length();i++){
-//           string substring = textCredit[idx+1] .substr(i,1);
-//           text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});       	  	
-// 		}
-// 		for(int i=0;i<textCredit[idx+2].length();i++){
-//           string substring = textCredit[idx+2] .substr(i,1);
-//           text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});       	  	
-// 		}
-// 		for(int i=0;i<textCredit[idx+3].length();i++){
-//           string substring = textCredit[idx+3] .substr(i,1);
-//           text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});       	  	
-// 		}
-// 	}
-// }
-// 	 firstScreen = false;	
-// 	}
-// 	if(idx==0){
-// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
-// 	    if(count==27){
-// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-// 		idx++;
-// 		if(idx> 17) idx = 0;
-// 		firstScreen = true;
-// 		count=0;
-// 	}
-// 	}
-// 	else{
-// 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
-// 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);	
-// 	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
-// 	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
-// 	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
-// 	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
-// 	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
-// 	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();	    	    
-// 	    if(count==15){
-// 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
-// 		idx= idx +4;
-// 		if(idx>16) idx = 0;
-// 		firstScreen = true;
-// 		count=0;
-// 	}
-// 	}
+{
+    // 	    if (firstScreen)
+    //     {
+    //         appConsole.setFullscreenBackgroundColor(BG_BLACK);
+    //         frame->draw();
+    //         if(idx==0){
+    //            for(int i=0;i<textCredit[idx].length();i++){
+    //           string substring = textCredit[idx] .substr(i,1);
+    //           text[idx][i] = new DynamicEntity(substring + ".txt",{80+i*6 - textCredit[idx].length()*4,43},{SHORT(6),5});
+    // 		}
+    // 		}
+    // 		else{
+    // 	      for(int i=0;i<textCredit[idx].length();i++){
+    //           string substring = textCredit[idx] .substr(i,1);
+    //           text[idx][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx].length()*2),16},{SHORT(6),5});
+    // 		  for(int i=0;i<textCredit[idx+1].length();i++){
+    //           string substring = textCredit[idx+1] .substr(i,1);
+    //           text[idx+1][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+1].length()*2),24},{SHORT(6),5});
+    // 		}
+    // 		for(int i=0;i<textCredit[idx+2].length();i++){
+    //           string substring = textCredit[idx+2] .substr(i,1);
+    //           text[idx+2][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+2].length()*2),32},{SHORT(6),5});
+    // 		}
+    // 		for(int i=0;i<textCredit[idx+3].length();i++){
+    //           string substring = textCredit[idx+3] .substr(i,1);
+    //           text[idx+3][i] = new DynamicEntity(substring + ".txt",{SHORT(80+i*6 - textCredit[idx+3].length()*2),40},{SHORT(6),5});
+    // 		}
+    // 	}
+    // }
+    // 	 firstScreen = false;
+    // 	}
+    // 	if(idx==0){
+    // 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+    // 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
+    // 	    if(count==27){
+    // 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+    // 		idx++;
+    // 		if(idx> 17) idx = 0;
+    // 		firstScreen = true;
+    // 		count=0;
+    // 	}
+    // 	}
+    // 	else{
+    // 		for(int i=0;i<textCredit[idx].length();i++)   text[idx][i]->draw();
+    // 	    for(int i=0;i<textCredit[idx].length();i++)	text[idx][i]->up(1);
+    // 	    for(int i=0;i<textCredit[idx+1].length();i++)   text[idx+1][i]->draw();
+    // 	    for(int i=0;i<textCredit[idx+1].length();i++)	text[idx+1][i]->up(1);
+    // 	    for(int i=0;i<textCredit[idx+2].length();i++)	text[idx+2][i]->up(1);
+    // 	    for(int i=0;i<textCredit[idx+3].length();i++)	text[idx+3][i]->up(1);
+    // 	    for(int i=0;i<textCredit[idx+2].length();i++)   text[idx+2][i]->draw();
+    // 	    for(int i=0;i<textCredit[idx+3].length();i++)   text[idx+3][i]->draw();
+    // 	    if(count==15){
+    // 		for(int i=0;i<textCredit[idx].length();i++) text[idx][i]->resetDynamicEntity();
+    // 		idx= idx +4;
+    // 		if(idx>16) idx = 0;
+    // 		firstScreen = true;
+    // 		count=0;
+    // 	}
+    // 	}
 
-// 	count ++;
-	
-
+    // 	count ++;
 }

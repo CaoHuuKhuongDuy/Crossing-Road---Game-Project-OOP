@@ -1,23 +1,24 @@
 #include "command.h"
 #include "screen.h"
 
-
-
-void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
+void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen)
+{
     delete mainScreen;
     mainScreen = nxtScreen;
 }
 
-
-void EnterGameCommand::execute() {
+void EnterGameCommand::execute()
+{
     changeScreen(mainScreen, new GameScreen());
 }
 
-void EnterLoadGameCommand::execute() {
+void EnterLoadGameCommand::execute()
+{
     changeScreen(mainScreen, new LoadGameScreen());
 }
 
-void EnterCreditCommand::execute() {
+void EnterCreditCommand::execute()
+{
     changeScreen(mainScreen, new CreditScreen());
 }
 
@@ -32,14 +33,12 @@ void MoveUpCommand::execute()
 
 MoveDownCommand::MoveDownCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
-
 void MoveDownCommand::execute()
 {
     hero->down(5);
 }
 
 MoveLeftCommand::MoveLeftCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
-
 
 void MoveLeftCommand::execute()
 {
@@ -52,4 +51,3 @@ void MoveRightCommand::execute()
 {
     hero->right(5);
 }
-
