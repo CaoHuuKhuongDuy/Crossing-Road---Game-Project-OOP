@@ -116,6 +116,12 @@ int DynamicEntity::getSpeed() {
     return speed;
 }
 
+void DynamicEntity::setSpeed(const int& speed)
+{
+    this->speed = speed;
+}
+
+
 void Hero::resetDynamicEntity()
 {
     this->teleport({SHORT((appConsole.getWindowSize().X - this->getHeroWidth()) / 2), SHORT(appConsole.getWindowSize().Y + 10)});
@@ -153,8 +159,15 @@ void Hero::setHeroScore(const long int& score)
 void Hero::updateHeroExp()
 {
     this->score += 100;
-    this->level = int(floor(this->score / 1000)) + 1;
+    this->level = int(floor(this->score / 300)) + 1;
 }
+
+void Hero::updateHeroExp(const int& score)
+{
+    this->score = score;
+    this->level = int(floor(this->score / 300)) + 1;
+}
+
 
 bool Hero::isCollision(DynamicEntity* enemy)
 {
