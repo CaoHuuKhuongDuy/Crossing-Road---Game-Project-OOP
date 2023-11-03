@@ -94,7 +94,7 @@ void GameScreen::allocateEnemy()
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-    finish_line = new Entity("finish_line.txt", {0, 3}, {211, 5});
+    welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
@@ -110,7 +110,6 @@ GameScreen::~GameScreen()
        
     delete enemy;
     delete hero;
-    delete finish_line;
 }
 
 
@@ -118,11 +117,57 @@ void GameScreen::draw()
 {
     string STRINGlevel = to_string(hero->getHeroLevel());
     string STRINGscore = to_string(hero->getHeroScore());
+    int count=0;
+    while(firstGame)
+	{
+		bool checkEnter = true;
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);  
+		chac = new Entity *[6]; 
+        importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
+    for (int i = 0; i < 6; ++i)
+    {
+		chac[i] = new Entity(arr[i]+".txt", {108 + 12*i , 31}, {5, 5});
+		chac[i]->draw();    	
+	}
+	while(checkEnter){
+    	if(kbhit()){
+    		char c = getch();
+    		if(c==8&&count>0){
+     		   count--;
+     		   arr[count] = "@";
+			   name.erase(count, 1);	
+			}
+    		if(c==13){
+    		   firstGame = false;	
+    		   delete [] chac;
+               appConsole.setFullscreenBackgroundColor(BG_CYAN);    
+               welcome->draw();
+			   importImage.drawCustomImage("welcome " + name,{SHORT(appConsole.getWindowSize().X/2 + 30), 18}, false);	 
+			   importImage.drawCustomImage("have a good day ",{SHORT(appConsole.getWindowSize().X/2 +30), 28}, false);	 
+			   Sleep(1200);
+ 		} 
+ 		if(c >='a'&&c<='z'){
+     		name += c; 
+    		arr[count] = c;
+    		count++;
+		 }
+       	 checkEnter = false;	
+	}
+	    if(count == 6){
+	    	count = 0;
+	    	for (int i = 0; i < 6; ++i) arr[i] = "@";
+	    	name = "";
+		}		
+	}
+
+	
+//		firstGame = false;	 	
+	}
+    
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        finish_line->draw();
         for(int i = 0; i < numberEnemy; ++i)
             enemy[i]->setSpeed(hero->getHeroLevel());
         firstScreen = false;
