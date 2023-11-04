@@ -114,8 +114,9 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     else {
         setTextColor(colorText);
     }
+    DWORD charsWritten;
     // std::cout << text << std::endl;
-    WriteConsole(hConsole, text.c_str(), text.size(), nullptr, nullptr);
+    WriteConsole(hConsole, text.c_str(), text.size(), &charsWritten,  &charsWritten);
     setTextColor(WHITE);
 }
 
