@@ -73,6 +73,10 @@ private:
     DynamicEntity **enemy;
     Hero *hero;
     const int numberEnemy = 15;
+    Entity *welcome;
+    Entity **chac;	
+    string name = "";
+    string arr[6] = {"@","@","@","@","@","@"};
     // long int LONGINTscore = 0;
     // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
