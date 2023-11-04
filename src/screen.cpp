@@ -71,7 +71,8 @@ InputScreen:: InputScreen() : Screen(new HandlerMenuInput()) {
 }
 
 InputScreen:: ~ InputScreen(){
-	
+	delete [] welcome;
+	delete [] chac; 
 }
 
 void InputScreen:: draw(){
