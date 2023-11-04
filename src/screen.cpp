@@ -17,7 +17,10 @@ Command *LeaderBoardScreen::handleInput()
     return handlerInputMainScreen->handlerInput();
 }
 
-
+Command *InputScreen::handleInput()
+{
+    return handlerInputMainScreen->handlerInput();
+}
 
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
@@ -60,6 +63,60 @@ void MenuScreen::draw()
         rocketMove = 0;
         rocket->teleport({1, 25});
     }
+}
+
+
+InputScreen:: InputScreen() : Screen(new HandlerSignInInput()) {
+	welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
+}
+
+InputScreen:: ~ InputScreen(){
+	
+}
+
+void InputScreen:: draw(){
+    int count=0;
+    while(firstGame)
+	{
+        bool checkEnter  = true;
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);  
+		chac = new Entity *[6]; 
+        importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
+    for (int i = 0; i < 6; ++i)
+    {
+		chac[i] = new Entity(arr[i]+".txt", {SHORT(108 + 12*i ), 31}, {5, 5});
+		chac[i]->draw();    	
+	}
+	while(checkEnter){
+    	if(kbhit()){
+    		char c = getch();
+    		if(c==8&&count>0){
+     		   count--;
+     		   arr[count] = "@";
+			   name.erase(count, 1);	
+			}
+   	     if(c==13){
+   		   firstGame = false;	
+   		   delete [] chac;
+              appConsole.setFullscreenBackgroundColor(BG_CYAN);    
+              welcome->draw();
+			   importImage.drawCustomImage("welcome " + name,{SHORT(appConsole.getWindowSize().X/2 + 30), 18}, false);	 
+			   importImage.drawCustomImage("have a nice day ",{SHORT(appConsole.getWindowSize().X/2 +30), 28}, false);	 
+		} 
+ 		if(c >='a'&&c<='z'){
+     		name += c; 
+    		arr[count] = c;
+    		count++;
+		 }
+       	 checkEnter = false;	
+	}
+	    if(count == 7){
+	    	count = 0;
+	    	for (int i = 0; i < 6; ++i) arr[i] = "@";
+	    	name = "";
+		}		
+	}
+}
 }
 
 void GameScreen::allocateEnemy()
@@ -118,53 +175,7 @@ void GameScreen::draw()
 {
     string STRINGlevel = to_string(hero->getHeroLevel());
     string STRINGscore = to_string(hero->getHeroScore());
-    int count=0;
-    while(firstGame)
-	{
-		bool checkEnter = true;
-        appConsole.setFullscreenBackgroundColor(BG_CYAN);  
-		chac = new Entity *[6]; 
-        importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
-    for (int i = 0; i < 6; ++i)
-    {
-		chac[i] = new Entity(arr[i]+".txt", {SHORT(108 + 12*i) , 31}, {5, 5});
-		chac[i]->draw();    	
-	}
-	while(checkEnter){
-    	if(kbhit()){
-    		char c = getch();
-    		if(c==8&&count>0){
-     		   count--;
-     		   arr[count] = "@";
-			   name.erase(count, 1);	
-			}
-    		if(c==13){
-    		   firstGame = false;	
-    		   delete [] chac;
-               appConsole.setFullscreenBackgroundColor(BG_CYAN);    
-               welcome->draw();
-			   importImage.drawCustomImage("welcome " + name,{SHORT(appConsole.getWindowSize().X/2 + 30), 18}, false);	 
-			   importImage.drawCustomImage("have a good day ",{SHORT(appConsole.getWindowSize().X/2 +30), 28}, false);	 
-			   Sleep(1200);
- 		} 
- 		if(c >='a'&&c<='z'){
-     		name += c; 
-    		arr[count] = c;
-    		count++;
-		 }
-       	 checkEnter = false;	
-	}
-	    if(count == 6){
-	    	count = 0;
-	    	for (int i = 0; i < 6; ++i) arr[i] = "@";
-	    	name = "";
-		}		
-	}
 
-	
-//		firstGame = false;	 	
-	}
-    
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
