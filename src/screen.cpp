@@ -66,7 +66,7 @@ void MenuScreen::draw()
 }
 
 
-InputScreen:: InputScreen() : Screen(new HandlerSignInInput()) {
+InputScreen:: InputScreen() : Screen(new HandlerMenuInput()) {
 	welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
 }
 
