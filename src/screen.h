@@ -42,6 +42,21 @@ private:
     int rocketMove;
 };
 
+class InputScreen: public Screen
+{
+  public:
+     InputScreen();
+     ~InputScreen();
+    Command *handleInput() override;
+    void draw() override;
+
+  private:    
+      Entity *welcome;
+      Entity **chac;	
+      string name = "";
+      string arr[6] = {"@","@","@","@","@","@"};
+};
+
 class GameScreen : public Screen
 {
 public:
@@ -55,13 +70,9 @@ public:
 private:
     Entity *frame;
     Entity *finish_line;
-    Entity *welcome;
-    Entity **chac;
     DynamicEntity **enemy;
     Hero *hero;
     const int numberEnemy = 15;
-    string name = "";
-    string arr[6] = {"@","@","@","@","@","@"};
     // long int LONGINTscore = 0;
     // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
