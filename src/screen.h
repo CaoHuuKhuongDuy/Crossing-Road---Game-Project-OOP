@@ -87,16 +87,15 @@ private:
     Entity *finish_line;
     DynamicEntity **enemy;
     Hero *hero;
+    TrafficLight* trafficlight;
     const int numberEnemy = 15;
     Entity *welcome;
     Entity **chac;	
     string name = "";
     string arr[6] = {"@","@","@","@","@","@"};
-    Entity *overframe;
+    Entity *overgameframe;
     DynamicEntity *bus;
     Entity *die;	    
-    // long int LONGINTscore = 0;
-    // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
 
 class LoadGameScreen : public Screen
