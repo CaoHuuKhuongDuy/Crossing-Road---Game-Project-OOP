@@ -269,7 +269,6 @@ void GameScreen::draw()
 							die = nullptr ;
 							die = new Entity("boom.txt",{162,25},{11,5}); 
 							die->draw();
-							bus->teleport({120,25});
                 			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);	
 							die = new Entity("phoenix.txt",{162,25},{11,5});  							
 						}			    	
@@ -277,6 +276,7 @@ void GameScreen::draw()
 					if(kbhit()){
 						char c = getch();
 						if(c == 13) {
+							bus->teleport({120,25});
 				            hero->resetDynamicEntity();
 				            hero->draw();        
 				            firstScreen = true;							
