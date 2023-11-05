@@ -153,6 +153,9 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
+    overframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});    
+    bus = new DynamicEntity("coolUfo.txt",{120,25},{11,5});
+    die = new Entity("phoenix.txt",{160,25},{11,5});
     finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
@@ -242,14 +245,44 @@ void GameScreen::draw()
     {
         if (hero->isCollision(enemy[i]) || hero->isAtEdge(7))
         {
-            if (hero->isAtEdge(7))
-                hero->updateHeroExp();
-            else 
+            if (hero->isAtEdge(7)){
+                hero->updateHeroExp();      
+	            hero->resetDynamicEntity();
+	            hero->draw();        
+                firstScreen = true;	      	
+			}
+            else {
                 hero->updateHeroExp(0);
-            hero->resetDynamicEntity();
-            hero->draw();        
-            firstScreen = true;
-            return;
+                appConsole.setFullscreenBackgroundColor(BG_CYAN);                
+				overframe->draw();
+				bus->draw();
+				die->draw();
+				int count = 0;
+				while(!firstScreen){
+				    if(count < 10){
+						bus->right(4);
+     					bus->draw();
+						count++;
+						Sleep(5);
+						if(count == 10)	{
+							die = nullptr ;
+							die = new Entity("boom.txt",{162,25},{11,5}); 
+							die->draw();
+                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);								
+						}			    	
+					}					 					
+					if(kbhit()){
+						char c = getch();
+						if(c == 13) {
+				            hero->resetDynamicEntity();
+				            hero->draw();        
+				            firstScreen = true;							
+						} 
+					}
+					
+				}            	
+			}
+           return;
         }
     }
     
