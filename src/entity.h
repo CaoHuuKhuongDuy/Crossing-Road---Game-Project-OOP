@@ -58,3 +58,19 @@ private:
     long int score = 0;
     int level = int(floor(score / 300)) + 1;
 };
+
+
+
+class TrafficLight : public Entity
+{
+    public:
+        TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed);
+        void updateTrafficLight();
+        void setTrafficLight(const bool& trafficlight);
+        bool isRedOn();
+        int stopRow1,stopRow2;
+
+    private:
+        bool isRed;
+        chrono::high_resolution_clock::time_point startTime;
+};
