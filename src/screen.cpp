@@ -154,8 +154,6 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
     overframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});    
-    bus = new DynamicEntity("coolUfo.txt",{120,25},{11,5});
-    die = new Entity("phoenix.txt",{160,25},{11,5});
     finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
@@ -184,6 +182,8 @@ void GameScreen::draw()
 	{
         bool checkEnter  = true;
         appConsole.setFullscreenBackgroundColor(BG_CYAN);  
+        bus = new DynamicEntity("coolUfo.txt",{120,25},{11,5});
+        die = new Entity("phoenix.txt",{160,25},{11,5});
 		chac = new Entity *[6]; 
         importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
     for (int i = 0; i < 6; ++i)
@@ -205,7 +205,8 @@ void GameScreen::draw()
               appConsole.setFullscreenBackgroundColor(BG_CYAN);    
               welcome->draw();
 			   importImage.drawCustomImage("welcome " + name,{SHORT(appConsole.getWindowSize().X/2 + 30), 18}, false);	 
-			   importImage.drawCustomImage("have a nice day ",{SHORT(appConsole.getWindowSize().X/2 +30), 28}, false);	 
+			   importImage.drawCustomImage("have a nice day ",{SHORT(appConsole.getWindowSize().X/2 +30), 28}, false);
+			   Sleep(1000);	 
 		} 
  		if(c >='a'&&c<='z'){
      		name += c; 
@@ -268,7 +269,9 @@ void GameScreen::draw()
 							die = nullptr ;
 							die = new Entity("boom.txt",{162,25},{11,5}); 
 							die->draw();
-                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);								
+							bus->teleport({120,25});
+                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);	
+							die = new Entity("phoenix.txt",{162,25},{11,5});  							
 						}			    	
 					}					 					
 					if(kbhit()){
