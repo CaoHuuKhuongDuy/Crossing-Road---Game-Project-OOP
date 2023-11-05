@@ -182,9 +182,9 @@ void GameScreen::draw()
 	{
         bool checkEnter  = true;
         appConsole.setFullscreenBackgroundColor(BG_CYAN);  
-        bus = new DynamicEntity("coolUfo.txt",{120,25},{11,5});
-        die = new Entity("phoenix.txt",{160,25},{11,5});
-		chac = new Entity *[6]; 
+        // bus = new DynamicEntity("coolUfo.txt",{120,25},{11,5});
+        // die = new Entity("phoenix.txt",{160,25},{11,5});
+	chac = new Entity *[6]; 
         importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
     for (int i = 0; i < 6; ++i)
     {
@@ -254,53 +254,37 @@ void GameScreen::draw()
 			}
             else {
                 hero->updateHeroExp(0);
-                appConsole.setFullscreenBackgroundColor(BG_CYAN);                
-				overframe->draw();
-				bus->draw();
-				die->draw();
-				int count = 0;
-				while(!firstScreen){
-				    if(count < 10){
-						bus->right(4);
-     					bus->draw();
-						count++;
-						Sleep(5);
-						if(count == 10)	{
-							die = nullptr ;
-							die = new Entity("boom.txt",{162,25},{11,5}); 
-							die->draw();
-                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);	
-							die = new Entity("phoenix.txt",{162,25},{11,5});  							
-						}			    	
-					}					 					
-					if(kbhit()){
-						char c = getch();
-						if(c == 13) {
-							bus->teleport({120,25});
+//                appConsole.setFullscreenBackgroundColor(BG_CYAN);                
+//				overframe->draw();
+//				bus->draw();
+//				die->draw();
+//				int count = 0;
+//				while(!firstScreen){
+//				    if(count < 10){
+//						bus->right(4);
+//     					bus->draw();
+//						count++;
+//						Sleep(5);
+//						if(count == 10)	{
+//							die = nullptr ;
+//							die = new Entity("boom.txt",{162,25},{11,5}); 
+//							die->draw();
+//                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);	
+//							die = new Entity("phoenix.txt",{162,25},{11,5});  							
+//						}			    	
+//					}					 					
+//					if(kbhit()){
+//						char c = getch();
+//						if(c == 13) {
+//							bus->teleport({120,25});
 				            hero->resetDynamicEntity();
 				            hero->draw();        
 				            firstScreen = true;							
-						} 
-					}
-					
+//						} 
+                return;					
 				}            	
 			}
-           return;
         }
-    }
-    
-    
-    // If player reaches the end lane, then draw whole screen and update player's level and score subsequently.
-    // if (hero->isAtEdge(6))
-    // {
-    //     hero->resetDynamicEntity();
-    //     hero->updateHeroExp();
-    //     hero->draw();        
-    //     firstScreen = true;
-        
-    // }
-
-
 }
 
 Command *LoadGameScreen::handleInput()
