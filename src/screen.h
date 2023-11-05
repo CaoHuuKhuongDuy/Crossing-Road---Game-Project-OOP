@@ -57,6 +57,21 @@ class InputScreen: public Screen
       string arr[6] = {"@","@","@","@","@","@"};
 };
 
+//class OutputScreen: public Screen
+//{
+//  public:
+//     OutputScreen();
+//     ~OutputScreen();
+//    Command *handleInput() override;
+//    void draw() override;
+//
+//  private:    
+//      Entity *frame;
+//      Entity *bus;
+//	  Entity *hero;		  	
+//};
+
+
 class GameScreen : public Screen
 {
 public:
@@ -77,6 +92,9 @@ private:
     Entity **chac;	
     string name = "";
     string arr[6] = {"@","@","@","@","@","@"};
+    Entity *overframe;
+    DynamicEntity *bus;
+    Entity *die;	    
     // long int LONGINTscore = 0;
     // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
 };
