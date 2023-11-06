@@ -68,6 +68,9 @@ public:
     ~GameScreen();
 
     void allocateEnemy();
+    void allocateTrafficLight();
+    void manageTrafficLight();
+    void manageEnemies();
     void draw() override;
 
 private:
@@ -75,7 +78,9 @@ private:
     Entity *finish_line;
     DynamicEntity **enemy;
     Hero *hero;
-    TrafficLight* trafficlight;
+    ControlTrafficLight* controltrafficlight;
+    TrafficLight** trafficlight;
+    int numberTrafficLight = 5;
     const int numberEnemy = 15;
     
 };      

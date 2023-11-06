@@ -4,15 +4,16 @@ using namespace stValue;
 
 class Entity {
     public:
+        Entity(){};
         Entity(string entityName_, COORD pos1, COORD size_);
-        Entity() {};
         void draw();
         COORD getPos();
         COORD getEndPos();
+        COORD getSize();
     protected:
         COORD remainStartPos, remainEndPos;
         void removeRemainFrame();
-        void verify();
+        virtual void verify();
         COORD startPos, size;
         string entityName;
 };
@@ -42,6 +43,8 @@ class Hero : public DynamicEntity
 {
 public:
     Hero(string entityName_, COORD pos1, COORD size_, long int score_);
+    void verify() override;
+
     SHORT getHeroWidth();
     SHORT getHeroHeight();
     void setHeroLevel(const int&);
@@ -65,13 +68,26 @@ private:
 class TrafficLight : public Entity
 {
     public:
+        TrafficLight(){};
         TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed);
+        void freezeEnemy(DynamicEntity* &enemy);
+        void freezeRowEnemy(DynamicEntity** &enemy, const int& rowIndex);
+        void setLight(const bool& isRed);
+    private:
+        bool isRed;
+};
+
+class ControlTrafficLight : public TrafficLight
+{
+    public:
+        ControlTrafficLight(bool isRed_);
+        int stopRow1 = 0;
+        int stopRow2 = 0;
         void updateTrafficLight();
         void setTrafficLight(const bool& trafficlight);
         bool isRedOn();
-        int stopRow1,stopRow2;
-
-    private:
+    protected:
         bool isRed;
         chrono::high_resolution_clock::time_point startTime;
 };
+

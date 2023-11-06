@@ -21,6 +21,11 @@ Entity::Entity(string entityName_, COORD pos1, COORD size_)
     verify();
 }
 
+COORD Entity::getSize()
+{
+    return {size.X, size.Y};
+}
+
 COORD Entity::getPos() {
     return startPos;
 }
@@ -191,19 +196,86 @@ bool Hero::isAtEdge(SHORT posEdge_Y)
     return false;
 }
 
-
-
-TrafficLight::TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed_) : Entity(entityName_, pos1, size), isRed(isRed_){
-    startTime = chrono::high_resolution_clock::now();
+void Hero::verify()
+{
+    COORD sizeScreen = appConsole.getWindowSize();
+    sizeScreen.Y--;
+    startPos.X = max(startPos.X, SHORT(0));
+    startPos.X = min(startPos.X, SHORT(sizeScreen.X - size.X -7));
+    startPos.Y = max(startPos.Y, SHORT(0));
+    startPos.Y = min(startPos.Y, SHORT(sizeScreen.Y - size.Y));
 }
 
-void TrafficLight::updateTrafficLight()
+
+
+
+TrafficLight::TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed_) : Entity(entityName_, pos1, size_), isRed(isRed_){
+}
+
+// void TrafficLight::updateTrafficLight()
+// {
+//     auto currentTime = chrono::high_resolution_clock::now();
+//     chrono::duration<double> duration = currentTime - startTime;
+//     int secondsElapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
+
+//     if (this->isRedOn() == true) {
+//         if (secondsElapsed >= 3) {
+//             isRed = false;
+//             startTime = chrono::high_resolution_clock::now();
+//         }
+//     } else {
+//         if (secondsElapsed >= 4) {
+//             isRed = true;
+//             startTime =  chrono::high_resolution_clock::now();
+//         }
+//     }
+// }
+
+void TrafficLight::freezeEnemy(DynamicEntity* &enemy)
 {
+    enemy->setSpeed(0);
+}
+
+
+void TrafficLight::freezeRowEnemy(DynamicEntity** &enemy, const int& rowIndex)
+{
+    for(int i = 0; i < 3; ++i)
+    {
+        this->freezeEnemy(enemy[rowIndex * 3 + i]);
+    }
+}
+
+void TrafficLight::setLight(const bool& isRed)
+{
+    this->isRed = isRed;
+}
+
+
+
+
+void ControlTrafficLight::setTrafficLight(const bool& trafficlight)
+{
+    this->isRed = trafficlight;
+}
+
+bool ControlTrafficLight::isRedOn()
+{
+    return this->isRed;
+}
+
+
+void ControlTrafficLight::updateTrafficLight()
+{
+    if (!this->isRedOn())
+    {
+        this->stopRow1 = rand() % 5;
+        this->stopRow2 = rand() % 5;
+    }
     auto currentTime = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = currentTime - startTime;
     int secondsElapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
 
-    if (this->isRed == true) {
+    if (this->isRedOn()) {
         if (secondsElapsed >= 3) {
             isRed = false;
             startTime = chrono::high_resolution_clock::now();
@@ -215,13 +287,4 @@ void TrafficLight::updateTrafficLight()
         }
     }
 }
-
-void TrafficLight::setTrafficLight(const bool& trafficlight)
-{
-    this->isRed = trafficlight;
-}
-
-bool TrafficLight::isRedOn()
-{
-    return this->isRed;
-}
+ControlTrafficLight::ControlTrafficLight(bool isRed_ ) : isRed(isRed_){}
