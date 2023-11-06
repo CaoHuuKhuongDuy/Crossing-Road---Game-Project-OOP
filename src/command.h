@@ -1,5 +1,9 @@
 #pragma once
 #include <vector>
+#include <string>
+
+using namespace std;
+
 class Screen;
 // class GameScreen;
 class Hero;
@@ -7,11 +11,16 @@ class Hero;
 class Command {
     public:
         virtual void execute() = 0;
-
+        virtual void setAddChar(char c) {};
+        virtual void clearText() {};
     protected:
-        void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
+        static void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
 };
 
+class EnterIntroGameCommand : public Command {
+    public:
+        void execute() override;
+};
 
 class EnterGameCommand : public Command {
     public:
@@ -31,6 +40,18 @@ class EnterCreditCommand : public Command {
 class EnterLeaderCommand : public Command {
     public:
         void execute() override;
+};
+
+class InputTextCommand : public Command {
+    public:
+        InputTextCommand(string &textInput_);
+        void setAddChar(char c) override;
+        void clearText() override;
+        void execute() override;
+    private:
+        char addChar;
+        int limChar;
+        string &textInput;
 };
 
 class MoveEntityCommand : public Command {

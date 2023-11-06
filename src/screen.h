@@ -44,28 +44,48 @@ private:
     int rocketMove;
 };
 
+
+class IntroGameScreen : public Screen {
+    public:
+        IntroGameScreen();
+        ~IntroGameScreen();
+
+        Command *handleInput();
+        void draw() override;
+    private:
+        Entity *welcome;
+        string name = "";
+        Entity *textInputEntity;
+        string textInput;
+        bool enterGame;
+        bool lastFrame;
+};
+
 class GameScreen : public Screen
 {
 public:
     GameScreen();
     ~GameScreen();
 
-    Command *handleInput() override;
     void allocateEnemy();
     void draw() override;
 
 private:
     Entity *frame;
     Entity *finish_line;
-    Entity *welcome;
-    Entity **chac;
     DynamicEntity **enemy;
     Hero *hero;
+    TrafficLight* trafficlight;
     const int numberEnemy = 15;
-    string name = "";
-    string arr[6] = {"@","@","@","@","@","@"};
-    // long int LONGINTscore = 0;
-    // int INTlevel = int(floor(LONGINTscore / 1000)) + 1;
+    
+};      
+
+class OverGameScreen : public Screen {
+    private:
+        Entity *overgameframe, *overframe;
+        DynamicEntity *bus;
+        Entity *die;	    
+
 };
 
 class LoadGameScreen : public Screen
@@ -73,7 +93,6 @@ class LoadGameScreen : public Screen
 public:
     LoadGameScreen();
     ~LoadGameScreen();
-    Command *handleInput() override;
     void draw() override;
 private:
     string buttonName[4] = {"player1", "player2", "player3", "player4"};
@@ -85,7 +104,6 @@ class CreditScreen : public Screen
 public:	
 	CreditScreen();
 	~CreditScreen();
-    Command *handleInput() override;
 	void draw() override;
 private: 
    DynamicEntity **text[17]; 
@@ -117,7 +135,6 @@ class LeaderBoardScreen : public Screen
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
-    Command *handleInput() override;
     void swap(playerData &a, playerData &b);
     void draw() override;
 private:    

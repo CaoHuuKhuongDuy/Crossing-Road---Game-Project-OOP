@@ -1,14 +1,23 @@
 #include "handlerInput.h"
 
 int HandlerInput::getUserInput() {
+    if (fixUserInput != -1) {
+        int tmp = fixUserInput;
+        fixUserInput = -1;
+        return tmp;
+    }
     if (!_kbhit()) return -1;
     return _getch();
 }
 
+void HandlerInput::setFixUserInput(int fixUserInput) {
+    this->fixUserInput = fixUserInput;
+}
 
 HandlerMenuInput::HandlerMenuInput()
 {
-    enterGame = new EnterGameCommand();
+    // enterGame = new EnterGameCommand();
+    enterGame = new EnterIntroGameCommand();
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
     enterLeader = new EnterLeaderCommand();
@@ -34,6 +43,31 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
+HandlerIntroGameInput::HandlerIntroGameInput(string &textInput) {
+    enterGame = new EnterGameCommand();
+    inputChar = new InputTextCommand(textInput);
+}
+
+HandlerIntroGameInput::~HandlerIntroGameInput() {
+    delete enterGame;
+    delete inputChar;
+}
+
+Command *HandlerIntroGameInput::handlerInput(ButtonList &buttonList) {
+    int userInput = getUserInput();
+    if (userInput == 8) inputChar->setAddChar('@');
+    else if ((userInput >= 'a' && userInput <= 'z') || (userInput >= '0' && userInput <= '9')) inputChar->setAddChar(userInput);
+    else if (userInput == 13) {
+        inputChar->clearText();
+        inputChar->setAddChar('/');
+    }
+    else if (userInput == 1) {
+        return enterGame;
+    }
+    else return nullptr;
+    return inputChar;
+}   
+
 
 HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonUP = new MoveUpCommand(hero);
@@ -50,7 +84,7 @@ HandlerGameInput::~HandlerGameInput()
     delete buttonRIGHT;
 }
 
-Command *HandlerGameInput::handlerInput()
+Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
 {
     int userInput = getUserInput();
     if (userInput == 119)

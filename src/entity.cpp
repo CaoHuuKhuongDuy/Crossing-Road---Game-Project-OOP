@@ -190,3 +190,38 @@ bool Hero::isAtEdge(SHORT posEdge_Y)
         return true;
     return false;
 }
+
+
+
+TrafficLight::TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed_) : Entity(entityName_, pos1, size), isRed(isRed_){
+    startTime = chrono::high_resolution_clock::now();
+}
+
+void TrafficLight::updateTrafficLight()
+{
+    auto currentTime = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = currentTime - startTime;
+    int secondsElapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
+
+    if (this->isRed == true) {
+        if (secondsElapsed >= 3) {
+            isRed = false;
+            startTime = chrono::high_resolution_clock::now();
+        }
+    } else {
+        if (secondsElapsed >= 4) {
+            isRed = true;
+            startTime =  chrono::high_resolution_clock::now();
+        }
+    }
+}
+
+void TrafficLight::setTrafficLight(const bool& trafficlight)
+{
+    this->isRed = trafficlight;
+}
+
+bool TrafficLight::isRedOn()
+{
+    return this->isRed;
+}
