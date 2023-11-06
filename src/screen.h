@@ -15,7 +15,7 @@ public:
     Screen(HandlerInput *handlerInput_);
     virtual void draw() = 0;
     virtual Command *handleInput();
-
+    Screen *getPreScreen();
 protected:
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;
@@ -27,6 +27,8 @@ protected:
         string level;
         string score;
     };
+private:
+    Screen *preScreen;
 };
 
 class MenuScreen : public Screen

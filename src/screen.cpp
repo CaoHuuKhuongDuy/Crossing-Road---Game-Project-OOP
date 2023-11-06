@@ -1,6 +1,11 @@
 #include "screen.h"
 
-Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
+Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true), preScreen(nullptr) {}
+
+
+Screen *Screen::getPreScreen() {
+    return preScreen;
+}
 
 Command *Screen::handleInput()
 {
@@ -119,12 +124,14 @@ void GameScreen::draw()
     string STRINGlevel = to_string(hero->getHeroLevel());
     string STRINGscore = to_string(hero->getHeroScore());
     int count=0;
+    if (firstGame) {
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);  
+        importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
+    }
     while(firstGame)
 	{
 		bool checkEnter = true;
-        appConsole.setFullscreenBackgroundColor(BG_CYAN);  
 		chac = new Entity *[6]; 
-        importImage.drawCustomImage("enter name  ",{SHORT(appConsole.getWindowSize().X/2), 20}, false);	
     for (int i = 0; i < 6; ++i)
     {
 		chac[i] = new Entity(arr[i]+".txt", {SHORT(108 + 12*i) , 31}, {5, 5});
