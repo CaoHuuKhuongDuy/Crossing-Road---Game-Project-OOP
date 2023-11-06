@@ -9,3 +9,6 @@ src/*.o
 src/*.exe
 
 src/test/
+
+CrossingRoadVS/
+.vs/
