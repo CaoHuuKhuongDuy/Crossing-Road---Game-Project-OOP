@@ -86,6 +86,8 @@ private:
 };      
 
 class OverGameScreen : public Screen {
+    public:
+        OverGameScreen();
     private:
         Entity *overgameframe, *overframe;
         DynamicEntity *bus;

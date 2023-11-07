@@ -144,7 +144,6 @@ void GameScreen::allocateTrafficLight()
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
     frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-    // welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
     // overgameframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});
     finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
@@ -267,8 +266,12 @@ void GameScreen::draw()
         }
 }
 
+// OverGameScreen::OverGameScreen() : Screen() {
+//     overgameframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});
+// }
 
-LoadGameScreen::LoadGameScreen() : Screen(new HandlerMenuInput()){};
+
+LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()){};
 
 LoadGameScreen::~LoadGameScreen() {}
 
@@ -305,7 +308,7 @@ void LoadGameScreen::draw()
     }
 }
 
-CreditScreen::CreditScreen() : Screen(new HandlerMenuInput())
+CreditScreen::CreditScreen() : Screen(new HandlerCreditInput())
 {
     frame = new Entity("creditFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     for (int i = 0; i < 17; i++)
@@ -413,7 +416,7 @@ void CreditScreen::draw()
     count++;
 }
 
-LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerMenuInput())
+LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerLeaderBoardInput())
 {
     frame = new Entity("leaderFrame.txt", {30, 0}, {168, 43});
     title = new Entity("rank.txt", {SHORT((appConsole.getWindowSize().X - 50) / 2), 1}, {25, 6});

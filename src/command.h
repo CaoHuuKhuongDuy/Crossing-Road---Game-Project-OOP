@@ -17,6 +17,11 @@ class Command {
         static void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
 };
 
+class EnterMenuCommand : public Command {
+    public:
+        void execute() override;
+};
+
 class EnterIntroGameCommand : public Command {
     public:
         void execute() override;

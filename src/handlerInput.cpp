@@ -21,9 +21,13 @@ HandlerMenuInput::HandlerMenuInput()
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
     enterLeader = new EnterLeaderCommand();
+    enterBackScreen = nullptr;
 }
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
+    delete enterLoadGame;
+    delete enterCredit;
+    delete enterLeader;
 }
 
 
@@ -46,6 +50,7 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
 HandlerIntroGameInput::HandlerIntroGameInput(string &textInput) {
     enterGame = new EnterGameCommand();
     inputChar = new InputTextCommand(textInput);
+    enterBackScreen = new EnterMenuCommand();
 }
 
 HandlerIntroGameInput::~HandlerIntroGameInput() {
@@ -107,7 +112,47 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     return nullptr;
 }
 
+HandlerLoadInput::HandlerLoadInput() {
+    enterBackScreen = new EnterMenuCommand();
+}
+
+HandlerLoadInput::~HandlerLoadInput() {
+    delete enterBackScreen;
+}
+
 Command *HandlerLoadInput::handlerInput(ButtonList &buttonList) {
+    // press esc key to back to menu
+    int userInput = getUserInput();
+    if (userInput == 27) return enterBackScreen;
+    return nullptr;
+}
+
+HandlerLeaderBoardInput::HandlerLeaderBoardInput() {
+    enterBackScreen = new EnterMenuCommand();
+}
+
+HandlerLeaderBoardInput::~HandlerLeaderBoardInput() {
+    delete enterBackScreen;
+}
+
+Command *HandlerLeaderBoardInput::handlerInput(ButtonList &ButtonList) {
+    int userInput = getUserInput();
+    if (userInput == 27) return enterBackScreen;
+    return nullptr;
+}
+
+HandlerCreditInput::HandlerCreditInput() {
+    enterBackScreen = new EnterMenuCommand();
+}
+
+HandlerCreditInput::~HandlerCreditInput() {
+    delete enterBackScreen;
+}
+
+Command *HandlerCreditInput::handlerInput(ButtonList &buttonList) {
+    // press esc key to back to menu
+    int userInput = getUserInput();
+    if (userInput == 27) return enterBackScreen;
     return nullptr;
 }
 

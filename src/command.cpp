@@ -8,6 +8,10 @@ void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
     mainScreen = nxtScreen;
 }
 
+void EnterMenuCommand::execute() {
+    changeScreen(mainScreen, new MenuScreen());
+}
+
 void EnterIntroGameCommand::execute() {
     changeScreen(mainScreen, new IntroGameScreen());
 }

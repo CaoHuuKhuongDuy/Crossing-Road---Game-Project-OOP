@@ -10,6 +10,7 @@ public:
     void setFixUserInput(int fixUserInput);
 protected:
     int getUserInput();
+    Command *enterBackScreen;
 private:
     int fixUserInput = -1;
 };
@@ -56,5 +57,28 @@ private:
 class HandlerLoadInput : public HandlerInput
 {
     public:
+        HandlerLoadInput();
+        ~HandlerLoadInput();
         Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command *enterBackScreen;
+};
+
+class HandlerLeaderBoardInput : public HandlerInput
+{
+    public:
+        HandlerLeaderBoardInput();
+        ~HandlerLeaderBoardInput();
+        Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command *enterBackScreen;
+};
+
+class HandlerCreditInput : public HandlerInput {
+    public:
+        HandlerCreditInput();
+        ~HandlerCreditInput();
+        Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command *enterBackScreen;
 };
