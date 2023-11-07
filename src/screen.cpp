@@ -212,12 +212,17 @@ void GameScreen::manageEnemies()
 void GameScreen::manageTrafficLight()
 {
     controltrafficlight->updateTrafficLight();
+    for(int i = 0; i < numberTrafficLight; ++i)
+        trafficlight[i]->setLight(false);
     if (controltrafficlight->isRedOn())
     {
+
         trafficlight[controltrafficlight->stopRow1]->freezeRowEnemy(enemy, controltrafficlight->stopRow1);
-        trafficlight[controltrafficlight->stopRow1]->setLight(controltrafficlight->isRedOn());
         trafficlight[controltrafficlight->stopRow2]->freezeRowEnemy(enemy, controltrafficlight->stopRow2);
-        trafficlight[controltrafficlight->stopRow2]->setLight(controltrafficlight->isRedOn());
+    }
+    for(int i = 0; i < numberTrafficLight; ++i)
+    {
+        trafficlight[i]->updateLight();
     }
 }
 

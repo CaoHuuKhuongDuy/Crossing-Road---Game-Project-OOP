@@ -3,7 +3,7 @@
 #include "staticVariable.h"
 #include "entity.h"
 #include "button.h"
-#include "player.h";
+#include "player.h"
 #include "handlerInput.h"
 #include <iostream>
 

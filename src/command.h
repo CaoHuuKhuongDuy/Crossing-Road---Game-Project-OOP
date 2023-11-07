@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "staticVariable.h"
 
 using namespace std;
 
@@ -54,40 +55,40 @@ class InputTextCommand : public Command {
         string &textInput;
 };
 
-class AccessEntityCommand : public Command {
+class MoveEntityCommand : public Command {
     public:
-        AccessEntityCommand(Hero *&hero_);
+        MoveEntityCommand(Hero *&hero_);
         virtual void execute() = 0;
     protected:
         Hero *&hero;
 };
 
-class MoveUpCommand : public AccessEntityCommand {
+class MoveUpCommand : public MoveEntityCommand {
     public:
         MoveUpCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveDownCommand : public AccessEntityCommand {
+class MoveDownCommand : public MoveEntityCommand {
     public:
         MoveDownCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveLeftCommand : public AccessEntityCommand {
+class MoveLeftCommand : public MoveEntityCommand {
     public:
         MoveLeftCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveRightCommand : public AccessEntityCommand {
+class MoveRightCommand : public MoveEntityCommand {
     public:
         MoveRightCommand(Hero *&hero_);
         void execute() override;
 };
 
-class SaveGameCommand : public AccessEntityCommand {
+class SaveGameCommand : public MoveEntityCommand {
     public:
         SaveGameCommand(Hero* &hero_);
-        void execute();
+        void execute(){}
 };  

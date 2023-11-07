@@ -1,4 +1,3 @@
-#pragma once
 #include "Player.h"
 
 Player::Player(string name, string level, string score) : name(name), level(level), score(score) {}

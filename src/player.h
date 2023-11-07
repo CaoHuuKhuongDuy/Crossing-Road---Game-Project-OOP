@@ -1,7 +1,9 @@
+#pragma once
 #include "staticVariable.h"
 
 class Player {
 public:
+    Player(){}
     Player(string name, string level, string score);
     string getName() const;
     void setName(const std::string& newName);

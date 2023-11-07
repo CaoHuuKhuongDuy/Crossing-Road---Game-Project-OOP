@@ -74,6 +74,9 @@ void MoveLeftCommand::execute()
 
 MoveRightCommand::MoveRightCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
 
+SaveGameCommand::SaveGameCommand(Hero *&hero_) : MoveEntityCommand(hero_) {}
+
+
 void MoveRightCommand::execute()
 {
     hero->right(5);
