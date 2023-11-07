@@ -29,6 +29,7 @@ public:
     void down(int step = 1);
     void left(int step = 1);
     void right(int step = 1);
+    void slip(int step = 1);
     void teleport(COORD pos);
     int getSpeed();
     void setSpeed(const int& speed);

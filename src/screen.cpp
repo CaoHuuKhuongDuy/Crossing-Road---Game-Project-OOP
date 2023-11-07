@@ -16,6 +16,14 @@ Command *Screen::handleInput() {
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
+    meteor = new DynamicEntity*[7];
+    meteor[0] = new DynamicEntity("slight.txt", {27,1}, {4, 4});
+    meteor[1] = new DynamicEntity("slight.txt", {175,15}, {4, 4});
+    meteor[2] = new DynamicEntity("slight.txt", {135,24}, {4, 4});
+    meteor[3] = new DynamicEntity("slight.txt", {40,24}, {4, 4});
+    meteor[4] = new DynamicEntity("slight.txt", {143,10}, {4, 4});
+    meteor[5] = new DynamicEntity("slight.txt", {22,15}, {4, 4});
+    meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
 };
 
@@ -47,12 +55,23 @@ void MenuScreen::draw()
     }
     buttonList.draw();
     rocket->draw();
+    for(int i=0; i<7;i++){
+         meteor[i]->draw();  
+     	meteor[i]->slip(1);      	
+    }
     rocketMove++;
     rocket->up(1);
     if (rocketMove == 20)
     {
         rocketMove = 0;
         rocket->teleport({1, 25});
+        meteor[0]->teleport({27, 1});
+        meteor[1]->teleport({175, 15});
+        meteor[2]->teleport({135, 24});   
+        meteor[3]->teleport({40, 24});        
+        meteor[4]->teleport({143, 10});        
+        meteor[5]->teleport({22, 15});        
+        meteor[6]->teleport({143, 2});  		     
     }
 }
 
@@ -80,7 +99,14 @@ void IntroGameScreen::draw() {
         welcome->draw();
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
-        Sleep(3000);
+        Sleep(2000);
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);   
+        string s = "journey to the stars with me";
+        for(int i = 0; i<s.length();i++) {
+           importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
+		   Sleep(70);  	
+		}
+	   Sleep(200);  
         lastFrame = true;
         return;
     }  
@@ -278,13 +304,17 @@ LoadGameScreen::~LoadGameScreen() {}
 void LoadGameScreen::draw()
 {
     ifstream fin(path);
-    playerData data[4];
+    Player data[4];
     int i = 0;
     while (!fin.eof())
-    {
-        fin >> data[i].name;
-        fin >> data[i].level;
-        fin >> data[i].score;
+    {   
+        string name, level, score;
+        fin >> name;
+        fin >> level;
+        fin >> score;
+        data[i].setName(name);
+        data[i].setLevel(level);
+        data[i].setScore(score);
         i++;
     }
 
@@ -296,9 +326,9 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0; i < 4; i++)
         {
-            buttonList.addButton(new Button("#" + data[i].name, {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
-            importImage.drawCustomImage("#" + data[i].level, {SHORT(42 + i * 32), SHORT(25)});
-            importImage.drawCustomImage("#" + data[i].score, {SHORT(42 + i * 32), SHORT(35)});
+            buttonList.addButton(new Button("#" + data[i].getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
+            importImage.drawCustomImage("#" + data[i].getLevel(), {SHORT(42 + i * 32), SHORT(25)});
+            importImage.drawCustomImage("#" + data[i].getScore(), {SHORT(42 + i * 32), SHORT(35)});
         }
 
         buttonList.draw();
@@ -432,9 +462,9 @@ LeaderBoardScreen::~LeaderBoardScreen()
     delete title;
 }
 
-void LeaderBoardScreen::swap(playerData &a, playerData &b)
+void LeaderBoardScreen::swap(Player &a, Player &b)
 {
-    playerData temp = a;
+    Player temp = a;
     a = b;
     b = temp;
 }
@@ -442,20 +472,24 @@ void LeaderBoardScreen::swap(playerData &a, playerData &b)
 void LeaderBoardScreen::draw()
 {
     ifstream fin(path);
-    playerData data[4];
+    Player data[4];
     int i = 0;
     while (!fin.eof())
-    {
-        fin >> data[i].name;
-        fin >> data[i].level;
-        fin >> data[i].score;
+    {   
+        string name, level, score;
+        fin >> name;
+        fin >> level;
+        fin >> score;
+        data[i].setName(name);
+        data[i].setLevel(level);
+        data[i].setScore(score);
         i++;
     }
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
         {
-            if (stoi(data[i].score) > stoi(data[j].score))
+            if (stoi(data[i].getScore()) > stoi(data[j].getScore()))
                 swap(data[i], data[j]);
         }
     }
@@ -468,8 +502,8 @@ void LeaderBoardScreen::draw()
         importImage.drawCustomImage("score", {110, 10}, false);
         for (int i = 2; i >= 0; i--)
         {
-            importImage.drawCustomImage(data[i].name, {70, SHORT(18 + i * 7)}, false);
-            importImage.drawCustomImage(data[i].score, {110, SHORT(18 + i * 7)}, false);
+            importImage.drawCustomImage(data[i].getName(), {70, SHORT(18 + i * 7)}, false);
+            importImage.drawCustomImage(data[i].getScore(), {110, SHORT(18 + i * 7)}, false);
         }
         moon->draw();
         star->draw();

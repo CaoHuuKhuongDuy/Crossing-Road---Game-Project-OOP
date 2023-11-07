@@ -9,6 +9,39 @@
 using namespace stValue;
 using namespace std;
 
+#include <string>
+
+class Player {
+public:
+
+    string getName() const {
+        return name;
+    }
+    void setName(const string& newName) {
+        name = newName;
+    }
+
+    string getScore() const {
+        return score;
+    }
+    void setScore(const string& newScore) {
+        score = newScore;
+    }
+
+    string getLevel() const {
+        return level;
+    }
+    void setLevel(const string& newLevel) {
+        level = newLevel;
+    }
+
+private:
+    string name;
+    string score;
+    string level;
+};
+
+
 class Screen
 {
 public:
@@ -22,11 +55,7 @@ protected:
     bool firstScreen;
     bool firstGame = true;
     string path = "../media/LoadGame/loadGame.txt";
-    struct playerData {
-        string name;
-        string level;
-        string score;
-    };
+    Player player;
 private:
     Screen *preScreen;
 };
@@ -41,6 +70,7 @@ public:
 private:
     string buttonName[6] = {"newgame", "loadgame", "leaderboard", "setting", "credit", "exit"};
     DynamicEntity *rocket;
+    DynamicEntity **meteor;
     int rocketMove;
 };
 
@@ -142,7 +172,7 @@ class LeaderBoardScreen : public Screen
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
-    void swap(playerData &a, playerData &b);
+    void swap(Player &a, Player &b);
     void draw() override;
 private:    
     Entity *frame;
