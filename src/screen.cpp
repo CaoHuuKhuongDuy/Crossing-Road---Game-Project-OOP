@@ -16,6 +16,14 @@ Command *Screen::handleInput() {
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
+    meteor = new DynamicEntity*[7];
+    meteor[0] = new DynamicEntity("slight.txt", {27,1}, {4, 4});
+    meteor[1] = new DynamicEntity("slight.txt", {175,15}, {4, 4});
+    meteor[2] = new DynamicEntity("slight.txt", {135,24}, {4, 4});
+    meteor[3] = new DynamicEntity("slight.txt", {40,24}, {4, 4});
+    meteor[4] = new DynamicEntity("slight.txt", {143,10}, {4, 4});
+    meteor[5] = new DynamicEntity("slight.txt", {22,15}, {4, 4});
+    meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
 };
 
@@ -47,12 +55,23 @@ void MenuScreen::draw()
     }
     buttonList.draw();
     rocket->draw();
+    for(int i=0; i<7;i++){
+         meteor[i]->draw();  
+     	meteor[i]->slip(1);      	
+    }
     rocketMove++;
     rocket->up(1);
     if (rocketMove == 20)
     {
         rocketMove = 0;
         rocket->teleport({1, 25});
+        meteor[0]->teleport({27, 1});
+        meteor[1]->teleport({175, 15});
+        meteor[2]->teleport({135, 24});   
+        meteor[3]->teleport({40, 24});        
+        meteor[4]->teleport({143, 10});        
+        meteor[5]->teleport({22, 15});        
+        meteor[6]->teleport({143, 2});  		     
     }
 }
 
