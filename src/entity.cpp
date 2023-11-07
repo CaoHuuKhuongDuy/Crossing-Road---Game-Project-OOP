@@ -100,6 +100,10 @@ void DynamicEntity::down(int step)
     teleport({startPos.X, SHORT(startPos.Y + step)});
 }
 
+void DynamicEntity::slip(int step) {
+    teleport({SHORT(startPos.X - step), SHORT(startPos.Y + step)});
+}
+
 void DynamicEntity::spawnDynamicEntity(double speed)
 {
     this->draw();
