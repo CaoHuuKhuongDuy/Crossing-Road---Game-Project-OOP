@@ -41,6 +41,7 @@ public:
 private:
     string buttonName[6] = {"newgame", "loadgame", "leaderboard", "setting", "credit", "exit"};
     DynamicEntity *rocket;
+    DynamicEntity **meteor;
     int rocketMove;
 };
 
