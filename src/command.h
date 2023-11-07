@@ -54,34 +54,40 @@ class InputTextCommand : public Command {
         string &textInput;
 };
 
-class MoveEntityCommand : public Command {
+class AccessEntityCommand : public Command {
     public:
-        MoveEntityCommand(Hero *&hero_);
+        AccessEntityCommand(Hero *&hero_);
         virtual void execute() = 0;
     protected:
         Hero *&hero;
 };
 
-class MoveUpCommand : public MoveEntityCommand {
+class MoveUpCommand : public AccessEntityCommand {
     public:
         MoveUpCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveDownCommand : public MoveEntityCommand {
+class MoveDownCommand : public AccessEntityCommand {
     public:
         MoveDownCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveLeftCommand : public MoveEntityCommand {
+class MoveLeftCommand : public AccessEntityCommand {
     public:
         MoveLeftCommand(Hero *&hero_);
         void execute() override;
 };
 
-class MoveRightCommand : public MoveEntityCommand {
+class MoveRightCommand : public AccessEntityCommand {
     public:
         MoveRightCommand(Hero *&hero_);
         void execute() override;
 };
+
+class SaveGameCommand : public AccessEntityCommand {
+    public:
+        SaveGameCommand(Hero* &hero_);
+        void execute();
+};  
