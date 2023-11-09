@@ -52,6 +52,8 @@ class IntroGameScreen : public Screen {
 
         Command *handleInput();
         void draw() override;
+
+        string getName();
     private:
         Entity *welcome;
         string name = "";
@@ -59,6 +61,7 @@ class IntroGameScreen : public Screen {
         string textInput;
         bool enterGame;
         bool lastFrame;
+        ListPlayer players;
 };
 
 class GameScreen : public Screen
@@ -82,7 +85,6 @@ private:
     TrafficLight** trafficlight;
     int numberTrafficLight = 5;
     const int numberEnemy = 15;
-    
 };      
 
 class OverGameScreen : public Screen {

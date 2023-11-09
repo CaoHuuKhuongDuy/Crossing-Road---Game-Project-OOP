@@ -27,10 +27,10 @@ void Player::setLevel(const string& newLevel) {
     level = newLevel;
 }
 
-void ListPlayer::addPlayer(string name) {
-    Player player(name, "0", "0");
-    if (!players.empty()) {
-        players.erase(players.begin());
-    }
-    players.push_back(player);
+void ListPlayer::addPlayer(Player p) {
+    players.push_back(p);
+}
+
+vector<Player> ListPlayer::getPlayers() {
+    return players;
 }

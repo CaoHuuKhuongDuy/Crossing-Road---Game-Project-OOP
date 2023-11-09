@@ -89,6 +89,6 @@ class MoveRightCommand : public MoveEntityCommand {
 
 class SaveGameCommand : public MoveEntityCommand {
     public:
-        SaveGameCommand(Hero* &hero_);
-        void execute(){}
-};  
+        SaveGameCommand(Hero*& hero_);
+        void execute() override;
+};

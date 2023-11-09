@@ -22,7 +22,8 @@ private:
 class ListPlayer {
     public:
         ListPlayer();
-        void addPlayer (string name);
+        void addPlayer (Player p);
+        vector<Player> getPlayers();
     private:
         vector<Player> players;
 };
