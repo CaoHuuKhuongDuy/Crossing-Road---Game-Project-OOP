@@ -99,14 +99,15 @@ void IntroGameScreen::draw() {
         welcome->draw();
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
-        Sleep(2000);
+        Sleep(1500);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
         string s = "journey to the stars with me";
+        // importImage.drawCustomImage(s, {SHORT(appConsole.getWindowSize().X / 2 - 85), 28}, false);
         for(int i = 0; i<s.length();i++) {
            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
-		   Sleep(70);  	
+		    Sleep(70);  	
 		}
-	   Sleep(200);  
+	    Sleep(1000);  
         lastFrame = true;
         return;
     }  
