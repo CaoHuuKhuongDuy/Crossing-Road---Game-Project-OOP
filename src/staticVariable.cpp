@@ -9,5 +9,5 @@ namespace stValue {
 	Console appConsole;
     ImportImage importImage;
     Screen *mainScreen = nullptr;
-    Player *mainPLayer = nullptr;
+    Player *mainPlayer = nullptr;
 }
