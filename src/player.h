@@ -1,5 +1,9 @@
 #pragma once
-#include "staticVariable.h"
+#include <string>
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Player {
 public:

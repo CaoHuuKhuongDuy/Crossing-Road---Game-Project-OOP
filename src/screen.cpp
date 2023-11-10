@@ -103,8 +103,10 @@ void IntroGameScreen::draw() {
         welcome->draw();
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
-        Sleep(1500);
-
+        mainPlayer = new Player;
+        mainPlayer->setName(name);
+        mainPlayer->setScore(0);
+        mainPlayer->setLevel(0);
         ifstream fin(path);
         players.getPlayers().clear();
         string empty;
@@ -376,20 +378,14 @@ CreditScreen::CreditScreen() : Screen(new HandlerCreditInput())
 {
     frame = new Entity("creditFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
     for (int i = 0; i < 17; i++)
-        text[i] = new DynamicEntity *[textCredit[i].length()];
+        text[i] = new DynamicEntity[textCredit[i].length()];
 }
 
 CreditScreen::~CreditScreen()
 {
     for (int i = 0; i < 17; ++i)
-    {
-        for (int j = 0; j < textCredit[i].size(); j++)
-            delete text[i][j];
         delete[] text[i];
-    }
-    delete[] text;
 }
-
 
 void CreditScreen::draw()
 {
@@ -402,7 +398,7 @@ void CreditScreen::draw()
             for (int i = 0; i < textCredit[idx].length(); i++)
             {
                 string substring = textCredit[idx].substr(i, 1);
-                text[idx][i] = new DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx].length() * 4), 43}, {SHORT(6), 5});
+                text[idx][i] = DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx].length() * 4), 43}, {SHORT(6), 5});
             }
         }
         else
@@ -410,21 +406,21 @@ void CreditScreen::draw()
             for (int i = 0; i < textCredit[idx].length(); i++)
             {
                 string substring = textCredit[idx].substr(i, 1);
-                text[idx][i] = new DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx].length() * 2), 16}, {SHORT(6), 5});
-                for (int i = 0; i < textCredit[idx + 1].length(); i++)
+                text[idx][i] = DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx].length() * 2), 16}, {SHORT(6), 5});
+                for (int j = 0; j < textCredit[idx + 1].length(); j++)
                 {
-                    string substring = textCredit[idx + 1].substr(i, 1);
-                    text[idx + 1][i] = new DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx + 1].length() * 2), 24}, {SHORT(6), 5});
+                    string substring = textCredit[idx + 1].substr(j, 1);
+                    text[idx + 1][j] = DynamicEntity(substring + ".txt", {SHORT(80 + j * 6 - textCredit[idx + 1].length() * 2), 24}, {SHORT(6), 5});
                 }
-                for (int i = 0; i < textCredit[idx + 2].length(); i++)
+                for (int j = 0; j < textCredit[idx + 2].length(); j++)
                 {
-                    string substring = textCredit[idx + 2].substr(i, 1);
-                    text[idx + 2][i] = new DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx + 2].length() * 2), 32}, {SHORT(6), 5});
+                    string substring = textCredit[idx + 2].substr(j, 1);
+                    text[idx + 2][j] = DynamicEntity(substring + ".txt", {SHORT(80 + j * 6 - textCredit[idx + 2].length() * 2), 32}, {SHORT(6), 5});
                 }
-                for (int i = 0; i < textCredit[idx + 3].length(); i++)
+                for (int j = 0; j < textCredit[idx + 3].length(); j++)
                 {
-                    string substring = textCredit[idx + 3].substr(i, 1);
-                    text[idx + 3][i] = new DynamicEntity(substring + ".txt", {SHORT(80 + i * 6 - textCredit[idx + 3].length() * 2), 40}, {SHORT(6), 5});
+                    string substring = textCredit[idx + 3].substr(j, 1);
+                    text[idx + 3][j] = DynamicEntity(substring + ".txt", {SHORT(80 + j * 6 - textCredit[idx + 3].length() * 2), 40}, {SHORT(6), 5});
                 }
             }
         }
@@ -433,13 +429,13 @@ void CreditScreen::draw()
     if (idx == 0)
     {
         for (int i = 0; i < textCredit[idx].length(); i++)
-            text[idx][i]->draw();
+            text[idx][i].draw();
         for (int i = 0; i < textCredit[idx].length(); i++)
-            text[idx][i]->up(1);
+            text[idx][i].up(1);
         if (count == 27)
         {
             for (int i = 0; i < textCredit[idx].length(); i++)
-                text[idx][i]->resetDynamicEntity();
+                text[idx][i].resetDynamicEntity();
             idx++;
             if (idx > 17)
                 idx = 0;
@@ -449,26 +445,15 @@ void CreditScreen::draw()
     }
     else
     {
-        for (int i = 0; i < textCredit[idx].length(); i++)
-            text[idx][i]->draw();
-        for (int i = 0; i < textCredit[idx].length(); i++)
-            text[idx][i]->up(1);
-        for (int i = 0; i < textCredit[idx + 1].length(); i++)
-            text[idx + 1][i]->draw();
-        for (int i = 0; i < textCredit[idx + 1].length(); i++)
-            text[idx + 1][i]->up(1);
-        for (int i = 0; i < textCredit[idx + 2].length(); i++)
-            text[idx + 2][i]->up(1);
-        for (int i = 0; i < textCredit[idx + 3].length(); i++)
-            text[idx + 3][i]->up(1);
-        for (int i = 0; i < textCredit[idx + 2].length(); i++)
-            text[idx + 2][i]->draw();
-        for (int i = 0; i < textCredit[idx + 3].length(); i++)
-            text[idx + 3][i]->draw();
+        for (int i = idx; i <= idx + 3; i++)
+            for (int j = 0; j < textCredit[i].length(); j++) {
+                text[i][j].draw();
+                text[i][j].up(1);
+            }
         if (count == 15)
         {
             for (int i = 0; i < textCredit[idx].length(); i++)
-                text[idx][i]->resetDynamicEntity();
+                text[idx][i].resetDynamicEntity();
             idx = idx + 4;
             if (idx > 16)
                 idx = 0;

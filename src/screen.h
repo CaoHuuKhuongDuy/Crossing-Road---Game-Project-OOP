@@ -115,7 +115,7 @@ public:
 	~CreditScreen();
 	void draw() override;
 private: 
-   DynamicEntity **text[17]; 
+   DynamicEntity *text[17]; 
    Entity* frame;
    int count = 0;
    int idx = 0;

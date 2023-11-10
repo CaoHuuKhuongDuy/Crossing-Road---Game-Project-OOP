@@ -21,6 +21,7 @@ class Entity {
 class DynamicEntity : public Entity
 {
 public:
+    DynamicEntity() {};
     DynamicEntity(string entityName_, COORD pos1, COORD size_);
     bool isAtEdge(SHORT posEdge_X);
     virtual void resetDynamicEntity();
