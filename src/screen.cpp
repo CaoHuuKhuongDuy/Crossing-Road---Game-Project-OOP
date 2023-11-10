@@ -155,34 +155,34 @@ void GameScreen::allocateEnemy()
 {
     int random = rand() % (appConsole.getWindowSize().X / 2 - 15);
     SHORT posY;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
     {
         posY = 8;
         enemy[i] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
     {
         posY = 13;
         // trafficlight[1] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
         enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 30);
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
     {
         posY = 23;
         // trafficlight[2] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
         enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), posY}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 9);
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
     {
         posY = 28;
         // trafficlight[3] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
         enemy[i + 9] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 18);
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
     {
         posY = 38;
         // trafficlight[4] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
