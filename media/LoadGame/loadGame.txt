@@ -1,4 +1,4 @@
-Duy 2 200
-Tien 4 500
 Thai 3 300
 Bang 6 100
+thanh 0 0
+ 0 0

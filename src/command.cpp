@@ -82,3 +82,25 @@ void MoveRightCommand::execute()
 {
     hero->right(5);
 }
+
+SaveGameCommand::SaveGameCommand(Hero*& hero_) : MoveEntityCommand(hero_) {}
+
+void SaveGameCommand::execute() {
+    ifstream fin("../media/LoadGame/loadGame.txt");
+    ListPlayer players;
+    while (!fin.eof()) {
+        string name, level, score;
+        fin >> name >> level >> score;
+        Player temp(name, level, score);
+        players.addPlayer(temp);
+    }
+    fin.close();
+    vector<Player> temp = players.getPlayers();
+    temp[3].setLevel(to_string(hero->getHeroLevel()));
+    temp[3].setScore(to_string(hero->getHeroScore()));
+    ofstream fout("../media/LoadGame/loadGame.txt");
+    for (Player p : temp) {
+        fout << p.getName() << " " << p.getLevel() << " " << p.getScore() << '\n';
+    }
+    fout.close();
+}

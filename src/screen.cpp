@@ -84,6 +84,10 @@ IntroGameScreen::~IntroGameScreen() {
     delete[] textInputEntity; 
 }
 
+string IntroGameScreen::getName() {
+    return name;
+}
+
 Command *IntroGameScreen::handleInput() {
     if (lastFrame) handlerInputMainScreen->setFixUserInput(1); // Enter Gane
     return handlerInputMainScreen->handlerInput(buttonList);
@@ -100,6 +104,30 @@ void IntroGameScreen::draw() {
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
         Sleep(1500);
+
+        ifstream fin(path);
+        players.getPlayers().clear();
+        string empty;
+        getline(fin, empty);
+        while (!fin.eof()) {
+            string name, level, score;
+            fin >> name >> level >> score;
+            Player temp(name, level, score);
+            players.addPlayer(temp);
+        }
+        fin.close();
+
+        // players.getPlayers().erase(players.getPlayers().begin() + 0);
+        Player newPlayer(name, "0", "0");
+        players.addPlayer(newPlayer);
+        ofstream fout(path);
+        for (Player p : players.getPlayers()) {
+            fout << p.getName() << " " << p.getLevel() << " " << p.getScore() << '\n';
+        }
+        fout.close();
+
+    
+        Sleep(2000);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
         string s = "journey to the stars with me";
         // importImage.drawCustomImage(s, {SHORT(appConsole.getWindowSize().X / 2 - 85), 28}, false);
@@ -212,12 +240,17 @@ void GameScreen::manageEnemies()
 void GameScreen::manageTrafficLight()
 {
     controltrafficlight->updateTrafficLight();
+    for(int i = 0; i < numberTrafficLight; ++i)
+        trafficlight[i]->setLight(false);
     if (controltrafficlight->isRedOn())
     {
+
         trafficlight[controltrafficlight->stopRow1]->freezeRowEnemy(enemy, controltrafficlight->stopRow1);
-        trafficlight[controltrafficlight->stopRow1]->setLight(controltrafficlight->isRedOn());
         trafficlight[controltrafficlight->stopRow2]->freezeRowEnemy(enemy, controltrafficlight->stopRow2);
-        trafficlight[controltrafficlight->stopRow2]->setLight(controltrafficlight->isRedOn());
+    }
+    for(int i = 0; i < numberTrafficLight; ++i)
+    {
+        trafficlight[i]->updateLight();
     }
 }
 

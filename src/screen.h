@@ -3,6 +3,7 @@
 #include "staticVariable.h"
 #include "entity.h"
 #include "button.h"
+#include "player.h"
 #include "handlerInput.h"
 #include <iostream>
 
@@ -10,37 +11,6 @@ using namespace stValue;
 using namespace std;
 
 #include <string>
-
-class Player {
-public:
-
-    string getName() const {
-        return name;
-    }
-    void setName(const string& newName) {
-        name = newName;
-    }
-
-    string getScore() const {
-        return score;
-    }
-    void setScore(const string& newScore) {
-        score = newScore;
-    }
-
-    string getLevel() const {
-        return level;
-    }
-    void setLevel(const string& newLevel) {
-        level = newLevel;
-    }
-
-private:
-    string name;
-    string score;
-    string level;
-};
-
 
 class Screen
 {
@@ -82,6 +52,8 @@ class IntroGameScreen : public Screen {
 
         Command *handleInput();
         void draw() override;
+
+        string getName();
     private:
         Entity *welcome;
         string name = "";
@@ -89,6 +61,7 @@ class IntroGameScreen : public Screen {
         string textInput;
         bool enterGame;
         bool lastFrame;
+        ListPlayer players;
 };
 
 class GameScreen : public Screen
@@ -112,7 +85,6 @@ private:
     TrafficLight** trafficlight;
     int numberTrafficLight = 5;
     const int numberEnemy = 15;
-    
 };      
 
 class OverGameScreen : public Screen {

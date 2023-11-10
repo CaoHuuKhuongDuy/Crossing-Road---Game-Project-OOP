@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "staticVariable.h"
 
 using namespace std;
 
@@ -88,5 +89,11 @@ class MoveLeftCommand : public MoveEntityCommand {
 class MoveRightCommand : public MoveEntityCommand {
     public:
         MoveRightCommand(Hero *&hero_);
+        void execute() override;
+};
+
+class SaveGameCommand : public MoveEntityCommand {
+    public:
+        SaveGameCommand(Hero*& hero_);
         void execute() override;
 };

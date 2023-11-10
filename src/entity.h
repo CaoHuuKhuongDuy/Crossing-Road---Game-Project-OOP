@@ -64,17 +64,17 @@ private:
     int level = int(floor(score / 300)) + 1;
 };
 
-
-
 class TrafficLight : public Entity
 {
     public:
         TrafficLight(){};
+        TrafficLight(bool isRed_);
         TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed);
         void freezeEnemy(DynamicEntity* &enemy);
         void freezeRowEnemy(DynamicEntity** &enemy, const int& rowIndex);
         void setLight(const bool& isRed);
-    private:
+        void updateLight();
+    protected:
         bool isRed;
 };
 
@@ -82,13 +82,12 @@ class ControlTrafficLight : public TrafficLight
 {
     public:
         ControlTrafficLight(bool isRed_);
-        int stopRow1 = 0;
-        int stopRow2 = 0;
+        int stopRow1 = -1;
+        int stopRow2 = -1;
         void updateTrafficLight();
         void setTrafficLight(const bool& trafficlight);
         bool isRedOn();
-    protected:
-        bool isRed;
+    private:
         chrono::high_resolution_clock::time_point startTime;
 };
 
