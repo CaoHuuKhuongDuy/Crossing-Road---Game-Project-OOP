@@ -50,4 +50,5 @@ namespace stValue {
     extern Console appConsole;  // special variable (not upcase)
     extern ImportImage importImage;
     extern Screen *mainScreen;
+    extern Player *mainPlayer;
 }

@@ -103,7 +103,10 @@ void IntroGameScreen::draw() {
         welcome->draw();
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
-
+        mainPlayer = new Player;
+        mainPlayer->setName(name);
+        mainPlayer->setScore(0);
+        mainPlayer->setLevel(0);
         ifstream fin(path);
         players.getPlayers().clear();
         string empty;
