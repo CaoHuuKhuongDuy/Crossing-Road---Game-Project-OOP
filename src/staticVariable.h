@@ -24,24 +24,6 @@ using namespace std;
 #define MAX_NAME_LENGTH 50
 
 
-
-// typedef enum
-// {
-// 	MOVE_RIGHT,
-// 	MOVE_LEFT
-// } DIRECTION;
-
-// enum class CommandType
-// {
-// 	MOVE_UP,
-// 	MOVE_DOWN,
-// 	MOVE_LEFT,
-// 	MOVE_RIGHT,
-// 	PAUSE_GAME,
-// 	SAVE_GAME, 
-// 	LOAD_GAME
-// };
-
 class Screen;
 
 namespace stValue {
