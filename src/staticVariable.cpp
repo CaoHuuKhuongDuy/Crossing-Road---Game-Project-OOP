@@ -10,4 +10,11 @@ namespace stValue {
     ImportImage importImage;
     Screen *mainScreen = nullptr;
     Player *mainPlayer = nullptr;
+    ListPlayer listPlayer;
+    void init() {
+        appConsole.init();
+        importImage.init(&appConsole);
+        listPlayer.init();
+        mainScreen = new MenuScreen();
+    }
 }

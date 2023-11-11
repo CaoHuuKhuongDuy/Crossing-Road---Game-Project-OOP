@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -17,6 +18,11 @@ public:
 
     string getLevel() const;
     void setLevel(const std::string& newLevel);
+
+    bool operator<(const Player& p) const {
+        return stoi(score) > stoi(p.score);
+    }
+
 private:
     string name;
     string score;
@@ -26,7 +32,10 @@ private:
 class ListPlayer {
     public:
         ListPlayer();
+        void init();
         void addPlayer (Player p);
+        void savePlayers();
+        Player* getPlayer(int index);
         vector<Player> getPlayers();
     private:
         vector<Player> players;

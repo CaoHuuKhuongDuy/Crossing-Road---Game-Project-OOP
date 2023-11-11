@@ -34,4 +34,6 @@ namespace stValue {
     extern ImportImage importImage;
     extern Screen *mainScreen;
     extern Player *mainPlayer;
+    extern ListPlayer listPlayer;
+    void init();
 }

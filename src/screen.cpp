@@ -103,38 +103,14 @@ void IntroGameScreen::draw() {
         welcome->draw();
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
-        mainPlayer = new Player;
-        mainPlayer->setName(name);
-        mainPlayer->setScore(0);
-        mainPlayer->setLevel(0);
-        ifstream fin(path);
-        players.getPlayers().clear();
-        string empty;
-        getline(fin, empty);
-        while (!fin.eof()) {
-            string name, level, score;
-            fin >> name >> level >> score;
-            Player temp(name, level, score);
-            players.addPlayer(temp);
-        }
-        fin.close();
-
-        // players.getPlayers().erase(players.getPlayers().begin() + 0);
-        Player newPlayer(name, "0", "0");
-        players.addPlayer(newPlayer);
-        ofstream fout(path);
-        for (Player p : players.getPlayers()) {
-            fout << p.getName() << " " << p.getLevel() << " " << p.getScore() << '\n';
-        }
-        fout.close();
-
+        listPlayer.addPlayer(Player(name, "0", "0"));
+        mainPlayer = listPlayer.getPlayer(3);
     
         Sleep(2000);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
         string s = "journey to the stars with me";
-        // importImage.drawCustomImage(s, {SHORT(appConsole.getWindowSize().X / 2 - 85), 28}, false);
         for(int i = 0; i<s.length();i++) {
-           importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
+            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
 		    Sleep(70);  	
 		}
 	    Sleep(1000);  
@@ -339,21 +315,6 @@ LoadGameScreen::~LoadGameScreen() {}
 
 void LoadGameScreen::draw()
 {
-    ifstream fin(path);
-    Player data[4];
-    int i = 0;
-    while (!fin.eof())
-    {   
-        string name, level, score;
-        fin >> name;
-        fin >> level;
-        fin >> score;
-        data[i].setName(name);
-        data[i].setLevel(level);
-        data[i].setScore(score);
-        i++;
-    }
-
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
@@ -362,13 +323,11 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0; i < 4; i++)
         {
-            buttonList.addButton(new Button("#" + data[i].getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
-            importImage.drawCustomImage("#" + data[i].getLevel(), {SHORT(42 + i * 32), SHORT(25)});
-            importImage.drawCustomImage("#" + data[i].getScore(), {SHORT(42 + i * 32), SHORT(35)});
+            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 32), SHORT(25)});
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 32), SHORT(35)});
         }
-
         buttonList.draw();
-
         firstScreen = false;
         importImage.drawImage("LoadGameSaved.txt", {43, 2});
     }
@@ -504,6 +463,7 @@ void LeaderBoardScreen::draw()
         data[i].setScore(score);
         i++;
     }
+    fin.close();
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)

@@ -6,17 +6,7 @@
 using namespace stValue;
 
 signed main() {
-    appConsole.init();
-    importImage.init(&appConsole);
-    mainScreen = new GameScreen();
-    // appConsole.setFullscreenBackgroundColor(BG_CYAN);
-    // while (true) {
-    //     mainScreen->draw();
-    // }
-    // int x;
-    // cin >> x;
-    // cout << "Hello";
-    // return 0;
+    init();
     Command *command;
     while (true) {
         mainScreen->draw();
