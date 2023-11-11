@@ -136,7 +136,7 @@ void Hero::resetDynamicEntity()
     this->teleport({SHORT((appConsole.getWindowSize().X - this->getHeroWidth()) / 2), SHORT(appConsole.getWindowSize().Y + 10)});
 }
 
-Hero::Hero(string entityName_, COORD pos1, COORD size_, long int score_)
+Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_)
     : DynamicEntity(entityName_, pos1, size_), score(score_){}
 SHORT Hero::getHeroWidth()
 {
@@ -150,7 +150,7 @@ int Hero::getHeroLevel()
 {
     return this->level;
 }
-long int Hero::getHeroScore()
+int Hero::getHeroScore()
 {
     return this->score;
 }
@@ -160,7 +160,7 @@ void Hero::setHeroLevel(const int& level)
     this->level = level;
 }
 
-void Hero::setHeroScore(const long int& score)
+void Hero::setHeroScore(const int& score)
 {
     this->score = score;
 }

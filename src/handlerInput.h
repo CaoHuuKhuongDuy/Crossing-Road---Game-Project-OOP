@@ -7,7 +7,8 @@ class HandlerInput
 {
 public:
     virtual Command *handlerInput(ButtonList &buttonList) = 0;
-    void setFixUserInput(int fixUserInput);
+    virtual void setFixUserInput(int fixUserInput);
+    virtual ~HandlerInput();
 protected:
     int getUserInput();
     Command *enterBackScreen;
@@ -61,7 +62,7 @@ class HandlerLoadInput : public HandlerInput
         ~HandlerLoadInput();
         Command *handlerInput(ButtonList &buttonList);
     private:
-        Command *enterBackScreen;
+        Command *loadSavedGame;
 };
 
 class HandlerLeaderBoardInput : public HandlerInput
@@ -70,8 +71,6 @@ class HandlerLeaderBoardInput : public HandlerInput
         HandlerLeaderBoardInput();
         ~HandlerLeaderBoardInput();
         Command *handlerInput(ButtonList &buttonList);
-    private:
-        Command *enterBackScreen;
 };
 
 class HandlerCreditInput : public HandlerInput {
@@ -79,6 +78,4 @@ class HandlerCreditInput : public HandlerInput {
         HandlerCreditInput();
         ~HandlerCreditInput();
         Command *handlerInput(ButtonList &buttonList);
-    private:
-        Command *enterBackScreen;
 };

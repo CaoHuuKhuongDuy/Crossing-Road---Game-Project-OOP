@@ -14,9 +14,12 @@ void HandlerInput::setFixUserInput(int fixUserInput) {
     this->fixUserInput = fixUserInput;
 }
 
+HandlerInput::~HandlerInput() {
+    delete enterBackScreen;
+}
+
 HandlerMenuInput::HandlerMenuInput()
 {
-    // enterGame = new EnterGameCommand();
     enterGame = new EnterIntroGameCommand();
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
@@ -34,7 +37,6 @@ HandlerMenuInput::~HandlerMenuInput() {
 
 Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
     int userInput = getUserInput();
-    if (userInput == -1) return nullptr;
     if (userInput == 72) buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
     if (userInput == 80) buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
     if (userInput == 13) {
@@ -60,17 +62,22 @@ HandlerIntroGameInput::~HandlerIntroGameInput() {
 
 Command *HandlerIntroGameInput::handlerInput(ButtonList &buttonList) {
     int userInput = getUserInput();
-    if (userInput == 8) inputChar->setAddChar('@');
-    else if ((userInput >= 'a' && userInput <= 'z') || (userInput >= '0' && userInput <= '9')) inputChar->setAddChar(userInput);
-    else if (userInput == 13) {
+    if (userInput == 8) {
+        inputChar->setAddChar('@');
+        return inputChar;
+    }
+    if ((userInput >= 'a' && userInput <= 'z') || (userInput >= '0' && userInput <= '9')) {
+        inputChar->setAddChar(userInput);
+        return inputChar;
+    }
+    if (userInput == 13) {
         inputChar->clearText();
         inputChar->setAddChar('/');
+        return inputChar;
     }
-    else if (userInput == 1) {
-        return enterGame;
-    }
-    else return nullptr;
-    return inputChar;
+    if (userInput == 1) return enterGame;
+    if (userInput == 27) return enterBackScreen;
+    return nullptr;
 }   
 
 
@@ -114,16 +121,28 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
 
 HandlerLoadInput::HandlerLoadInput() {
     enterBackScreen = new EnterMenuCommand();
+    loadSavedGame = new LoadSavedGameCommand();
 }
 
 HandlerLoadInput::~HandlerLoadInput() {
-    delete enterBackScreen;
+    delete loadSavedGame;
 }
 
 Command *HandlerLoadInput::handlerInput(ButtonList &buttonList) {
     // press esc key to back to menu
     int userInput = getUserInput();
     if (userInput == 27) return enterBackScreen;
+    // check press left arrow key
+    if (userInput == 75) {
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
+    }
+    if (userInput == 77) {
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
+    }
+    if (userInput == 13) {
+        loadSavedGame->setIdButtonChoosen(buttonList.getIdButtonChoosen());
+        return loadSavedGame;
+    }
     return nullptr;
 }
 
@@ -132,7 +151,6 @@ HandlerLeaderBoardInput::HandlerLeaderBoardInput() {
 }
 
 HandlerLeaderBoardInput::~HandlerLeaderBoardInput() {
-    delete enterBackScreen;
 }
 
 Command *HandlerLeaderBoardInput::handlerInput(ButtonList &ButtonList) {
@@ -146,7 +164,6 @@ HandlerCreditInput::HandlerCreditInput() {
 }
 
 HandlerCreditInput::~HandlerCreditInput() {
-    delete enterBackScreen;
 }
 
 Command *HandlerCreditInput::handlerInput(ButtonList &buttonList) {

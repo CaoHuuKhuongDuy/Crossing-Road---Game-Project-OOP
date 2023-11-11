@@ -44,24 +44,24 @@ protected:
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, long int score_);
+    Hero(string entityName_, COORD pos1, COORD size_, int score_);
     void verify() override;
 
     SHORT getHeroWidth();
     SHORT getHeroHeight();
     void setHeroLevel(const int&);
-    void setHeroScore(const long int&);
+    void setHeroScore(const int&);
     void updateHeroExp();
     void updateHeroExp(const int&);
     void resetDynamicEntity();
     bool isAtEdge(SHORT posEdge_Y);
     bool isCollision(DynamicEntity* enemy);
     int getHeroLevel();
-    long int getHeroScore();
+    int getHeroScore();
 private:
     SHORT heroWidth = 13;
     SHORT heroHeight = 5;
-    long int score = 0;
+    int score = 0;
     int level = int(floor(score / 300)) + 1;
 };
 

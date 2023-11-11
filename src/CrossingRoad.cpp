@@ -7,6 +7,7 @@ using namespace stValue;
 
 signed main() {
     init();
+    mainScreen = new MenuScreen();
     Command *command;
     while (true) {
         mainScreen->draw();

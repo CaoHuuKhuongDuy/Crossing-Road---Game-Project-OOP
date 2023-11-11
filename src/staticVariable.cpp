@@ -15,6 +15,5 @@ namespace stValue {
         appConsole.init();
         importImage.init(&appConsole);
         listPlayer.init();
-        mainScreen = new MenuScreen();
     }
 }

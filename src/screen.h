@@ -6,6 +6,7 @@
 #include "player.h"
 #include "handlerInput.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace stValue;
 using namespace std;
@@ -27,8 +28,6 @@ protected:
     bool firstGame = true;
     string path = "../media/LoadGame/loadGame.txt";
     Player player;
-private:
-    Screen *preScreen;
 };
 
 class MenuScreen : public Screen

@@ -1,11 +1,7 @@
 #include "screen.h"
 
-Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true), preScreen(nullptr) {}
+Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
 
-
-Screen *Screen::getPreScreen() {
-    return preScreen;
-}
 
 
 Command *Screen::handleInput() {
@@ -181,7 +177,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
     enemy = new DynamicEntity *[numberEnemy];
     allocateEnemy();
     allocateTrafficLight();
@@ -323,14 +319,14 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0; i < 4; i++)
         {
-            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, GREEN));
+            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, RED));
             importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 32), SHORT(25)});
             importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 32), SHORT(35)});
         }
-        buttonList.draw();
         firstScreen = false;
         importImage.drawImage("LoadGameSaved.txt", {43, 2});
     }
+    buttonList.draw();
 }
 
 CreditScreen::CreditScreen() : Screen(new HandlerCreditInput())
@@ -449,29 +445,8 @@ void LeaderBoardScreen::swap(Player &a, Player &b)
 
 void LeaderBoardScreen::draw()
 {
-    ifstream fin(path);
-    Player data[4];
-    int i = 0;
-    while (!fin.eof())
-    {   
-        string name, level, score;
-        fin >> name;
-        fin >> level;
-        fin >> score;
-        data[i].setName(name);
-        data[i].setLevel(level);
-        data[i].setScore(score);
-        i++;
-    }
-    fin.close();
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            if (stoi(data[i].getScore()) > stoi(data[j].getScore()))
-                swap(data[i], data[j]);
-        }
-    }
+    vector <Player> data = listPlayer.getPlayers();
+    sort(data.begin(), data.end());
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);

@@ -32,6 +32,15 @@ void EnterLeaderCommand::execute() {
     changeScreen(mainScreen, new LeaderBoardScreen());
 }
 
+void LoadSavedGameCommand::execute() {
+    mainPlayer = listPlayer.getPlayer(idButtonChoosen);
+    changeScreen(mainScreen, new GameScreen());
+}
+
+void LoadSavedGameCommand::setIdButtonChoosen(int idButtonChoosen_) {
+    idButtonChoosen = idButtonChoosen_;
+}
+
 InputTextCommand::InputTextCommand(string &textInput_) : textInput(textInput_), limChar(6), addChar('*') {}
 
 void InputTextCommand::setAddChar(char c) {

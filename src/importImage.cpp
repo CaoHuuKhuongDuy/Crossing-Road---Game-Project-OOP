@@ -26,7 +26,25 @@ int ImportImage::convertBGColor2TextColor(int colorBackground) {
     }
 }
 
-void ImportImage:: drawImage(string pathFile, COORD pos) {
+int ImportImage::convertTextColor2BGColor(int colorText) {
+    switch (colorText) {
+        case BLACK: return BG_BLACK;
+        case BLUE: return BG_BLUE;
+        case GREEN: return BG_GREEN;
+        case RED: return BG_RED;
+        case MAGENTA: return BG_MAGENTA;
+        case YELLOW: return BG_YELLOW;
+        case WHITE: return BG_WHITE;
+        case GREY: return BG_GREY;
+        case LIME: return BG_LIME;
+        case CYAN: return BG_CYAN;
+        case ORANGE: return BG_ORANGE;
+        default: return BG_BLACK; // Default to black background color
+    }
+}
+
+
+void ImportImage:: drawImage(string pathFile, COORD pos, int colorSpecial) {
     pathFile = pathColorCode + pathFile;
     // cout << pathFile << endl;
     ifstream fi(pathFile, ios::binary);
@@ -53,9 +71,12 @@ void ImportImage:: drawImage(string pathFile, COORD pos) {
             appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
             continue;
         }
-        bool colorBG = (charDisplay == 32 ? true : false);
-        if (colorBG) appConsole->writeAt(string(1, charDisplay), -1, pos, colorCode);
-        else appConsole->writeAt(string(1, charDisplay), convertBGColor2TextColor(colorCode), pos);
+        bool colorBG = (charDisplay == 32);
+        if (colorBG) {
+            colorCode = (colorSpecial == -1 ? colorCode : convertTextColor2BGColor(colorSpecial));
+            appConsole->writeAt(string(1, charDisplay), -1, pos, colorCode);
+        }
+        else appConsole->writeAt(string(1, charDisplay),convertBGColor2TextColor(colorCode), pos);
     }
     fi.close();
 }
@@ -85,9 +106,9 @@ void ImportImage::drawASCII(string pathFile, COORD pos, int textColor) {
     fi.close();
 }
 
-void ImportImage::drawCustomImage(string pathImage, COORD pos, bool numberSpecial) {
+void ImportImage::drawCustomImage(string pathImage, COORD pos, bool numberSpecial, int specicalColor) {
     for (int i = 0; i < pathImage.length(); i++) {
-        if (!numberSpecial) drawImage(string(1,pathImage[i]) + ".txt", {SHORT(pos.X += 6), SHORT(pos.Y)});
-        else drawImage("number" + string(1, pathImage[i]) + ".txt", {SHORT(pos.X += 4), pos.Y});
+        if (!numberSpecial) drawImage(string(1,pathImage[i]) + ".txt", {SHORT(pos.X += 6), SHORT(pos.Y)}, specicalColor);
+        else drawImage("number" + string(1, pathImage[i]) + ".txt", {SHORT(pos.X += 4), pos.Y}, specicalColor);
     }
 }

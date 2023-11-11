@@ -14,6 +14,7 @@ class Command {
         virtual void execute() = 0;
         virtual void setAddChar(char c) {};
         virtual void clearText() {};
+        virtual void setIdButtonChoosen(int idButtonChoosen_) {};
     protected:
         static void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
 };
@@ -46,6 +47,14 @@ class EnterCreditCommand : public Command {
 class EnterLeaderCommand : public Command {
     public:
         void execute() override;
+};
+
+class LoadSavedGameCommand : public Command {
+    public:
+        void execute() override;
+        void setIdButtonChoosen(int idButtonChoosen_);
+    private:
+        int idButtonChoosen;
 };
 
 class InputTextCommand : public Command {

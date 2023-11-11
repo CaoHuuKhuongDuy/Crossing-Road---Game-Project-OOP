@@ -21,8 +21,10 @@ void Button::draw() {
         importImage.drawASCII(text, pos, colorButton);
     }
     else {
-        text.erase(0, 1);
-        importImage.drawCustomImage(text.erase(text.size() - 4, 4), pos);
+        string tmp = text;
+        tmp.erase(0, 1);
+        tmp.erase(tmp.size() - 4, 4);
+        importImage.drawCustomImage(tmp, pos, false, (highlighted ? colorClicked : -1));
     }
 }
 
