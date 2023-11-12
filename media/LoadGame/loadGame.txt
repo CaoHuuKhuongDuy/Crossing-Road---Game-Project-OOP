@@ -1,4 +1,4 @@
-0 0 2121
 kduy2 0 0
 klinh 200 600
 kduyee 0 0
+kduy21 0 0

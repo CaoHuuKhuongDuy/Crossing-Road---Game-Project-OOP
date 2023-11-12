@@ -86,6 +86,7 @@ HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonDOWN = new MoveDownCommand(hero);
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
+    enterBackScreen = new EnterMenuCommand();
 }
 
 HandlerGameInput::~HandlerGameInput() 
@@ -115,7 +116,7 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     {
         return buttonRIGHT;
     }
-
+    if (userInput == 27) return enterBackScreen;
     return nullptr;
 }
 
