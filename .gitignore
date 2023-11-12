@@ -6,6 +6,8 @@ CrossingRoad_VS/
 
 src/*.o
 
+media/LoadGame/
+
 src/*.exe
 
 src/test/
