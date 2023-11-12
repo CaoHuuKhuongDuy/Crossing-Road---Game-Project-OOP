@@ -314,17 +314,17 @@ void LoadGameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        importImage.drawCustomImage("name", {0, 15});
+        importImage.drawCustomImage("name ", {0, 15});
         importImage.drawCustomImage("level", {0, 25});
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0; i < 4; i++)
         {
-            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, RED));
-            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 32), SHORT(25)});
-            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 32), SHORT(35)});
+            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 40), SHORT(15)}, WHITE, RED));
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 40), SHORT(25)});
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 40), SHORT(35)});
         }
         firstScreen = false;
-        importImage.drawImage("LoadGameSaved.txt", {43, 2});
+        importImage.drawImage("LoadGameSaved.txt", {49, 2});
     }
     buttonList.draw();
 }
