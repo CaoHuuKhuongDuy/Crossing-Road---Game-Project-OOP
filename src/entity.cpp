@@ -104,21 +104,9 @@ void DynamicEntity::slip(int step) {
     teleport({SHORT(startPos.X - step), SHORT(startPos.Y + step)});
 }
 
-void DynamicEntity::spawnDynamicEntity(double speed)
-{
-    this->draw();
-    this->right(speed);
-}
 void DynamicEntity::resetDynamicEntity()
 {
     this->teleport({0, this->getPos().Y});
-}
-
-bool DynamicEntity::isAtEdge(SHORT posEdge_X)
-{
-    if(this->getEndPos().X >= SHORT(posEdge_X))
-        return true;
-    return false;
 }
 
 int DynamicEntity::getSpeed() {
@@ -130,6 +118,144 @@ void DynamicEntity::setSpeed(const int& speed)
     this->speed = speed;
 }
 
+void Enemy::spawm()
+{
+    this->draw();
+    this->right(this->getSpeed());
+}
+
+bool Enemy::AtEdge(SHORT posEdge_X)
+{
+    if (this->getEndPos().X >= SHORT(posEdge_X))
+        return true;
+    return false;
+}
+
+Enemy::Enemy(){}
+
+Enemy::Enemy(string entityName_, COORD pos1, COORD size_) : DynamicEntity(entityName_, pos1, size_)
+{
+    currentState = new NormalState();
+}
+Enemy::~Enemy()
+{
+    delete currentState;
+}
+
+void Enemy::setState(EnemyState *newState)
+{
+    delete currentState;
+    currentState = newState;
+}
+
+EnemyState *Enemy::getState()
+{
+    return this->currentState;
+}
+
+void Enemy::updateState(TrafficLight *trafficlight_)
+{
+    if (trafficlight_->getState()->getStateType() == TrafficLightStateType::Red)
+        this->setState(new StoppedState());
+    else
+        this->setState(new NormalState());
+}
+
+void Enemy::update(TrafficLight *&trafficlight_)
+{
+    if (currentState == nullptr) return;
+    updateState(trafficlight_);
+    currentState->update(this);
+    if (this->AtEdge(appConsole.getWindowSize().X - 7))
+        this->teleport({0, this->getPos().Y});
+    this->spawm();
+}
+
+EnemyState::EnemyState() {}
+
+NormalState::NormalState() {}
+
+void NormalState::update(Enemy *){}
+
+StoppedState::StoppedState() {}
+
+void StoppedState::update(Enemy *enemy)
+{
+    enemy->setSpeed(0);
+}
+
+TrafficLight::TrafficLight(){}
+
+TrafficLight::TrafficLight(string entityName_, COORD pos1, COORD size_, TrafficLightState *currentState_) : Entity(entityName_, pos1, size_), currentState(currentState_){}
+
+TrafficLight::~TrafficLight(){delete currentState;}
+
+void TrafficLight::setState(TrafficLightState *newState)
+{
+    delete currentState;
+    currentState = newState;
+}
+
+void TrafficLight::update()
+{
+    if (currentState == nullptr)
+        currentState = new GreenState();
+    currentState->update(this);
+}
+
+bool TrafficLightState::TimeToTransition(int duration)
+{
+    auto currentTime = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration1 = currentTime - startTime;
+    int secondsElapsed = static_cast<int>(chrono::duration_cast<chrono::seconds>(duration1).count());
+    return secondsElapsed >= duration;
+}
+
+TrafficLightState *TrafficLight::getState() const
+{
+    return currentState;
+}
+
+TrafficLightState::TrafficLightState()
+{
+    startTime = chrono::high_resolution_clock::now();
+    duration = rand() % 8 + 3;
+}
+
+RedState::RedState() : TrafficLightState() {}
+TrafficLightStateType RedState::getStateType() const
+{
+    return TrafficLightStateType::Red;
+}
+
+void RedState::update(TrafficLight *trafficlight_)
+{
+    if (TimeToTransition(4))
+    {
+        trafficlight_->setState(new GreenState());
+        chrono::high_resolution_clock::now();
+        return;
+    }
+    importImage.drawImage("red.txt", {SHORT(trafficlight_->getPos().X + 2), SHORT(trafficlight_->getPos().Y + 1)});
+}
+
+GreenState::GreenState() {}
+
+TrafficLightStateType GreenState::getStateType() const
+{
+    return TrafficLightStateType::Green;
+}
+
+void GreenState::update(TrafficLight *trafficlight_)
+{
+    if (TimeToTransition(this->duration))
+    {
+        trafficlight_->setState(new RedState());
+        startTime = chrono::high_resolution_clock::now();
+        return;
+    }
+    importImage.drawImage("green.txt", {SHORT(trafficlight_->getPos().X + 2), SHORT(trafficlight_->getPos().Y + 1)});
+}
 
 void Hero::resetDynamicEntity()
 {
@@ -177,7 +303,6 @@ void Hero::updateHeroExp(const int& score)
     this->level = int(floor(this->score / 300)) + 1;
 }
 
-
 bool Hero::isCollision(DynamicEntity* enemy)
 {
     if (enemy == nullptr) return false;
@@ -209,74 +334,3 @@ void Hero::verify()
     startPos.Y = max(startPos.Y, SHORT(0));
     startPos.Y = min(startPos.Y, SHORT(sizeScreen.Y - size.Y));
 }
-
-TrafficLight::TrafficLight(bool isRed_) : isRed(isRed_){}
-
-TrafficLight::TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed_) : Entity(entityName_, pos1, size_), isRed(isRed_){
-}
-
-void TrafficLight::freezeEnemy(DynamicEntity* &enemy)
-{
-    enemy->setSpeed(0);
-}
-
-
-void TrafficLight::freezeRowEnemy(DynamicEntity** &enemy, const int& rowIndex)
-{
-    if (rowIndex == -1) return;
-    for(int i = 0; i < 3; ++i)
-    {
-        this->freezeEnemy(enemy[rowIndex * 3 + i]);
-    }
-    this->setLight(true);
-
-}
-
-void TrafficLight::setLight(const bool& isRed)
-{
-    this->isRed = isRed;
-}
-
-void TrafficLight::updateLight()
-{
-    COORD posLight = {SHORT(this->getPos().X + 2), SHORT(this->getPos().Y + 1)};
-    if (this->isRed)
-        importImage.drawImage("red.txt", posLight);
-    else 
-        importImage.drawImage("green.txt", posLight);
-}
-
-void ControlTrafficLight::setTrafficLight(const bool& trafficlight)
-{
-    this->isRed = trafficlight;
-}
-
-bool ControlTrafficLight::isRedOn()
-{
-    return this->isRed;
-}
-
-void ControlTrafficLight::updateTrafficLight()
-{
-    auto currentTime = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = currentTime - startTime;
-    int secondsElapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
-    if (this->isRedOn()) {
-        if (secondsElapsed >= 4) {
-            isRed = false;
-            startTime = chrono::high_resolution_clock::now();
-        }
-    }
-    else
-    {
-        if (secondsElapsed >= 5)
-        {
-            isRed = true;
-            startTime =  chrono::high_resolution_clock::now();
-
-        }
-        this->stopRow1 = (rand() % 11) % 5;
-        this->stopRow2 = (this->stopRow1 + rand()) % 5;
-    }
-}
-ControlTrafficLight::ControlTrafficLight(bool isRed_ ) : TrafficLight(isRed){}

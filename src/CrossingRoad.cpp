@@ -7,6 +7,9 @@ using namespace stValue;
 
 signed main() {
     init();
+    appConsole.setFullscreenBackgroundColor(BG_CYAN);
+    // importImage.drawImage("pauseScreen.txt", {0, 0});
+    // return 0;
     mainScreen = new MenuScreen();
     Command *command;
     while (true) {

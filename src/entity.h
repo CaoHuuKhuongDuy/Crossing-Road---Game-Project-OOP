@@ -2,6 +2,21 @@
 
 using namespace stValue;
 
+
+class Enemy;
+class EnemyState;
+class Entity;
+class DynamicEntity;
+class TrafficLight;
+class TrafficLightState;
+class Hero;
+class GreenState;
+class RedState;
+class NormalState;
+class StoppedState;
+enum class TrafficLightStateType;
+
+
 class Entity {
     public:
         Entity(){};
@@ -23,9 +38,7 @@ class DynamicEntity : public Entity
 public:
     DynamicEntity() {};
     DynamicEntity(string entityName_, COORD pos1, COORD size_);
-    bool isAtEdge(SHORT posEdge_X);
     virtual void resetDynamicEntity();
-    void spawnDynamicEntity(double speed = 1);
     void up(int step = 1);
     void down(int step = 1);
     void left(int step = 1);
@@ -38,6 +51,96 @@ public:
 protected:
     void caculateRemainFrame(COORD oldPos);
     int speed;
+};
+
+class Enemy : public DynamicEntity
+{
+public:
+    Enemy();
+    Enemy(string entityName_, COORD pos1, COORD size_);
+    ~Enemy();
+
+    bool AtEdge(SHORT posEdge_X);
+    void spawm();
+
+    EnemyState* getState();
+    void setState(EnemyState* newState);
+    void updateState(TrafficLight*);
+
+    void update(TrafficLight*&);
+
+private:
+    EnemyState* currentState;
+};
+
+class EnemyState
+{
+public:
+    EnemyState();
+    virtual void update(Enemy*) = 0;
+protected:
+};
+
+class NormalState : public EnemyState
+{
+public:
+    NormalState();
+    void update(Enemy*) override;
+};
+
+class StoppedState: public EnemyState 
+{
+public:
+    StoppedState();
+    void update(Enemy*) override;
+};
+
+class TrafficLight : public Entity
+{
+    public:
+        TrafficLight();
+        TrafficLight(string entityName_, COORD pos1, COORD size_, TrafficLightState* currentState_);
+        ~TrafficLight();
+        TrafficLightState* getState() const;
+        void setState(TrafficLightState* newState);
+        void update();
+    protected:
+        TrafficLightState* currentState;
+};
+
+class TrafficLightState
+{
+    public:
+        TrafficLightState();
+        virtual TrafficLightStateType getStateType() const = 0;
+        bool TimeToTransition(int duration);
+        virtual void update(TrafficLight* ) = 0;
+    protected:
+        int duration;
+        chrono::high_resolution_clock::time_point startTime;
+
+};
+
+enum class TrafficLightStateType
+{
+    Red, 
+    Green,
+};
+
+class RedState : public TrafficLightState
+{
+    public:
+        RedState();
+        TrafficLightStateType getStateType() const override;
+        void update(TrafficLight*) override;
+};
+
+class GreenState : public TrafficLightState
+{
+    public:
+        GreenState();
+        TrafficLightStateType getStateType() const override;
+        void update(TrafficLight*) override;
 };
 
 
@@ -63,32 +166,5 @@ private:
     SHORT heroHeight = 5;
     int score = 0;
     int level = int(floor(score / 300)) + 1;
-};
-
-class TrafficLight : public Entity
-{
-    public:
-        TrafficLight(){};
-        TrafficLight(bool isRed_);
-        TrafficLight(string entityName_, COORD pos1, COORD size_, bool isRed);
-        void freezeEnemy(DynamicEntity* &enemy);
-        void freezeRowEnemy(DynamicEntity** &enemy, const int& rowIndex);
-        void setLight(const bool& isRed);
-        void updateLight();
-    protected:
-        bool isRed;
-};
-
-class ControlTrafficLight : public TrafficLight
-{
-    public:
-        ControlTrafficLight(bool isRed_);
-        int stopRow1 = -1;
-        int stopRow2 = -1;
-        void updateTrafficLight();
-        void setTrafficLight(const bool& trafficlight);
-        bool isRedOn();
-    private:
-        chrono::high_resolution_clock::time_point startTime;
 };
 

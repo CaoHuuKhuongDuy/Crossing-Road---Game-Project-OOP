@@ -127,47 +127,38 @@ void GameScreen::allocateEnemy()
 {
     int random = rand() % (appConsole.getWindowSize().X / 2 - 15);
     SHORT posY;
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i){
         posY = 8;
-        enemy[i] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {11, 5});
+        enemy[i] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i){
         posY = 13;
-        // trafficlight[1] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
-        enemy[i + 3] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 30);
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i){
         posY = 23;
-        // trafficlight[2] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
-        enemy[i + 6] = new DynamicEntity("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), posY}, {20, 5});
+        enemy[i + 6] = new Enemy("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), posY}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 9);
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i){
         posY = 28;
-        // trafficlight[3] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
-        enemy[i + 9] = new DynamicEntity("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
+        enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 18);
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i){
         posY = 38;
-        // trafficlight[4] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), posY}, {5, 5}, false);
-        enemy[i + 12] = new DynamicEntity("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        enemy[i + 12] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
     }
+
 }
 
 void GameScreen::allocateTrafficLight()
 {
     trafficlight = new TrafficLight *[numberTrafficLight];
-    for(int i = 0; i < this->numberTrafficLight; ++i)
-        trafficlight[i] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), this->enemy[i*3]->getPos().Y}, {5, 5}, false);
-    controltrafficlight = new ControlTrafficLight(false);
+    for(int i = 0; i < numberTrafficLight; ++i)
+        trafficlight[i] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), this->enemy[i*3]->getPos().Y}, {5, 5}, new GreenState());
 }
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
@@ -178,7 +169,7 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
     hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
-    enemy = new DynamicEntity *[numberEnemy];
+    enemy = new Enemy *[numberEnemy];
     allocateEnemy();
     allocateTrafficLight();
 }
@@ -197,34 +188,20 @@ GameScreen::~GameScreen()
     delete[] trafficlight;
     delete finish_line;
     delete hero;
-    delete controltrafficlight;
 }
-
 
 void GameScreen::manageEnemies()
 {
     for (int i = 0; i < numberEnemy; ++i)
-    {
-        enemy[i]->spawnDynamicEntity(enemy[i]->getSpeed());
-        if (enemy[i]->isAtEdge(appConsole.getWindowSize().X - trafficlight[i % 3]->getSize().X - 2))
-            enemy[i]->resetDynamicEntity();
-    }
+        enemy[i]->update(trafficlight[(int(floor(i/3)))]);
 }
 
 void GameScreen::manageTrafficLight()
 {
-    controltrafficlight->updateTrafficLight();
-    for(int i = 0; i < numberTrafficLight; ++i)
-        trafficlight[i]->setLight(false);
-    if (controltrafficlight->isRedOn())
-    {
-
-        trafficlight[controltrafficlight->stopRow1]->freezeRowEnemy(enemy, controltrafficlight->stopRow1);
-        trafficlight[controltrafficlight->stopRow2]->freezeRowEnemy(enemy, controltrafficlight->stopRow2);
-    }
     for(int i = 0; i < numberTrafficLight; ++i)
     {
-        trafficlight[i]->updateLight();
+        trafficlight[i]->draw();    
+        trafficlight[i]->update();
     }
 }
 
@@ -234,11 +211,7 @@ void GameScreen::draw()
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        for(int i = 0; i < numberTrafficLight; ++i)
-            trafficlight[i]->draw();
         finish_line->draw();
-        for (int i = 0; i < numberEnemy; ++i)
-            enemy[i]->setSpeed(hero->getHeroLevel());
         firstScreen = false;
         string STRINGlevel = to_string(hero->getHeroLevel());
         string STRINGscore = to_string(hero->getHeroScore());
@@ -247,12 +220,11 @@ void GameScreen::draw()
         importImage.drawCustomImage(STRINGlevel, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
         importImage.drawCustomImage(STRINGscore, {70, 0}, true);
     }
-
-    hero->draw();
     for (int i = 0; i < numberEnemy; ++i)
     {
         enemy[i]->setSpeed(hero->getHeroLevel());
     }
+    hero->draw();
     manageTrafficLight();
     manageEnemies();
     for (int i = 0; i < numberEnemy; ++i)
@@ -267,37 +239,13 @@ void GameScreen::draw()
 			}
             else {
                 hero->updateHeroExp(0);
-//                appConsole.setFullscreenBackgroundColor(BG_CYAN);                
-//				overframe->draw();
-//				bus->draw();
-//				die->draw();
-//				int count = 0;
-//				while(!firstScreen){
-//				    if(count < 10){
-//						bus->right(4);
-//     					bus->draw();
-//						count++;
-//						Sleep(5);
-//						if(count == 10)	{
-//							die = nullptr ;
-//							die = new Entity("boom.txt",{162,25},{11,5}); 
-//							die->draw();
-//                			importImage.drawCustomImage("enter to replay",{SHORT(appConsole.getWindowSize().X/2), 36}, false);	
-//							die = new Entity("phoenix.txt",{162,25},{11,5});  							
-//						}			    	
-//					}					 					
-//					if(kbhit()){
-//						char c = getch();
-//						if(c == 13) {
-//							bus->teleport({120,25});
-				            hero->resetDynamicEntity();
-				            hero->draw();        
-				            firstScreen = true;							
-//						} 
-                return;					
-				}            	
-			}
+                hero->resetDynamicEntity();
+                hero->draw();
+                firstScreen = true;
+                return;
+            }
         }
+    }
 }
 
 // OverGameScreen::OverGameScreen() : Screen() {
@@ -314,17 +262,17 @@ void LoadGameScreen::draw()
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
-        importImage.drawCustomImage("name", {0, 15});
+        importImage.drawCustomImage("name ", {0, 15});
         importImage.drawCustomImage("level", {0, 25});
         importImage.drawCustomImage("score", {0, 35});
         for (int i = 0; i < 4; i++)
         {
-            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 32), SHORT(15)}, WHITE, RED));
-            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 32), SHORT(25)});
-            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 32), SHORT(35)});
+            buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 40), SHORT(15)}, WHITE, RED));
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 40), SHORT(25)});
+            importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 40), SHORT(35)});
         }
         firstScreen = false;
-        importImage.drawImage("LoadGameSaved.txt", {43, 2});
+        importImage.drawImage("LoadGameSaved.txt", {49, 2});
     }
     buttonList.draw();
 }
