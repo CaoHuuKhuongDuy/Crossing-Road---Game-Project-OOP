@@ -1,4 +1,4 @@
-tienne 6 7
 kduy2 0 0
 klinh 200 600
 kduyee 0 0
+uatutu 0 0
