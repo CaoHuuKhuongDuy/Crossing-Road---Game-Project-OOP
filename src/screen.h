@@ -70,11 +70,16 @@ public:
     GameScreen();
     ~GameScreen();
 
-    void allocateEnemy();
-    void allocateTrafficLight();
+
+    void buildFrame();
+    void buildFinishline();
+    void buildEnemy();
+    void buildHero();
+    void buildTrafficlight();
     
     void manageTrafficLight();
-    void manageEnemies();
+    void manageEnemy();
+    void manageHero();
     
     void draw() override;
 
@@ -84,6 +89,8 @@ private:
     Enemy **enemy;
     Hero *hero;
     TrafficLight** trafficlight;
+    string level;
+    string score;
     const int numberTrafficLight = 5;
     const int numberEnemy = 15;
 };      

@@ -16,7 +16,7 @@ files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 for fileName in files:
     if fileName[-1] != 'g' : continue
-    if fileName != "finish_line.png" : continue
+    if fileName != "esc.png" : continue
     fileName = fileName[:-4]
     pathImage = path + fileName + ".png"
     # print(pathImage)
