@@ -122,39 +122,51 @@ void IntroGameScreen::draw() {
     name = textInput;
 }
 
-
-void GameScreen::allocateEnemy()
+void GameScreen::buildFrame()
 {
+    this->frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+}
+void GameScreen::buildFinishline()
+{
+    this->finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
+}
+void GameScreen::buildEnemy()
+{
+    this->enemy = new Enemy *[numberEnemy];
     int random = rand() % (appConsole.getWindowSize().X / 2 - 15);
     SHORT posY;
     for (int i = 0; i < 3; ++i){
         posY = 8;
-        enemy[i] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {11, 5});
+        this->enemy[i] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 3; ++i){
         posY = 13;
-        enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        this->enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 30);
     for (int i = 0; i < 3; ++i){
         posY = 23;
-        enemy[i + 6] = new Enemy("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), posY}, {20, 5});
+        this->enemy[i + 6] = new Enemy("bigUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 10 * (i - 1)), posY}, {20, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 9);
     for (int i = 0; i < 3; ++i){
         posY = 28;
-        enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
+        this->enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 18);
     for (int i = 0; i < 3; ++i){
         posY = 38;
-        enemy[i + 12] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        this->enemy[i + 12] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
     }
-
 }
-
-void GameScreen::allocateTrafficLight()
+void GameScreen::buildHero()
+{
+    SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
+}
+void GameScreen::buildTrafficlight()
 {
     trafficlight = new TrafficLight *[numberTrafficLight];
     for(int i = 0; i < numberTrafficLight; ++i)
@@ -163,15 +175,11 @@ void GameScreen::allocateTrafficLight()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
-    frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-    // overgameframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});
-    finish_line = new Entity("finish_line.txt", {0, 4}, {211, 5});
-    SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
-    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
-    enemy = new Enemy *[numberEnemy];
-    allocateEnemy();
-    allocateTrafficLight();
+    this->buildFrame();
+    this->buildFinishline();
+    this->buildHero();
+    this->buildEnemy();
+    this->buildTrafficlight();
 }
 
 GameScreen::~GameScreen()
@@ -190,7 +198,7 @@ GameScreen::~GameScreen()
     delete hero;
 }
 
-void GameScreen::manageEnemies()
+void GameScreen::manageEnemy()
 {
     for (int i = 0; i < numberEnemy; ++i)
         enemy[i]->update(trafficlight[(int(floor(i/3)))]);
@@ -205,6 +213,26 @@ void GameScreen::manageTrafficLight()
     }
 }
 
+void GameScreen::manageHero()
+{
+    for (int i = 0; i < numberEnemy; ++i)
+    {
+        if (hero->isCollision(enemy[i]))
+        {
+            mainScreen = new MenuScreen();
+            return;
+        }
+    }
+
+    if (hero->isAtEdge(7))
+    {
+        hero->updateHeroExp();
+        hero->resetDynamicEntity();
+        hero->draw();
+        firstScreen = true;
+    }
+}
+
 void GameScreen::draw()
 {
     if (firstScreen)
@@ -212,13 +240,13 @@ void GameScreen::draw()
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
         finish_line->draw();
-        firstScreen = false;
-        string STRINGlevel = to_string(hero->getHeroLevel());
-        string STRINGscore = to_string(hero->getHeroScore());
-        importImage.drawCustomImage(STRINGlevel, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
-        importImage.drawCustomImage(STRINGscore, {70, 0}, true);
-        importImage.drawCustomImage(STRINGlevel, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
-        importImage.drawCustomImage(STRINGscore, {70, 0}, true);
+        level = to_string(hero->getHeroLevel());
+        score = to_string(hero->getHeroScore());
+        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
+        importImage.drawCustomImage(score, {70, 0}, true);
+        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
+        importImage.drawCustomImage(score, {70, 0}, true);
+        firstScreen = false;    
     }
     for (int i = 0; i < numberEnemy; ++i)
     {
@@ -226,32 +254,9 @@ void GameScreen::draw()
     }
     hero->draw();
     manageTrafficLight();
-    manageEnemies();
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        if (hero->isCollision(enemy[i]) || hero->isAtEdge(7))
-        {
-            if (hero->isAtEdge(7)){
-                hero->updateHeroExp();      
-	            hero->resetDynamicEntity();
-	            hero->draw();        
-                firstScreen = true;	      	
-			}
-            else {
-                hero->updateHeroExp(0);
-                hero->resetDynamicEntity();
-                hero->draw();
-                firstScreen = true;
-                return;
-            }
-        }
-    }
+    manageEnemy();
+    manageHero();
 }
-
-// OverGameScreen::OverGameScreen() : Screen() {
-//     overgameframe = new Entity("GameOver.txt", {SHORT((appConsole.getWindowSize().X - 30) / 2), 0}, {150, 50});
-// }
-
 
 LoadGameScreen::LoadGameScreen() : Screen(new HandlerLoadInput()){};
 
