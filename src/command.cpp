@@ -1,40 +1,49 @@
 #include "command.h"
 #include "screen.h"
+#include "screenStack.h"
 
 
 
-void Command::changeScreen(Screen *&mainScreen, Screen *nxtScreen) {
-    delete mainScreen;
-    mainScreen = nxtScreen;
+void Command::pushScreen(Screen *nxtScreen) {
+    listScreen.push(nxtScreen);
+}
+
+void Command::popScreen() {
+    listScreen.pop();
+}
+
+void EnterBackScreenCommand::execute() {
+    popScreen();
 }
 
 void EnterMenuCommand::execute() {
-    changeScreen(mainScreen, new MenuScreen());
+    pushScreen(new MenuScreen());
 }
 
 void EnterIntroGameCommand::execute() {
-    changeScreen(mainScreen, new IntroGameScreen());
+    pushScreen(new IntroGameScreen());
+
 }
 
 void EnterGameCommand::execute() {
-    changeScreen(mainScreen, new GameScreen());
+    pushScreen(new GameScreen());
 }
 
 void EnterLoadGameCommand::execute() {
-    changeScreen(mainScreen, new LoadGameScreen());
+    pushScreen(new LoadGameScreen());
 }
 
 void EnterCreditCommand::execute() {
-    changeScreen(mainScreen, new CreditScreen());
+    pushScreen(new CreditScreen());
 }
 
 void EnterLeaderCommand::execute() {
-    changeScreen(mainScreen, new LeaderBoardScreen());
+    pushScreen(new LeaderBoardScreen());
 }
 
 void LoadSavedGameCommand::execute() {
     mainPlayer = listPlayer.getPlayer(idButtonChoosen);
-    changeScreen(mainScreen, new GameScreen());
+    pushScreen(new GameScreen());
 }
 
 void LoadSavedGameCommand::setIdButtonChoosen(int idButtonChoosen_) {

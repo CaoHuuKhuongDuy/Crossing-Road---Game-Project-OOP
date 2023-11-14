@@ -1,5 +1,5 @@
 #include "staticVariable.h"
-#include "screen.h"
+#include "screenStack.h"
 
 namespace stValue {
 	COORD FIX_SIZE = {211, 54};
@@ -8,12 +8,14 @@ namespace stValue {
 	string GAME_NAME = "Crossing Road";
 	Console appConsole;
     ImportImage importImage;
-    Screen *mainScreen = nullptr;
-    Player *mainPlayer = nullptr;
+    ScreenStack listScreen;
     ListPlayer listPlayer;
+    Player *mainPlayer = nullptr;
+    // Screen *mainScreen;
     void init() {
         appConsole.init();
         importImage.init(&appConsole);
         listPlayer.init();
+        listScreen.init();
     }
 }

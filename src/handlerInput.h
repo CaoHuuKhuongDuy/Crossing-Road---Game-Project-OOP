@@ -6,6 +6,7 @@
 class HandlerInput
 {
 public:
+    HandlerInput();
     virtual Command *handlerInput(ButtonList &buttonList) = 0;
     virtual void setFixUserInput(int fixUserInput);
     virtual ~HandlerInput();

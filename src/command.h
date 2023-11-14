@@ -16,8 +16,15 @@ class Command {
         virtual void clearText() {};
         virtual void setIdButtonChoosen(int idButtonChoosen_) {};
     protected:
-        static void changeScreen(Screen *&mainScreen, Screen *nxtScreen);
+        void pushScreen(Screen *nxtScreen);
+        void popScreen();
 };
+
+class EnterBackScreenCommand : public Command {
+    public:
+        void execute() override;
+};
+
 
 class EnterMenuCommand : public Command {
     public:

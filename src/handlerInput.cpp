@@ -1,5 +1,13 @@
 #include "handlerInput.h"
 
+HandlerInput::HandlerInput() {
+    enterBackScreen = new EnterBackScreenCommand();
+}
+
+HandlerInput::~HandlerInput() {
+    delete enterBackScreen;
+}
+
 int HandlerInput::getUserInput() {
     if (fixUserInput != -1) {
         int tmp = fixUserInput;
@@ -14,9 +22,6 @@ void HandlerInput::setFixUserInput(int fixUserInput) {
     this->fixUserInput = fixUserInput;
 }
 
-HandlerInput::~HandlerInput() {
-    delete enterBackScreen;
-}
 
 HandlerMenuInput::HandlerMenuInput()
 {
@@ -24,7 +29,6 @@ HandlerMenuInput::HandlerMenuInput()
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
     enterLeader = new EnterLeaderCommand();
-    enterBackScreen = nullptr;
 }
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
@@ -52,7 +56,6 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
 HandlerIntroGameInput::HandlerIntroGameInput(string &textInput) {
     enterGame = new EnterGameCommand();
     inputChar = new InputTextCommand(textInput);
-    enterBackScreen = new EnterMenuCommand();
 }
 
 HandlerIntroGameInput::~HandlerIntroGameInput() {
@@ -86,7 +89,6 @@ HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonDOWN = new MoveDownCommand(hero);
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
-    enterBackScreen = new EnterMenuCommand();
 }
 
 HandlerGameInput::~HandlerGameInput() 
@@ -121,7 +123,6 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
 }
 
 HandlerLoadInput::HandlerLoadInput() {
-    enterBackScreen = new EnterMenuCommand();
     loadSavedGame = new LoadSavedGameCommand();
 }
 
@@ -147,9 +148,7 @@ Command *HandlerLoadInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
-HandlerLeaderBoardInput::HandlerLeaderBoardInput() {
-    enterBackScreen = new EnterMenuCommand();
-}
+HandlerLeaderBoardInput::HandlerLeaderBoardInput() {}
 
 HandlerLeaderBoardInput::~HandlerLeaderBoardInput() {
 }
@@ -160,9 +159,7 @@ Command *HandlerLeaderBoardInput::handlerInput(ButtonList &ButtonList) {
     return nullptr;
 }
 
-HandlerCreditInput::HandlerCreditInput() {
-    enterBackScreen = new EnterMenuCommand();
-}
+HandlerCreditInput::HandlerCreditInput() {}
 
 HandlerCreditInput::~HandlerCreditInput() {
 }

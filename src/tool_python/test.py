@@ -16,7 +16,7 @@ files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 for fileName in files:
     if fileName[-1] != 'g' : continue
-    if fileName != "esc.png" : continue
+    if fileName != "blueEsc.png" and fileName != "blackEsc.png" : continue
     fileName = fileName[:-4]
     pathImage = path + fileName + ".png"
     # print(pathImage)
@@ -59,6 +59,7 @@ for fileName in files:
             else:  # Handle other color modes (e.g., RGBA)
                 red, green, blue, alpha = pixel_color[:4]  # Extract RGB and alpha
             closest_color_code = min(color_list, key=lambda code: color_distance((red, green, blue), color_list[code]))
+            if closest_color_code == 128 : closest_color_code = 112
             write2BinaryFile(x);
             write2BinaryFile(y);
             write2BinaryFile(32);

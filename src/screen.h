@@ -20,7 +20,7 @@ public:
     Screen(HandlerInput *handlerInput_);
     virtual void draw() = 0;
     virtual Command *handleInput();
-    Screen *getPreScreen();
+    void setAgain();
 protected:
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;

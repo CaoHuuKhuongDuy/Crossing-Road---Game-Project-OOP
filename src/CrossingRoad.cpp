@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "screenStack.h"
 #include <vector>
 #include <conio.h>
 #include "console.h"
@@ -7,12 +8,10 @@ using namespace stValue;
 
 signed main() {
     init();
-    appConsole.setFullscreenBackgroundColor(BG_CYAN);
-    importImage.drawImage("esc.txt", {0, 0});
-    return 0;
-    mainScreen = new MenuScreen();
+    Screen *mainScreen;
     Command *command;
     while (true) {
+        mainScreen = listScreen.top();
         mainScreen->draw();
         command = mainScreen->handleInput();
         if (command) command->execute();

@@ -24,6 +24,7 @@ using namespace std;
 #define MAX_NAME_LENGTH 50
 
 
+class ScreenStack;
 class Screen;
 
 namespace stValue {
@@ -32,7 +33,8 @@ namespace stValue {
 	extern string GAME_NAME, PATH_PROJECT;
     extern Console appConsole;  // special variable (not upcase)
     extern ImportImage importImage;
-    extern Screen *mainScreen;
+    extern ScreenStack listScreen;
+    // extern Screen *mainScreen;
     extern Player *mainPlayer;
     extern ListPlayer listPlayer;
     void init();

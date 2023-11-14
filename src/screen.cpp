@@ -2,7 +2,9 @@
 
 Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
 
-
+void Screen::setAgain() {
+    firstScreen = true;
+}
 
 Command *Screen::handleInput() {
     return handlerInputMainScreen->handlerInput(buttonList);
@@ -21,6 +23,8 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
     meteor[5] = new DynamicEntity("slight.txt", {22,15}, {4, 4});
     meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
+    for (int i = 0; i < 6; i++)
+        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 13)}, WHITE, GREEN));
 };
 
 MenuScreen::~MenuScreen()
@@ -38,16 +42,15 @@ void MenuScreen::draw()
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
         importImage.drawASCII("crossingroad.txt", {36, 5});
-        importImage.drawASCII("frame.txt", {45, 12});
         Entity *jupiter = new Entity("jupiter.txt", {20, 22}, {12, 11});
         Entity *sartun = new Entity("sartun.txt", {148, 7}, {21, 20});
         Entity *venus = new Entity("venus.txt", {128, 31}, {23, 15});
+        importImage.drawASCII("frame.txt", {45, 12});
         jupiter->draw();
         sartun->draw();
         venus->draw();
-        for (int i = 0; i < 6; i++)
-            buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 13)}, WHITE, GREEN));
         firstScreen = false;
+        // return;
     }
     buttonList.draw();
     rocket->draw();
@@ -215,14 +218,14 @@ void GameScreen::manageTrafficLight()
 
 void GameScreen::manageHero()
 {
-    for (int i = 0; i < numberEnemy; ++i)
-    {
-        if (hero->isCollision(enemy[i]))
-        {
-            mainScreen = new MenuScreen();
-            return;
-        }
-    }
+    // for (int i = 0; i < numberEnemy; ++i)
+    // {
+    //     if (hero->isCollision(enemy[i]))
+    //     {
+    //         mainScreen = new MenuScreen();
+    //         return;
+    //     }
+    // }
 
     if (hero->isAtEdge(7))
     {
