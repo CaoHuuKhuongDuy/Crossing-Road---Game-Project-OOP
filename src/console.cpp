@@ -128,6 +128,10 @@ COORD Console::getCursorPosition() {
     return coord;
 }
 
+void Console::SetBackgroundColor(int color) {
+    currentBackgroundColor = color;
+}
+
 void Console::clear(COORD p1, COORD p2) {
     if (p1.X == -1 || p1.Y == -1 || p2.X == -1 || p2.Y == -1) {
         system("cls");
