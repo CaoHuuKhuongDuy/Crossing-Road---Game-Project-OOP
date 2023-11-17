@@ -147,7 +147,7 @@ private:
    			"logic game"
    };	
 };
-class LeaderBoardScreen : public Screen
+class LeaderBoardScreen : public Screen{
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
