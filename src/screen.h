@@ -148,7 +148,6 @@ private:
    };	
 };
 class LeaderBoardScreen : public Screen
-{
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
@@ -158,4 +157,5 @@ private:
     Entity *frame;
     Entity *title;
     DynamicEntity* moon, * star; 
+    Entity * gold, * silver, * copper,* congratulate,* crown;  
    };
