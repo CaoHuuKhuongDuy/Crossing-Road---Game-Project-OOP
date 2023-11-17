@@ -60,6 +60,8 @@ class Console {
 
         void setCursorPosition(COORD pos);
 
+        void SetBackgroundColor(int color); 
+
         void writeAt(std::string text, int colorText, COORD posCursor = {-1, -1}, int colorBackground = -1);
 
         COORD getCursorPosition();
