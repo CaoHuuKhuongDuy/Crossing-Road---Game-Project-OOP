@@ -151,11 +151,10 @@ class LeaderBoardScreen : public Screen{
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
-    void swap(Player &a, Player &b);
+    void swap(Player* a, Player* b);
     void draw() override;
 private:    
     Entity *frame;
-    Entity *title;
     DynamicEntity* moon, * star; 
     Entity * gold, * silver, * copper,* congratulate,* crown;  
    };
