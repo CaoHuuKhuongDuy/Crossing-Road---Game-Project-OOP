@@ -444,25 +444,25 @@ void LeaderBoardScreen::draw()
         firstScreen = false;
     }
     for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation1.txt", {85 + 60*i, 2 }, {12, 8});
+    congratulate = new Entity("congratulation1.txt", {SHORT(85 + 60*i), 2 }, {12, 8});
     congratulate->draw();
     congratulate = nullptr;       	
 	}
     Sleep(30);
     for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation1.txt", {75 + 80*i, 7 }, {12, 8});
+    congratulate = new Entity("congratulation1.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
     congratulate->draw();
     congratulate = nullptr;       	
 	}
     Sleep(30);    
     for(int i=0;i<2;i++){    
-    congratulate = new Entity("congratulation2.txt", {85 + 60*i, 2}, {12, 8});
+    congratulate = new Entity("congratulation2.txt", {SHORT(85 + 60*i), 2}, {12, 8});
     congratulate->draw();    
     congratulate = nullptr;  
     }
     Sleep(30); 
     for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation2.txt", {75 + 80*i, 7 }, {12, 8});
+    congratulate = new Entity("congratulation2.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
     congratulate->draw();
     congratulate = nullptr;       	
 	}
