@@ -24,7 +24,7 @@ void Button::draw() {
         string tmp = text;
         tmp.erase(0, 1);
         tmp.erase(tmp.size() - 4, 4);
-        importImage.drawCustomImage(tmp, pos, false, (highlighted ? colorClicked : -1));
+        // importImage.drawCustomImage(tmp, pos, false, (highlighted ? colorClicked : -1));
     }
 }
 

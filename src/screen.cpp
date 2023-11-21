@@ -420,3 +420,21 @@ void LeaderBoardScreen::draw()
         firstScreen = false;
     }
 }
+
+PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput()) {
+    frame = new Entity("blueEsc.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    // buttonList.addButton(new Button("Resume", {SHORT((appConsole.getWindowSize().X - 43) / 2 + 60), SHORT(20)}, WHITE, GREEN));
+    buttonList.addButton(new Button("saveAndQuit", {SHORT((appConsole.getWindowSize().X - 43) / 2 + 60), SHORT(25)}, WHITE, GREEN));
+}
+
+PauseGameScreen::~PauseGameScreen() {
+    delete frame;
+}
+
+void PauseGameScreen::draw() {
+    if (firstScreen) {
+        frame->draw();
+        firstScreen = false;
+    }
+    buttonList.draw();
+}

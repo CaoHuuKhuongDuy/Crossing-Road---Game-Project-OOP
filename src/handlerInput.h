@@ -54,6 +54,8 @@ private:
     Command *buttonDOWN;
     Command *buttonLEFT;
     Command *buttonRIGHT;
+    Command *saveHero;
+    Command *enterPauseScreen;
 };
 
 class HandlerLoadInput : public HandlerInput
@@ -79,4 +81,13 @@ class HandlerCreditInput : public HandlerInput {
         HandlerCreditInput();
         ~HandlerCreditInput();
         Command *handlerInput(ButtonList &buttonList);
+};
+
+class HandlerPauseScreenInput : public HandlerInput {
+    public:
+        HandlerPauseScreenInput();
+        ~HandlerPauseScreenInput();
+        Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command *resumeGame;
 };

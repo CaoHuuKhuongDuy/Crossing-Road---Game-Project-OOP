@@ -158,4 +158,14 @@ private:
     Entity *frame;
     Entity *title;
     DynamicEntity* moon, * star; 
-   };
+};
+
+
+class PauseGameScreen : public Screen {
+    public:
+        PauseGameScreen();
+        ~PauseGameScreen();
+        void draw() override;
+    private:
+        Entity *frame;
+};

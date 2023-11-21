@@ -4,8 +4,8 @@
 
 
 
-void Command::pushScreen(Screen *nxtScreen) {
-    listScreen.push(nxtScreen);
+void Command::pushScreen(Screen *nxtScreen, int numBack) {
+    listScreen.push(nxtScreen, numBack);
 }
 
 void Command::popScreen() {
@@ -21,8 +21,7 @@ void EnterMenuCommand::execute() {
 }
 
 void EnterIntroGameCommand::execute() {
-    pushScreen(new IntroGameScreen());
-
+    pushScreen(new IntroGameScreen(), 2);
 }
 
 void EnterGameCommand::execute() {
@@ -39,6 +38,10 @@ void EnterCreditCommand::execute() {
 
 void EnterLeaderCommand::execute() {
     pushScreen(new LeaderBoardScreen());
+}
+
+void EnterPauseScreenCommand::execute() {
+    pushScreen(new PauseGameScreen(), 2);
 }
 
 void LoadSavedGameCommand::execute() {
@@ -67,6 +70,11 @@ void InputTextCommand::execute() {
         return;
     }
     if (textInput.size() < limChar) textInput += addChar;
+}
+
+void ResumeGameCommand::execute() {
+    listScreen.setNumback(1);
+    popScreen();
 }
 
 MoveEntityCommand::MoveEntityCommand(Hero *&hero_) : hero(hero_) {}
@@ -101,9 +109,9 @@ void MoveRightCommand::execute()
     hero->right(5);
 }
 
-SaveGameCommand::SaveGameCommand(Hero*& hero_) : MoveEntityCommand(hero_) {}
+SaveHeroCommand::SaveHeroCommand(Hero*& hero_) : MoveEntityCommand(hero_) {}
 
-void SaveGameCommand::execute() {
+void SaveHeroCommand::execute() {
     mainPlayer->setLevel(to_string(hero->getHeroLevel()));
     mainPlayer->setScore(to_string(hero->getHeroScore()));
     listPlayer.savePlayers();

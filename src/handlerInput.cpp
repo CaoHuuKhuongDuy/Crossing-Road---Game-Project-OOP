@@ -89,14 +89,17 @@ HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonDOWN = new MoveDownCommand(hero);
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
+    saveHero = new SaveHeroCommand(hero);
+    enterPauseScreen = new EnterPauseScreenCommand();
 }
 
-HandlerGameInput::~HandlerGameInput() 
-{
+HandlerGameInput::~HandlerGameInput() {
     delete buttonUP;
     delete buttonDOWN;
     delete buttonLEFT;
     delete buttonRIGHT;
+    delete saveHero;
+    delete enterPauseScreen;
 }
 
 Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
@@ -118,7 +121,10 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     {
         return buttonRIGHT;
     }
-    if (userInput == 27) return enterBackScreen;
+    if (userInput == 27) {
+        saveHero->execute();
+        return enterPauseScreen;
+    }
     return nullptr;
 }
 
@@ -171,6 +177,25 @@ Command *HandlerCreditInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
+HandlerPauseScreenInput::HandlerPauseScreenInput() {
+    resumeGame = new ResumeGameCommand();
+}
+
+HandlerPauseScreenInput::~HandlerPauseScreenInput() {
+    delete resumeGame;
+}
+
+Command *HandlerPauseScreenInput::handlerInput(ButtonList &buttonList) {
+    int userInput = getUserInput();
+    int buttonId = buttonList.getIdButtonChoosen();
+    if (userInput == 75) buttonList.changeIdButtonChoosen(buttonId - 1);
+    if (userInput == 77) buttonList.changeIdButtonChoosen(buttonId + 1);
+    if (userInput == 13) {
+        if (buttonId == 0) return resumeGame;
+        if (buttonId == 1) return enterBackScreen;
+    }
+    return nullptr;
+}
 
 // Up Arrow: 72
 // Down Arrow: 80

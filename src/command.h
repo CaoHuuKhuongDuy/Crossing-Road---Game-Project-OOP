@@ -16,7 +16,7 @@ class Command {
         virtual void clearText() {};
         virtual void setIdButtonChoosen(int idButtonChoosen_) {};
     protected:
-        void pushScreen(Screen *nxtScreen);
+        void pushScreen(Screen *nxtScreen, int numBack = 1);
         void popScreen();
 };
 
@@ -56,6 +56,11 @@ class EnterLeaderCommand : public Command {
         void execute() override;
 };
 
+class EnterPauseScreenCommand : public Command {
+    public:
+        void execute() override;
+};
+
 class LoadSavedGameCommand : public Command {
     public:
         void execute() override;
@@ -74,6 +79,11 @@ class InputTextCommand : public Command {
         char addChar;
         int limChar;
         string &textInput;
+};
+
+class ResumeGameCommand : public Command {
+    public:
+        void execute() override;
 };
 
 class MoveEntityCommand : public Command {
@@ -108,8 +118,8 @@ class MoveRightCommand : public MoveEntityCommand {
         void execute() override;
 };
 
-class SaveGameCommand : public MoveEntityCommand {
+class SaveHeroCommand : public MoveEntityCommand {
     public:
-        SaveGameCommand(Hero*& hero_);
+        SaveHeroCommand(Hero*& hero_);
         void execute() override;
 };
