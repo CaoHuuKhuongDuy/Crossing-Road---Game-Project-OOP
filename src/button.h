@@ -26,6 +26,7 @@ class ButtonList {
     public:
         ButtonList();
         ~ButtonList();
+        void clear();
         void addButton(Button* button);
         void changeIdButtonChoosen(int nxtId);
         int getIdButtonChoosen();

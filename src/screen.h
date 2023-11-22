@@ -18,6 +18,7 @@ class Screen
 {
 public:
     Screen(HandlerInput *handlerInput_);
+    virtual ~Screen();
     virtual void draw() = 0;
     virtual Command *handleInput();
     void setAgain();
@@ -147,19 +148,16 @@ private:
    			"logic game"
    };	
 };
-class LeaderBoardScreen : public Screen
-{
+class LeaderBoardScreen : public Screen{
 public:
     LeaderBoardScreen();
     ~LeaderBoardScreen();
-    void swap(Player &a, Player &b);
     void draw() override;
 private:    
     Entity *frame;
-    Entity *title;
     DynamicEntity* moon, * star; 
+    Entity * gold, * silver, * copper,* congratulate,* crown;  
 };
-
 
 class PauseGameScreen : public Screen {
     public:

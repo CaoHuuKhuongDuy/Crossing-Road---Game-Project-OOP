@@ -188,8 +188,8 @@ HandlerPauseScreenInput::~HandlerPauseScreenInput() {
 Command *HandlerPauseScreenInput::handlerInput(ButtonList &buttonList) {
     int userInput = getUserInput();
     int buttonId = buttonList.getIdButtonChoosen();
-    if (userInput == 75) buttonList.changeIdButtonChoosen(buttonId - 1);
-    if (userInput == 77) buttonList.changeIdButtonChoosen(buttonId + 1);
+    if (userInput == 72) buttonList.changeIdButtonChoosen(buttonId - 1);
+    if (userInput == 80) buttonList.changeIdButtonChoosen(buttonId + 1);
     if (userInput == 13) {
         if (buttonId == 0) return resumeGame;
         if (buttonId == 1) return enterBackScreen;

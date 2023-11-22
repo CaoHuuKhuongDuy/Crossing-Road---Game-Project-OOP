@@ -1,6 +1,17 @@
 #include "screen.h"
 
+void debug() {
+    ofstream fout("debug.txt");
+    fout << "debug" << endl;
+    fout.close();
+}
+
 Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
+
+Screen::~Screen() {
+    debug();
+    delete handlerInputMainScreen;
+}
 
 void Screen::setAgain() {
     firstScreen = true;
@@ -30,7 +41,6 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 MenuScreen::~MenuScreen()
 {
     delete rocket;
-    delete handlerInputMainScreen;
 }
 
 void MenuScreen::draw()
@@ -167,7 +177,8 @@ void GameScreen::buildHero()
 {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
+    // hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
 }
 void GameScreen::buildTrafficlight()
 {
@@ -187,15 +198,12 @@ GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 
 GameScreen::~GameScreen()
 {
-    delete frame; frame = nullptr;
+    delete frame;
     for (int i = 0; i < numberEnemy; ++i)
-    {
-        delete[] enemy[i];
-        enemy[i] = nullptr;
-    }
+        delete enemy[i];
     delete[] enemy;
     for(int i = 0; i < numberTrafficLight; ++i)
-        delete[] trafficlight[i];
+        delete trafficlight[i];
     delete[] trafficlight;
     delete finish_line;
     delete hero;
@@ -273,14 +281,15 @@ void LoadGameScreen::draw()
         importImage.drawCustomImage("name ", {0, 15});
         importImage.drawCustomImage("level", {0, 25});
         importImage.drawCustomImage("score", {0, 35});
+        buttonList.clear();
         for (int i = 0; i < 4; i++)
         {
             buttonList.addButton(new Button("#" + listPlayer.getPlayer(i)->getName(), {SHORT(42 + i * 40), SHORT(15)}, WHITE, RED));
             importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getLevel(), {SHORT(42 + i * 40), SHORT(25)});
             importImage.drawCustomImage("#" + listPlayer.getPlayer(i)->getScore(), {SHORT(42 + i * 40), SHORT(35)});
         }
-        firstScreen = false;
         importImage.drawImage("LoadGameSaved.txt", {49, 2});
+        firstScreen = false;
     }
     buttonList.draw();
 }
@@ -378,10 +387,13 @@ void CreditScreen::draw()
 
 LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerLeaderBoardInput())
 {
-    frame = new Entity("leaderFrame.txt", {30, 0}, {168, 43});
-    title = new Entity("rank.txt", {SHORT((appConsole.getWindowSize().X - 50) / 2), 1}, {25, 6});
-    moon = new DynamicEntity("moon.txt", {SHORT(6), SHORT(6)}, {SHORT(16), SHORT(16)});
-    star = new DynamicEntity("Star.txt", {SHORT(170), SHORT(38)}, {SHORT(16), SHORT(16)});
+   frame = new Entity("leaderFrame.txt", {30, 0}, {168, 43});
+    moon = new DynamicEntity("moon.txt", {SHORT(45), SHORT(2)}, {SHORT(20), SHORT(16)});
+    star = new DynamicEntity("Star.txt", {SHORT(189), SHORT(5)}, {SHORT(16), SHORT(16)});
+    gold = new Entity("gold.txt", {115, 13}, {11, 11});
+    silver = new Entity("silver.txt", {65, 26}, {11, 11});
+    copper = new Entity("copper.txt", {170, 28}, {11, 11});
+    crown  = new Entity("crown.txt", {115, 1}, {11, 11});
 }
 
 LeaderBoardScreen::~LeaderBoardScreen()
@@ -389,42 +401,89 @@ LeaderBoardScreen::~LeaderBoardScreen()
     delete frame;
     delete star;
     delete moon;
-    delete title;
+    delete silver;
+    delete copper;
+    delete crown;
+    delete gold;
 }
 
-void LeaderBoardScreen::swap(Player &a, Player &b)
-{
-    Player temp = a;
-    a = b;
-    b = temp;
-}
 
 void LeaderBoardScreen::draw()
 {
-    vector <Player> data = listPlayer.getPlayers();
-    sort(data.begin(), data.end());
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     for (int j = 0; j < 4; j++)
+    //     {
+    //         if (stoi(listPlayer.getPlayer(i)->getScore()) > stoi(listPlayer.getPlayer(j)->getScore()))
+    //             swap(listPlayer.getPlayer(i),listPlayer.getPlayer(j));
+    //     }
+    // }
+    vector <Player> playerRanking = listPlayer.getPlayers();
+    sort(playerRanking.begin(), playerRanking.end());
     if (firstScreen)
     {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         frame->draw();
-        title->draw();
-        importImage.drawCustomImage("name", {70, 10}, false);
-        importImage.drawCustomImage("score", {110, 10}, false);
-        for (int i = 2; i >= 0; i--)
-        {
-            importImage.drawCustomImage(data[i].getName(), {70, SHORT(18 + i * 7)}, false);
-            importImage.drawCustomImage(data[i].getScore(), {110, SHORT(18 + i * 7)}, false);
-        }
         moon->draw();
         star->draw();
+        Sleep(500);
+        importImage.drawCustomImage(playerRanking[2].getName(), {161 , 22}, false);
+        appConsole.SetBackgroundColor(BG_RED);
+        importImage.drawCustomImage(playerRanking[2].getScore(), {162 , 44}, false); 
+        copper->draw();
+        appConsole.SetBackgroundColor(BG_CYAN);
+        Sleep(500);
+        importImage.drawCustomImage(playerRanking[1].getName(), {56 , 20}, false);
+        appConsole.SetBackgroundColor(BG_RED);
+        importImage.drawCustomImage(playerRanking[1].getScore(), {57 , 44}, false); 
+        appConsole.SetBackgroundColor(BG_CYAN);        
+        silver->draw(); 
+        Sleep(500);
+        importImage.drawCustomImage(playerRanking[0].getName(), {105 , 7}, false);
+        appConsole.SetBackgroundColor(BG_RED);        
+        importImage.drawCustomImage(playerRanking[0].getScore(), {106 , 44}, false); 
+        appConsole.SetBackgroundColor(BG_CYAN);          
+        gold->draw();
+        Sleep(500);
+        crown->draw();
         firstScreen = false;
     }
+    for(int i=0;i<2;i++){
+    congratulate = new Entity("congratulation1.txt", {SHORT(85 + 60*i), 2 }, {12, 8});
+    congratulate->draw();
+    congratulate = nullptr;       	
+	}
+    Sleep(30);
+    for(int i=0;i<2;i++){
+    congratulate = new Entity("congratulation1.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
+    congratulate->draw();
+    congratulate = nullptr;       	
+	}
+    Sleep(30);    
+    for(int i=0;i<2;i++){    
+    congratulate = new Entity("congratulation2.txt", {SHORT(85 + 60*i), 2}, {12, 8});
+    congratulate->draw();    
+    congratulate = nullptr;  
+    }
+    Sleep(30); 
+    for(int i=0;i<2;i++){
+    congratulate = new Entity("congratulation2.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
+    congratulate->draw();
+    congratulate = nullptr;       	
+	}
+    Sleep(30);	 
 }
 
 PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput()) {
-    frame = new Entity("blueEsc.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
-    // buttonList.addButton(new Button("Resume", {SHORT((appConsole.getWindowSize().X - 43) / 2 + 60), SHORT(20)}, WHITE, GREEN));
-    buttonList.addButton(new Button("saveAndQuit", {SHORT((appConsole.getWindowSize().X - 43) / 2 + 60), SHORT(25)}, WHITE, GREEN));
+    frame = new Entity("blueESC.txt", {SHORT(appConsole.getWindowSize().X / 2 - 40), 30}, {80, 40});
+    COORD posExit = frame->getPos();
+    posExit.X += 14;
+    posExit.Y += 29;
+    COORD posResume = frame->getPos();
+    posResume.X += 20;
+    posResume.Y += 14;
+    buttonList.addButton(new Button("Resume", posResume, BLACK, GREEN));
+    buttonList.addButton(new Button("saveandexit", posExit, BLACK, GREEN));
 }
 
 PauseGameScreen::~PauseGameScreen() {

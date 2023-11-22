@@ -10,7 +10,9 @@ ScreenStack::~ScreenStack() {
 }
 
 void ScreenStack::init() {
-    screens.push({new MenuScreen(), 1});
+    push(new MenuScreen());
+    // push(new GameScreen());1
+    // push(new LoadGameScreen());
 }
 
 void ScreenStack::push(Screen* screen, int numBack) {
@@ -19,14 +21,15 @@ void ScreenStack::push(Screen* screen, int numBack) {
 
 void ScreenStack::pop() {
     if (screens.size() == 1) return;
-    delete screens.top().first;
-    screens.pop();
-    top()->setAgain();
+    // delete screens.top().first;
+    // screens.pop();
     int numPopScreen = 0;
     do {
         numPopScreen = max(numPopScreen, screens.top().second) - 1;
+        delete top();
         screens.pop();
     } while (numPopScreen > 0 && screens.size() > 1);
+    top()->setAgain();
 }
 
 Screen* ScreenStack::top() {
