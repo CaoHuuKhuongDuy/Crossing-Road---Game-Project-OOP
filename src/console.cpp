@@ -147,6 +147,10 @@ void Console::clear(COORD p1, COORD p2) {
     }
 }
 
+void Console::closeConsole() {
+    if (szConsole) SendMessage(szConsole, WM_CLOSE, 0, 0);
+}
+
 void Console::test(int backgroundColor, char character, int textColor, int x, int y) {
     // Set the console screen buffer's background color
     currentBackgroundColor = backgroundColor;

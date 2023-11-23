@@ -13,11 +13,9 @@ signed main() {
     while (true) {
         mainScreen = listScreen.top();
         mainScreen->draw();
-        appConsole.test(BG_CYAN, '*', WHITE, 10, 10);
         command = mainScreen->handleInput();
         if (command) command->execute();
     	Sleep(10);
     }
-    delete mainScreen;
     return 0;
 }

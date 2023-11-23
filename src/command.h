@@ -38,7 +38,10 @@ class EnterIntroGameCommand : public Command {
 
 class EnterGameCommand : public Command {
     public:
+        EnterGameCommand(int numBack_ = 1);
         void execute() override;
+    private:
+        int numBack;
 };
 
 class EnterLoadGameCommand : public Command {
@@ -57,6 +60,11 @@ class EnterLeaderCommand : public Command {
 };
 
 class EnterPauseScreenCommand : public Command {
+    public:
+        void execute() override;
+};
+
+class ExitCommand : public Command {
     public:
         void execute() override;
 };

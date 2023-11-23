@@ -30,6 +30,7 @@ private:
     Command *enterLoadGame;
     Command *enterCredit;
     Command *enterLeader;
+    Command *exitGame;
 };
 
 class HandlerIntroGameInput : public HandlerInput {

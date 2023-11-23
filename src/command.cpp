@@ -24,8 +24,10 @@ void EnterIntroGameCommand::execute() {
     pushScreen(new IntroGameScreen(), 2);
 }
 
+EnterGameCommand::EnterGameCommand(int numBack_) : numBack(numBack_) {}
+
 void EnterGameCommand::execute() {
-    pushScreen(new GameScreen());
+    pushScreen(new GameScreen(), numBack);
 }
 
 void EnterLoadGameCommand::execute() {
@@ -42,6 +44,10 @@ void EnterLeaderCommand::execute() {
 
 void EnterPauseScreenCommand::execute() {
     pushScreen(new PauseGameScreen(), 2);
+}
+
+void ExitCommand::execute() {
+    appConsole.closeConsole();
 }
 
 void LoadSavedGameCommand::execute() {

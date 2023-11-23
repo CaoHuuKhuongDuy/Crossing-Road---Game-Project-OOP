@@ -29,12 +29,14 @@ HandlerMenuInput::HandlerMenuInput()
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
     enterLeader = new EnterLeaderCommand();
+    exitGame = new ExitCommand;
 }
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
     delete enterLoadGame;
     delete enterCredit;
     delete enterLeader;
+    delete exitGame;
 }
 
 
@@ -49,12 +51,13 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
         if (buttonId == 1) return enterLoadGame;
         if (buttonId == 2) return enterLeader;
         if (buttonId == 4) return enterCredit;
+        if (buttonId == 5) return exitGame;
     }
     return nullptr;
 }
 
 HandlerIntroGameInput::HandlerIntroGameInput(string &textInput) {
-    enterGame = new EnterGameCommand();
+    enterGame = new EnterGameCommand(2);
     inputChar = new InputTextCommand(textInput);
 }
 

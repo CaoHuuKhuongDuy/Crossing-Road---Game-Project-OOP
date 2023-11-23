@@ -68,6 +68,8 @@ class Console {
 
         void clear(COORD p1 = {-1, -1}, COORD p2 = {-1, -1}); 
 
+        void closeConsole();
+
         void test(int backgroundColor, char character, int textColor, int x, int y);
 
 private:
