@@ -35,7 +35,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
     meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN);
+        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
 };
 
 MenuScreen::~MenuScreen()
