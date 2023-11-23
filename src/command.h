@@ -13,7 +13,7 @@ class Command {
     public:
         virtual void execute() = 0;
         virtual void setAddChar(char c) {};
-        virtual void clearText() {};
+        virtual bool clearText() { return false;}
         virtual void setIdButtonChoosen(int idButtonChoosen_) {};
     protected:
         void pushScreen(Screen *nxtScreen, int numBack = 1);
@@ -81,7 +81,7 @@ class InputTextCommand : public Command {
     public:
         InputTextCommand(string &textInput_);
         void setAddChar(char c) override;
-        void clearText() override;
+        bool clearText() override;
         void execute() override;
     private:
         char addChar;

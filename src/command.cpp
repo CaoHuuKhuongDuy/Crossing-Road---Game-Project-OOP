@@ -65,8 +65,10 @@ void InputTextCommand::setAddChar(char c) {
     addChar = c;
 }
 
-void InputTextCommand::clearText() {
+bool InputTextCommand::clearText() {
+    if (!textInput.size()) return false;
     while (textInput.size()) textInput.pop_back();
+    return true;
 }
 
 void InputTextCommand::execute() {

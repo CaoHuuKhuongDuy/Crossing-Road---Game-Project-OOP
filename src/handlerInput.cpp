@@ -76,8 +76,7 @@ Command *HandlerIntroGameInput::handlerInput(ButtonList &buttonList) {
         inputChar->setAddChar(userInput);
         return inputChar;
     }
-    if (userInput == 13) {
-        inputChar->clearText();
+    if (userInput == 13 && inputChar->clearText()) {
         inputChar->setAddChar('/');
         return inputChar;
     }
