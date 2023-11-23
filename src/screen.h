@@ -155,8 +155,12 @@ public:
     void draw() override;
 private:    
     Entity *frame;
-    DynamicEntity* moon, * star; 
-    Entity * gold, * silver, * copper,* congratulate,* crown;  
+    DynamicEntity* moon, * star, *congratulate[2];  
+    Entity *gold, *silver, *copper, *crown;
+    COORD posName[3] = {{105, 7}, {56, 20}, {161, 22}};
+    COORD posScore[3] = {{106, 44}, {57, 44}, {162, 44}};
+    Entity* medal[3];
+
 };
 
 class PauseGameScreen : public Screen {

@@ -390,10 +390,13 @@ LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerLeaderBoardInput())
    frame = new Entity("leaderFrame.txt", {30, 0}, {168, 43});
     moon = new DynamicEntity("moon.txt", {SHORT(45), SHORT(2)}, {SHORT(20), SHORT(16)});
     star = new DynamicEntity("Star.txt", {SHORT(189), SHORT(5)}, {SHORT(16), SHORT(16)});
-    gold = new Entity("gold.txt", {115, 13}, {11, 11});
-    silver = new Entity("silver.txt", {65, 26}, {11, 11});
-    copper = new Entity("copper.txt", {170, 28}, {11, 11});
+    medal[2] = new Entity("copper.txt", {170, 28}, {11, 11});
+    medal[1] = new Entity("silver.txt", {65, 26}, {11, 11});
+    medal[0] = new Entity("gold.txt", {115, 13}, {11, 11});
     crown  = new Entity("crown.txt", {115, 1}, {11, 11});
+    congratulate[0] = new DynamicEntity("congratulation1.txt", {85, 2 }, {12, 8});
+    congratulate[1] = new DynamicEntity("congratulation2.txt", {85, 2}, {12, 8});
+
 }
 
 LeaderBoardScreen::~LeaderBoardScreen()
@@ -401,23 +404,15 @@ LeaderBoardScreen::~LeaderBoardScreen()
     delete frame;
     delete star;
     delete moon;
-    delete silver;
-    delete copper;
     delete crown;
-    delete gold;
+    for (int i = 0; i < 3; i++)
+        delete medal[i];
+    for (int i = 0; i < 2; i++)
+        delete congratulate[i];
 }
 
 
-void LeaderBoardScreen::draw()
-{
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     for (int j = 0; j < 4; j++)
-    //     {
-    //         if (stoi(listPlayer.getPlayer(i)->getScore()) > stoi(listPlayer.getPlayer(j)->getScore()))
-    //             swap(listPlayer.getPlayer(i),listPlayer.getPlayer(j));
-    //     }
-    // }
+void LeaderBoardScreen::draw() {
     vector <Player> playerRanking = listPlayer.getPlayers();
     sort(playerRanking.begin(), playerRanking.end());
     if (firstScreen)
@@ -427,51 +422,29 @@ void LeaderBoardScreen::draw()
         moon->draw();
         star->draw();
         Sleep(500);
-        importImage.drawCustomImage(playerRanking[2].getName(), {161 , 22}, false);
-        appConsole.SetBackgroundColor(BG_RED);
-        importImage.drawCustomImage(playerRanking[2].getScore(), {162 , 44}, false); 
-        copper->draw();
-        appConsole.SetBackgroundColor(BG_CYAN);
-        Sleep(500);
-        importImage.drawCustomImage(playerRanking[1].getName(), {56 , 20}, false);
-        appConsole.SetBackgroundColor(BG_RED);
-        importImage.drawCustomImage(playerRanking[1].getScore(), {57 , 44}, false); 
-        appConsole.SetBackgroundColor(BG_CYAN);        
-        silver->draw(); 
-        Sleep(500);
-        importImage.drawCustomImage(playerRanking[0].getName(), {105 , 7}, false);
-        appConsole.SetBackgroundColor(BG_RED);        
-        importImage.drawCustomImage(playerRanking[0].getScore(), {106 , 44}, false); 
-        appConsole.SetBackgroundColor(BG_CYAN);          
-        gold->draw();
-        Sleep(500);
+        for (int i = 2; i >= 0; i--)
+        {
+            importImage.drawCustomImage(playerRanking[i].getName(), posName[i], false);
+            appConsole.SetBackgroundColor(BG_RED);
+            importImage.drawCustomImage(playerRanking[i].getScore(), posScore[i], false);
+            medal[i]->draw();
+            appConsole.SetBackgroundColor(BG_CYAN);
+            Sleep(500);
+        }
         crown->draw();
         firstScreen = false;
     }
-    for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation1.txt", {SHORT(85 + 60*i), 2 }, {12, 8});
-    congratulate->draw();
-    congratulate = nullptr;       	
-	}
-    Sleep(30);
-    for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation1.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
-    congratulate->draw();
-    congratulate = nullptr;       	
-	}
-    Sleep(30);    
-    for(int i=0;i<2;i++){    
-    congratulate = new Entity("congratulation2.txt", {SHORT(85 + 60*i), 2}, {12, 8});
-    congratulate->draw();    
-    congratulate = nullptr;  
-    }
-    Sleep(30); 
-    for(int i=0;i<2;i++){
-    congratulate = new Entity("congratulation2.txt", {SHORT(75 + 80*i), 7 }, {12, 8});
-    congratulate->draw();
-    congratulate = nullptr;       	
-	}
-    Sleep(30);	 
+
+    for (int i = 0; i < 2; i++)
+        for (int j = 0; j < 2; j++) {
+            congratulate[i]->teleport({SHORT(85 + 60 * j), 2});
+            congratulate[i]->draw();
+        }
+    for (int i = 0; i < 2; i++) 
+        for (int j = 0; j < 2; j++) {
+            congratulate[i]->teleport({SHORT(75 + 80 * j), 2});
+            congratulate[i]->draw();
+        }	 
 }
 
 PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput()) {
