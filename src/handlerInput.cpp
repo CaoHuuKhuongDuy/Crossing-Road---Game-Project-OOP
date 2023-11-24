@@ -91,6 +91,7 @@ HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonDOWN = new MoveDownCommand(hero);
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
+    changeHeroSkin = new ChangeHeroSkinCommand(hero);
     saveHero = new SaveHeroCommand(hero);
     enterPauseScreen = new EnterPauseScreenCommand();
 }
@@ -101,6 +102,7 @@ HandlerGameInput::~HandlerGameInput() {
     delete buttonLEFT;
     delete buttonRIGHT;
     delete saveHero;
+    delete changeHeroSkin;
     delete enterPauseScreen;
 }
 
@@ -126,6 +128,10 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     if (userInput == 27) {
         saveHero->execute();
         return enterPauseScreen;
+    }
+    if (userInput == 9)
+    {
+        return changeHeroSkin;
     }
     return nullptr;
 }

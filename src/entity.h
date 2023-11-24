@@ -25,6 +25,7 @@ class Entity {
         COORD getPos();
         COORD getEndPos();
         COORD getSize();
+        void setEntityname(string );
     protected:
         COORD remainStartPos, remainEndPos;
         void removeRemainFrame();
@@ -60,7 +61,9 @@ public:
     Enemy(string entityName_, COORD pos1, COORD size_);
     ~Enemy();
 
-    bool AtEdge(SHORT posEdge_X);
+    bool AtRightEdge(SHORT );
+    bool AtLeftEdge(SHORT );
+
     void spawm();
 
     EnemyState* getState();
@@ -73,10 +76,18 @@ private:
     EnemyState* currentState;
 };
 
+enum class EnemyStateType
+{
+    MovingRight,
+    MovingLeft,
+    Stop,
+};
+
 class EnemyState
 {
 public:
     EnemyState();
+    virtual EnemyStateType getStateType() const = 0;
     virtual void update(Enemy*) = 0;
 protected:
 };
@@ -85,13 +96,41 @@ class NormalState : public EnemyState
 {
 public:
     NormalState();
-    void update(Enemy*) override;
+    virtual EnemyStateType getStateType() const = 0;
+    virtual void update(Enemy*) = 0;
 };
+
+class MovingState : public NormalState
+{
+public:
+    MovingState();
+    virtual EnemyStateType getStateType() const = 0;
+    virtual void update(Enemy* ) = 0;
+};
+
+class MovingRight : public MovingState
+{
+    public:
+    MovingRight();
+    EnemyStateType getStateType() const override;
+    void update(Enemy* ) override;
+};
+
+class MovingLeft : public MovingState
+{
+    public:
+    MovingLeft();
+    EnemyStateType getStateType() const override;
+    void update(Enemy* ) override;
+
+};
+
 
 class StoppedState: public EnemyState 
 {
 public:
     StoppedState();
+    EnemyStateType getStateType() const override;
     void update(Enemy*) override;
 };
 
@@ -143,11 +182,47 @@ class GreenState : public TrafficLightState
         void update(TrafficLight*) override;
 };
 
+class Skin
+{
+public:
+    Skin();
+    ~Skin();
+    virtual void update(Hero*) = 0;
+    string getSkinName();
+    Skin* next;
+protected:
+    string skinname;
+};
+
+
+class RedSkin : public Skin
+{
+public:
+    RedSkin();
+    void update(Hero*) override;
+
+};
+
+class YellowSkin : public Skin
+{
+    public:
+    YellowSkin();
+    void update(Hero*) override;
+};
+
+class GreenSkin : public Skin
+{
+public:
+    GreenSkin();
+    void update(Hero* ) override;
+};
+
 
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, int score_);
+    Hero(string entityName_, COORD pos1, COORD size_, int score_, Skin* skin);
+    ~Hero();
     void verify() override;
 
     SHORT getHeroWidth();
@@ -157,14 +232,19 @@ public:
     void updateHeroExp();
     void updateHeroExp(const int&);
     void resetDynamicEntity();
-    bool isAtEdge(SHORT posEdge_Y);
+    bool AtEdge(SHORT posEdge_Y);
     bool isCollision(DynamicEntity* enemy);
     int getHeroLevel();
     int getHeroScore();
-private:
+    
+    void addSkin(Skin* newSkin);
+    void changeSkin();
+private:    
+    Skin* currentSkin;
     SHORT heroWidth = 13;
     SHORT heroHeight = 5;
     int score = 0;
     int level = int(floor(score / 300)) + 1;
 };
+
 

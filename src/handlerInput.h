@@ -55,6 +55,7 @@ private:
     Command *buttonDOWN;
     Command *buttonLEFT;
     Command *buttonRIGHT;
+    Command *changeHeroSkin;
     Command *saveHero;
     Command *enterPauseScreen;
 };

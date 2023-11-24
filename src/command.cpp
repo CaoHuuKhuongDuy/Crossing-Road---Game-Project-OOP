@@ -124,3 +124,10 @@ void SaveHeroCommand::execute() {
     mainPlayer->setScore(to_string(hero->getHeroScore()));
     listPlayer.savePlayers();
 }
+
+ChangeHeroSkinCommand::ChangeHeroSkinCommand(Hero*& hero_) : MoveEntityCommand(hero_){}
+
+void ChangeHeroSkinCommand::execute()
+{
+    hero->changeSkin();
+}

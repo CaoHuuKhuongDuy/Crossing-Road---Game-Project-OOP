@@ -155,7 +155,8 @@ void GameScreen::buildEnemy()
     random = rand() % (appConsole.getWindowSize().X / 2 - 25);
     for (int i = 0; i < 3; ++i){
         posY = 13;
-        this->enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        // this->enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {13, 5});
+        this->enemy[i + 3] = new Enemy("coolUfo.txt", {SHORT(30 + (hero->getHeroWidth() + 40) * i + 13 * (i - 1)), posY}, {14, 5});
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 30);
     for (int i = 0; i < 3; ++i){
@@ -165,7 +166,9 @@ void GameScreen::buildEnemy()
     random = rand() % (appConsole.getWindowSize().X / 2 - 9);
     for (int i = 0; i < 3; ++i){
         posY = 28;
-        this->enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
+        // this->enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(random + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
+        this->enemy[i + 9] = new Enemy("smallufo.txt", {SHORT(70 + (hero->getHeroWidth() + 40) * i + 14 * (i - 1)), posY}, {11, 5});
+
     }
     random = rand() % (appConsole.getWindowSize().X / 2 - 18);
     for (int i = 0; i < 3; ++i){
@@ -177,14 +180,18 @@ void GameScreen::buildHero()
 {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    // hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
+    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0, new RedSkin());
 }
 void GameScreen::buildTrafficlight()
 {
     trafficlight = new TrafficLight *[numberTrafficLight];
     for(int i = 0; i < numberTrafficLight; ++i)
-        trafficlight[i] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), this->enemy[i*3]->getPos().Y}, {5, 5}, new GreenState());
+    {
+        if (i == 1 || i == 3)
+            trafficlight[i] = new TrafficLight("traffic.txt", {SHORT(0), this->enemy[i*3]->getPos().Y}, {5, 5}, new GreenState());
+        else
+            trafficlight[i] = new TrafficLight("traffic.txt", {SHORT(appConsole.getWindowSize().X), this->enemy[i*3]->getPos().Y}, {5, 5}, new GreenState());
+    }
 }
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
@@ -226,16 +233,18 @@ void GameScreen::manageTrafficLight()
 
 void GameScreen::manageHero()
 {
-    // for (int i = 0; i < numberEnemy; ++i)
-    // {
-    //     if (hero->isCollision(enemy[i]))
-    //     {
-    //         mainScreen = new MenuScreen();
-    //         return;
-    //     }
-    // }
+    for (int i = 0; i < numberEnemy; ++i)
+    {
+        if (hero->isCollision(enemy[i]))
+        {
+            hero->setHeroScore(0);
+            hero->resetDynamicEntity();
+            hero->draw();
+            firstScreen = true;
+        }
+    }
 
-    if (hero->isAtEdge(7))
+    if (hero->AtEdge(7))
     {
         hero->updateHeroExp();
         hero->resetDynamicEntity();

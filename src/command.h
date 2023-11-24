@@ -131,3 +131,9 @@ class SaveHeroCommand : public MoveEntityCommand {
         SaveHeroCommand(Hero*& hero_);
         void execute() override;
 };
+
+class ChangeHeroSkinCommand : public MoveEntityCommand {
+    public:
+        ChangeHeroSkinCommand(Hero*& hero_);
+        void execute() override;
+};

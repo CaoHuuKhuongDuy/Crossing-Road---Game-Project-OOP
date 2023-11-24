@@ -37,6 +37,10 @@ COORD Entity::getEndPos() {
     return endPos;
 }
 
+void Entity::setEntityname(string entityname){
+    this->entityName = entityname;
+}
+
 
 void Entity::removeRemainFrame() {
     if (remainStartPos.X != -1) {
@@ -124,9 +128,16 @@ void Enemy::spawm()
     this->right(this->getSpeed());
 }
 
-bool Enemy::AtEdge(SHORT posEdge_X)
+bool Enemy::AtRightEdge(SHORT posEdge_X)
 {
-    if (this->getEndPos().X >= SHORT(posEdge_X))
+    if (this->getEndPos().X >= posEdge_X)
+        return true;
+    return false;
+}
+
+bool Enemy::AtLeftEdge(SHORT posEdge_X)
+{
+    if (this->getPos().X <= posEdge_X)
         return true;
     return false;
 }
@@ -135,7 +146,7 @@ Enemy::Enemy(){}
 
 Enemy::Enemy(string entityName_, COORD pos1, COORD size_) : DynamicEntity(entityName_, pos1, size_)
 {
-    currentState = new NormalState();
+    currentState = new MovingRight();
 }
 Enemy::~Enemy()
 {
@@ -153,29 +164,65 @@ EnemyState *Enemy::getState()
     return this->currentState;
 }
 
+EnemyStateType MovingRight::getStateType() const
+{
+    return  EnemyStateType::MovingRight;
+}
+
+EnemyStateType MovingLeft::getStateType() const
+{
+    return EnemyStateType::MovingLeft;
+}
+
+EnemyStateType StoppedState::getStateType() const
+{
+    return EnemyStateType::Stop;
+}
+
 void Enemy::updateState(TrafficLight *trafficlight_)
 {
     if (trafficlight_->getState()->getStateType() == TrafficLightStateType::Red)
         this->setState(new StoppedState());
     else
-        this->setState(new NormalState());
+    {
+        if (trafficlight_->getPos().X <= 50)
+            this->setState(new MovingLeft());
+        else
+            this->setState(new MovingRight());
+    }
 }
 
 void Enemy::update(TrafficLight *&trafficlight_)
 {
     if (currentState == nullptr) return;
     updateState(trafficlight_);
+    this->draw();
     currentState->update(this);
-    if (this->AtEdge(appConsole.getWindowSize().X - 7))
+    if (  this->currentState->getStateType() == EnemyStateType::MovingRight && this->AtRightEdge(appConsole.getWindowSize().X - 7))
         this->teleport({0, this->getPos().Y});
-    this->spawm();
+    else if ( this->currentState->getStateType() == EnemyStateType::MovingLeft  &&  this->AtLeftEdge(7))
+        this->teleport({appConsole.getWindowSize().X, this->getPos().Y});
 }
 
 EnemyState::EnemyState() {}
 
 NormalState::NormalState() {}
 
-void NormalState::update(Enemy *){}
+MovingState::MovingState() {}
+
+MovingRight::MovingRight() : MovingState() {}
+
+void MovingRight::update(Enemy* enemy)
+{
+    enemy->right(enemy->getSpeed());
+}
+
+MovingLeft::MovingLeft() : MovingState() {}
+
+void MovingLeft::update(Enemy* enemy)
+{
+    enemy->left(enemy->getSpeed());
+}
 
 StoppedState::StoppedState() {}
 
@@ -262,8 +309,37 @@ void Hero::resetDynamicEntity()
     this->teleport({SHORT((appConsole.getWindowSize().X - this->getHeroWidth()) / 2), SHORT(appConsole.getWindowSize().Y + 10)});
 }
 
-Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_)
-    : DynamicEntity(entityName_, pos1, size_), score(score_){}
+Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_, Skin* skin)
+    : DynamicEntity(entityName_, pos1, size_), score(score_), currentSkin(skin){
+        currentSkin->next = currentSkin;
+        addSkin(new RedSkin());
+        addSkin(new YellowSkin());
+
+
+        //Thêm skin màu xanh xong thì chỉnh chỗ này với sửa trong cái class GreenSkin nhe.
+        //addSkin(new GreenSkin());
+    }
+
+Hero::~Hero()
+{
+
+    //Assume that currentSkin is the head node of the circular linked list, current is the pointer which point to the deleting memory
+    //And temp is the pointer hold the address of next node of current.
+    if (currentSkin == nullptr)
+        return;
+    Skin* temp, *current;
+    current = currentSkin->next;
+    while (current != currentSkin)
+    {
+        temp = current->next;
+        delete current;
+        current = temp;
+    }
+    currentSkin = nullptr;
+    current = nullptr;
+    temp = nullptr;
+}
+
 SHORT Hero::getHeroWidth()
 {
     return this->heroWidth;
@@ -318,7 +394,7 @@ bool Hero::isCollision(DynamicEntity* enemy)
 
 }
 
-bool Hero::isAtEdge(SHORT posEdge_Y)
+bool Hero::AtEdge(SHORT posEdge_Y)
 {
     if (this->getEndPos().Y <= posEdge_Y)
         return true;
@@ -329,8 +405,92 @@ void Hero::verify()
 {
     COORD sizeScreen = appConsole.getWindowSize();
     sizeScreen.Y--;
-    startPos.X = max(startPos.X, SHORT(0));
+    startPos.X = max(startPos.X, SHORT(7));
     startPos.X = min(startPos.X, SHORT(sizeScreen.X - size.X -7));
     startPos.Y = max(startPos.Y, SHORT(0));
     startPos.Y = min(startPos.Y, SHORT(sizeScreen.Y - size.Y));
 }
+
+void Hero::addSkin(Skin* newSkin)
+{
+    if(currentSkin == nullptr)
+    {
+        currentSkin = newSkin;
+        currentSkin->next = currentSkin;
+        return;
+    }
+
+    Skin *pCur = currentSkin->next;
+    Skin *pPrevCur = currentSkin;
+    while ((pCur != currentSkin && pCur->getSkinName() != newSkin->getSkinName()) )
+    {
+        pPrevCur = pCur;
+        pCur = pCur->next;
+    }
+
+        //If any nodes have the same skin with newSkin, no insertion.
+        if (pCur->getSkinName() == newSkin->getSkinName())
+        {
+            delete newSkin;
+            newSkin = nullptr;
+            pCur = pPrevCur = nullptr;
+            return;
+        }
+
+        //Circular linked list with 1 node
+        if (pCur->next == currentSkin)
+        {
+            pCur->next = newSkin;
+            pCur = pCur->next;
+            pCur->next = currentSkin;
+            pPrevCur = pCur = nullptr;
+            return;
+        }
+
+        //Circular linked list with > 1 node.
+        pPrevCur->next = newSkin;
+        pPrevCur = pPrevCur->next;
+        pPrevCur->next = pCur;
+        pPrevCur = pCur = newSkin = nullptr;
+}
+
+void Hero::changeSkin()
+{
+    currentSkin = currentSkin->next;
+    currentSkin->update(this);
+}
+
+
+Skin::Skin() {}
+
+Skin::~Skin(){}
+
+string Skin::getSkinName()
+{
+    return this->skinname;
+}
+
+
+RedSkin::RedSkin() {skinname = "phoenix";}
+
+void RedSkin::update(Hero* hero){
+    hero->setEntityname("phoenix.txt");
+}
+
+YellowSkin::YellowSkin() {skinname = "phonixSkin";}
+
+void YellowSkin::update(Hero* hero){
+    hero->setEntityname("phonixSkin.txt");
+}
+
+GreenSkin::GreenSkin() {skinname = "";}
+
+void GreenSkin::update(Hero* hero){
+    hero->setEntityname(".txt");
+}
+
+
+
+
+
+
