@@ -171,3 +171,12 @@ class PauseGameScreen : public Screen {
     private:
         Entity *frame;
 };
+
+
+class OverScreen : public Screen {
+    public:
+        OverScreen();
+        ~OverScreen();
+        void draw() override;
+    private: 
+};

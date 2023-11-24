@@ -70,7 +70,7 @@ class Console {
 
         void closeConsole();
 
-        void test(int backgroundColor, char character, int textColor, int x, int y);
+        void test(char character, int color, int left, int top, int right, int bottom);
 
 private:
     HANDLE hConsole;

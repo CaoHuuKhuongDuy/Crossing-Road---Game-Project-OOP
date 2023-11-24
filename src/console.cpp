@@ -108,6 +108,16 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     if (posCursor.X == -1 || posCursor.Y == -1) {
         posCursor = getCursorPosition();
     }
+    if (text.size() == 1) {
+        int color;
+        if (colorBackground != -1) color = colorBackground;
+        else {
+            if(GetConsoleScreenBufferInfo(hConsole, &csbi)) color = (csbi.wAttributes & 0xF0) + (colorText & 0x0F);
+        
+        }
+        test(text[0], color, posCursor.X, posCursor.Y, posCursor.X, posCursor.Y);
+        return;
+    }
     if (colorBackground == -1) colorBackground = currentBackgroundColor;
     setCursorPosition(posCursor);
     if (colorText == -1) setBackgroundColor(colorBackground);
@@ -139,11 +149,12 @@ void Console::clear(COORD p1, COORD p2) {
     }
     if (p1.X > p2.X) std::swap(p1.X, p2.X);
     if (p1.Y > p2.Y) std::swap(p1.Y, p2.Y);
-    std::string replace = "";
-    for (int i = p1.X; i <= p2.X; i++)
-        replace += " ";
+    // std::string replace = "";
+    // for (int i = p1.X; i <= p2.X; i++)
+    //     replace += " ";
     for (int i = p1.Y; i <= p2.Y; i++) {
-        writeAt(replace, -1, {p1.X, SHORT(i)});
+        for (int j = p1.X; j <= p2.X; j++)
+            writeAt(" ", -1, {SHORT(j), SHORT(i)}, currentBackgroundColor);
     }
 }
 
@@ -151,33 +162,33 @@ void Console::closeConsole() {
     if (szConsole) SendMessage(szConsole, WM_CLOSE, 0, 0);
 }
 
-void Console::test(int backgroundColor, char character, int textColor, int x, int y) {
-    // Set the console screen buffer's background color
-    currentBackgroundColor = backgroundColor;
-    SetConsoleTextAttribute(hConsole, backgroundColor | FOREGROUND_INTENSITY);
+void Console::test(char character, int color, int left, int top, int right, int bottom) {
+    // Set the console screen buffer's text and background color
+    // SetConsoleTextAttribute(hConsole, textColor | (backgroundColor << 4));
+    // setTextColor(textColor);
 
-    // Get the current console screen buffer info
+    // Get the console screen buffer info
     CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
     GetConsoleScreenBufferInfo(hConsole, &bufferInfo);
 
-    // Set the background color for the entire screen
-    COORD bufferSize = { bufferInfo.dwSize.X, bufferInfo.dwSize.Y };
-    COORD home = { 0, 0 };
-    DWORD cellCount = bufferSize.X * bufferSize.Y;
-    DWORD count;
+    // Ensure the coordinates are within bounds
+    left = max(0, min(left, bufferInfo.dwSize.X - 1));
+    top = max(0, min(top, bufferInfo.dwSize.Y - 1));
+    right = max(left + 1, min(right, (int)bufferInfo.dwSize.X));
+    bottom = max(top + 1, min(bottom, (int)bufferInfo.dwSize.Y));
 
-    FillConsoleOutputCharacter(hConsole, ' ', cellCount, home, &count);
-    FillConsoleOutputAttribute(hConsole, backgroundColor | FOREGROUND_INTENSITY, cellCount, home, &count);
+    // Fill the rectangle with the new character and color
+    for (int y = top; y < bottom; ++y) {
+        COORD position = { static_cast<SHORT>(left), static_cast<SHORT>(y) };
+        DWORD count;
 
-    // Set the text color and character at the specified position
-    COORD position = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-    SetConsoleCursorPosition(hConsole, position);
+        // Fill the character and color
+        FillConsoleOutputCharacter(hConsole, character, right - left, position, &count);
+        FillConsoleOutputAttribute(hConsole, color, right - left, position, &count);
+    }
 
-    SetConsoleTextAttribute(hConsole, textColor | backgroundColor | FOREGROUND_INTENSITY);
-    WriteConsole(hConsole, &character, 1, nullptr, nullptr);
-
-    // Restore the original text attributes
-    SetConsoleTextAttribute(hConsole, bufferInfo.wAttributes);
+    // Reset the text attribute to the original state
+    SetConsoleTextAttribute(hConsole, currentBackgroundColor);
 }
 
 

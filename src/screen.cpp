@@ -479,3 +479,13 @@ void PauseGameScreen::draw() {
     }
     buttonList.draw();
 }
+
+OverScreen::OverScreen() : Screen(nullptr) {}
+
+OverScreen::~OverScreen() {}
+
+void OverScreen::draw() {
+    if (firstScreen) {
+        appConsole.setFullscreenBackgroundColor(BG_RED);
+    }
+}

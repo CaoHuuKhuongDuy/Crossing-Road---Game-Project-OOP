@@ -15,7 +15,7 @@ signed main() {
         mainScreen->draw();
         command = mainScreen->handleInput();
         if (command) command->execute();
-    	Sleep(10);
+        Sleep(10);
     }
     return 0;
 }
