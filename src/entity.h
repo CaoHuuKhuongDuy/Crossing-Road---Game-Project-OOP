@@ -236,6 +236,8 @@ public:
     bool isCollision(DynamicEntity* enemy);
     int getHeroLevel();
     int getHeroScore();
+    void changeExist();
+    bool getExist();
     
     void addSkin(Skin* newSkin);
     void changeSkin();
@@ -245,6 +247,6 @@ private:
     SHORT heroHeight = 5;
     int score = 0;
     int level = int(floor(score / 300)) + 1;
+    bool exist = true;
 };
-
 
