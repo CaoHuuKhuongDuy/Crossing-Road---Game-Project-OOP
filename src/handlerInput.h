@@ -30,6 +30,7 @@ private:
     Command *enterLoadGame;
     Command *enterCredit;
     Command *enterLeader;
+    Command *enterSetting;    
     Command *exitGame;
 };
 
@@ -58,6 +59,8 @@ private:
     Command *changeHeroSkin;
     Command *saveHero;
     Command *enterPauseScreen;
+    Command *enterOverScreen;
+    ExistHeroCommand *checkExist;
 };
 
 class HandlerLoadInput : public HandlerInput
@@ -68,6 +71,16 @@ class HandlerLoadInput : public HandlerInput
         Command *handlerInput(ButtonList &buttonList);
     private:
         Command *loadSavedGame;
+};
+
+class HandlerSettingInput : public HandlerInput
+{
+    public:
+        HandlerSettingInput();
+        ~HandlerSettingInput();
+        Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command * choose[4];
 };
 
 class HandlerLeaderBoardInput : public HandlerInput
@@ -92,4 +105,13 @@ class HandlerPauseScreenInput : public HandlerInput {
         Command *handlerInput(ButtonList &buttonList);
     private:
         Command *resumeGame;
+};
+
+class HandlerOverScreenInput : public HandlerInput {
+    public:
+        HandlerOverScreenInput();
+        ~HandlerOverScreenInput();
+        Command *handlerInput(ButtonList &buttonList);
+    private:
+        Command *overGame;
 };
