@@ -18,6 +18,7 @@ class Command {
     protected:
         void pushScreen(Screen *nxtScreen, int numBack = 1);
         void popScreen();
+        int changeHero = 0;
 };
 
 class EnterBackScreenCommand : public Command {
@@ -59,7 +60,17 @@ class EnterLeaderCommand : public Command {
         void execute() override;
 };
 
+class EnterSettingCommand : public Command {
+    public:
+        void execute() override;
+};
+
 class EnterPauseScreenCommand : public Command {
+    public:
+        void execute() override;
+};
+
+class EnterOverScreenCommand : public Command {
     public:
         void execute() override;
 };
@@ -126,6 +137,13 @@ class MoveRightCommand : public MoveEntityCommand {
         void execute() override;
 };
 
+class ExistHeroCommand: public MoveEntityCommand {
+    public:
+        ExistHeroCommand(Hero *&hero_);
+        bool checkExistHero();
+        void execute() override;        
+};
+
 class SaveHeroCommand : public MoveEntityCommand {
     public:
         SaveHeroCommand(Hero*& hero_);
@@ -137,3 +155,33 @@ class ChangeHeroSkinCommand : public MoveEntityCommand {
         ChangeHeroSkinCommand(Hero*& hero_);
         void execute() override;
 };
+
+class OverGameCommand : public Command {
+    public:
+        OverGameCommand();    	
+        void execute() override;
+};
+
+class CreateHero_1 : public Command {
+    public:
+    	CreateHero_1();
+        void execute() override;
+};
+
+class CreateHero_2 : public Command {
+    public:
+    	CreateHero_2();    	
+        void execute() override;
+};
+
+class PlusVolume : public Command {
+    public:
+        void execute() override;
+};
+
+class SubVolume : public Command {
+    public:
+        void execute() override;
+};
+
+
