@@ -42,8 +42,16 @@ void EnterLeaderCommand::execute() {
     pushScreen(new LeaderBoardScreen());
 }
 
+void EnterSettingCommand:: execute(){
+    pushScreen(new SettingScreen());	
+}
+
 void EnterPauseScreenCommand::execute() {
     pushScreen(new PauseGameScreen(), 2);
+}
+
+void EnterOverScreenCommand::execute() {
+    pushScreen(new OverScreen(), 2);
 }
 
 void ExitCommand::execute() {
@@ -117,6 +125,21 @@ void MoveRightCommand::execute()
     hero->right(5);
 }
 
+ExistHeroCommand::ExistHeroCommand(Hero*& hero_):  MoveEntityCommand(hero_) {}
+
+bool ExistHeroCommand:: checkExistHero(){
+	if(!hero->getExist()) {
+	hero->changeExist();	
+	return 0;		
+	}
+	return 1;
+}
+
+void ExistHeroCommand:: execute(){
+
+}
+
+
 SaveHeroCommand::SaveHeroCommand(Hero*& hero_) : MoveEntityCommand(hero_) {}
 
 void SaveHeroCommand::execute() {
@@ -131,3 +154,37 @@ void ChangeHeroSkinCommand::execute()
 {
     hero->changeSkin();
 }
+
+OverGameCommand:: OverGameCommand(){
+	
+}
+
+void OverGameCommand::execute() {
+    listScreen.setNumback(0);
+    popScreen();
+}
+
+CreateHero_1::CreateHero_1(){
+	
+}
+
+void CreateHero_1:: execute(){
+    changeHero = 0;
+}
+
+CreateHero_2::CreateHero_2(){
+	
+}
+
+void CreateHero_2:: execute(){
+	changeHero = 1;
+}
+
+void PlusVolume:: execute(){
+	listScreen.top()->PlusVolume();
+}
+
+void SubVolume:: execute(){
+	listScreen.top()->SubVolume();
+}
+
