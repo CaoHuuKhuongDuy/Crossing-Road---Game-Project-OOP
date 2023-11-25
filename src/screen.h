@@ -7,7 +7,6 @@
 #include "handlerInput.h"
 #include <iostream>
 #include <algorithm>
-
 using namespace stValue;
 using namespace std;
 
@@ -22,13 +21,19 @@ public:
     virtual void draw() = 0;
     virtual Command *handleInput();
     void setAgain();
+    void setHero(int heroType);
+    int getHero();
+    void SubVolume();
+    void PlusVolume();
 protected:
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;
     bool firstScreen;
     bool firstGame = true;
     string path = "../media/LoadGame/loadGame.txt";
-    Player player;
+    Player player; 
+	int checkHero = 0;
+	int valueVolume = 0; 
 };
 
 class MenuScreen : public Screen
@@ -88,10 +93,11 @@ private:
     Entity *frame;
     Entity *finish_line;
     Enemy **enemy;
-    Hero *hero;
     TrafficLight** trafficlight;
+    Hero *hero;
     string level;
     string score;
+    string nameHero[2] = {"phoenix.txt", "dragon.txt"};
     const int numberTrafficLight = 5;
     const int numberEnemy = 15;
 };      
@@ -179,4 +185,19 @@ class OverScreen : public Screen {
         ~OverScreen();
         void draw() override;
     private: 
+    	Entity* overFrame,* hero;
+    	DynamicEntity* die;
+    	int count = 0;
+};
+
+class SettingScreen : public Screen {
+    public:
+        SettingScreen();
+        ~SettingScreen();
+        void draw() override;
+    private: 
+    	Entity *settingFrame, * nv1, * nv2;
+        string buttonName[4] = {"frameChoose", "frameChoose", "sub", "plus"};
+        string nameHero[2] = {"phoenix.txt", "dragon.txt"}; 
+    	int chooseButton = 0;
 };
