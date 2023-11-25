@@ -41,8 +41,6 @@ Command *Screen::handleInput() {
 
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
-	const char* path = "../media/music1.wav";
-    PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
     meteor = new DynamicEntity*[7];
     meteor[0] = new DynamicEntity("slight.txt", {27,1}, {4, 4});
@@ -66,6 +64,8 @@ void MenuScreen::draw()
 {
     if (firstScreen)
     {
+        const char* path = "../media/music1.wav";
+        PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
         importImage.drawASCII("crossingroad.txt", {36, 5});
