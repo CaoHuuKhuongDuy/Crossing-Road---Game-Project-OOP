@@ -1,12 +1,13 @@
 #include "screen.h"
 
+ 
 void debug() {
     ofstream fout("debug.txt");
     fout << "debug" << endl;
     fout.close();
 }
 
-Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true) {}
+Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true)  {}
 
 Screen::~Screen() {
     debug();
@@ -17,6 +18,22 @@ void Screen::setAgain() {
     firstScreen = true;
 }
 
+void Screen::setHero(int heroType){
+	checkHero = heroType;
+}
+
+int Screen::getHero(){
+	return checkHero;
+}
+
+void Screen::SubVolume(){
+	valueVolume--;
+}
+
+void Screen:: PlusVolume(){
+	valueVolume++;
+}
+
 Command *Screen::handleInput() {
     return handlerInputMainScreen->handlerInput(buttonList);
 }
@@ -24,6 +41,8 @@ Command *Screen::handleInput() {
 
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
+	const char* path = "../media/music1.wav";
+    PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
     meteor = new DynamicEntity*[7];
     meteor[0] = new DynamicEntity("slight.txt", {27,1}, {4, 4});
@@ -47,8 +66,6 @@ void MenuScreen::draw()
 {
     if (firstScreen)
     {
-        // const char *path = "haha.wav";
-        // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC );
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
         importImage.drawASCII("crossingroad.txt", {36, 5});
@@ -180,7 +197,8 @@ void GameScreen::buildHero()
 {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0, new RedSkin());
+    for(int i = 0; i < 2; i++)
+       if( getHero() == i)   hero = new Hero(nameHero[i], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0, new RedSkin());
 }
 void GameScreen::buildTrafficlight()
 {
@@ -196,6 +214,8 @@ void GameScreen::buildTrafficlight()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
+    const char* path = "../media/music2.wav";
+    PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );      
     this->buildFrame();
     this->buildFinishline();
     this->buildHero();
@@ -240,7 +260,7 @@ void GameScreen::manageHero()
             hero->setHeroScore(0);
             hero->resetDynamicEntity();
             hero->draw();
-            firstScreen = true;
+            hero->changeExist();
         }
     }
 
@@ -480,12 +500,76 @@ void PauseGameScreen::draw() {
     buttonList.draw();
 }
 
-OverScreen::OverScreen() : Screen(nullptr) {}
+OverScreen::OverScreen() : Screen(new HandlerOverScreenInput()) {
+	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
+	hero = new Entity("phoenix.txt",{110,36},{11,5}); 
+	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
+}
 
-OverScreen::~OverScreen() {}
+OverScreen::~OverScreen() {
+	delete die;
+	delete overFrame;
+	delete hero;
+}
 
 void OverScreen::draw() {
     if (firstScreen) {
-        appConsole.setFullscreenBackgroundColor(BG_RED);
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);
+		overFrame->draw();
+        die->draw();
+		hero->draw();
+		while(count < 10){
+			die->right(3);
+			die->draw();
+			count++;
+		}
+		die = nullptr;
+		die = new DynamicEntity("boom.txt",{111,36},{11,5});
+		count = 0;
+		die ->draw(); 
+        importImage.drawCustomImage("enter to replay", {65, 45});		
+		firstScreen = false;			        
     }
 }
+
+SettingScreen::SettingScreen() : Screen(new HandlerSettingInput()){
+	settingFrame = new Entity("frameSetting.txt",{0,0},{200,50});
+    nv1 = new Entity(nameHero[0],{65,20},{11,5});
+    nv2 = new Entity(nameHero[1],{125,20},{11,5});
+};
+
+SettingScreen::~SettingScreen() {
+	delete settingFrame;
+	delete nv1, nv2;
+}
+
+void SettingScreen::draw()
+{
+    if (firstScreen)
+    {
+        appConsole.setFullscreenBackgroundColor(BG_CYAN);
+        settingFrame->draw();
+        buttonList.clear();
+        for (int i = 0; i < 2; i++)
+        {
+            buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));
+
+        }
+        for(int i = 2; i < 4; i++){
+            buttonList.addButton(new Button(buttonName[i], {SHORT(65 + (i-2) * 65), SHORT(34)}, WHITE, RED));        	
+		}
+		importImage.drawImage("settingTitle.txt", {55, 0});
+		importImage.drawImage("bar.txt", {72, 34});		
+        firstScreen = false;
+    }
+    if(valueVolume < 5 && valueVolume > -1)
+	for(int i = 1; i < 5; i++){
+		if(i <= valueVolume)	importImage.drawImage("figure.txt", {SHORT(73+ (i-1)*14), 35});  
+		else  importImage.drawImage("figureClear.txt", {SHORT(73 + (i-1)*14), 35}); 	
+	} 
+    else valueVolume = 0;
+    buttonList.draw();
+	nv1->draw();
+	nv2->draw();    
+}
+
