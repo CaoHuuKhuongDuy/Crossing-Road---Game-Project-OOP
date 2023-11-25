@@ -215,22 +215,11 @@ Command *HandlerPauseScreenInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
-HandlerOverScreenInput:: HandlerOverScreenInput(){
-	overGame = new OverGameCommand();
-}
-
-HandlerOverScreenInput:: ~HandlerOverScreenInput(){
-	delete overGame;
-}
-
 Command *HandlerOverScreenInput::handlerInput(ButtonList &buttonList) {
     int userInput = getUserInput();
-    int buttonId = buttonList.getIdButtonChoosen();
-    if (userInput == 13) {
-		return overGame;
-    }
-
-	}
+    if (userInput == 13) return enterBackScreen;
+    return nullptr;
+}
 
 HandlerSettingInput::HandlerSettingInput() {
     choose[0] = new CreateHero_1();
@@ -240,7 +229,8 @@ HandlerSettingInput::HandlerSettingInput() {
 }
 
 HandlerSettingInput::~HandlerSettingInput() {
-	delete[] choose; 
+	for (int i = 0; i < 4; i++)
+        delete choose[i]; 
 }
 
 Command *HandlerSettingInput::handlerInput(ButtonList &buttonList) {

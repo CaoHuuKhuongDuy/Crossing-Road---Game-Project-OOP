@@ -109,9 +109,7 @@ class HandlerPauseScreenInput : public HandlerInput {
 
 class HandlerOverScreenInput : public HandlerInput {
     public:
-        HandlerOverScreenInput();
-        ~HandlerOverScreenInput();
+        HandlerOverScreenInput() {};
+        ~HandlerOverScreenInput() {};
         Command *handlerInput(ButtonList &buttonList);
-    private:
-        Command *overGame;
 };

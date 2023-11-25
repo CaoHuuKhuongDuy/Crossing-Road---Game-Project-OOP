@@ -64,8 +64,8 @@ void MenuScreen::draw()
 {
     if (firstScreen)
     {
-        const char* path = "../media/music1.wav";
-        PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
+        // const char* path = "../media/music1.wav";
+        // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
         importImage.drawASCII("crossingroad.txt", {36, 5});
@@ -214,8 +214,8 @@ void GameScreen::buildTrafficlight()
 
 GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
 {
-    const char* path = "../media/music2.wav";
-    PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );      
+    // const char* path = "../media/music2.wav";
+    // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );      
     this->buildFrame();
     this->buildFinishline();
     this->buildHero();

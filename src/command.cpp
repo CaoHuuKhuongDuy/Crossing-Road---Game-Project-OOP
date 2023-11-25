@@ -51,7 +51,7 @@ void EnterPauseScreenCommand::execute() {
 }
 
 void EnterOverScreenCommand::execute() {
-    pushScreen(new OverScreen(), 2);
+    pushScreen(new OverScreen());
 }
 
 void ExitCommand::execute() {
@@ -155,15 +155,7 @@ void ChangeHeroSkinCommand::execute()
     hero->changeSkin();
 }
 
-OverGameCommand:: OverGameCommand(){
-	
-}
-
-void OverGameCommand::execute() {
-    listScreen.setNumback(0);
-    popScreen();
-}
-
+    
 CreateHero_1::CreateHero_1(){
 	
 }

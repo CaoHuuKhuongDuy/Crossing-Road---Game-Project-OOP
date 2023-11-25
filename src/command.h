@@ -155,12 +155,7 @@ class ChangeHeroSkinCommand : public MoveEntityCommand {
         ChangeHeroSkinCommand(Hero*& hero_);
         void execute() override;
 };
-
-class OverGameCommand : public Command {
-    public:
-        OverGameCommand();    	
-        void execute() override;
-};
+    
 
 class CreateHero_1 : public Command {
     public:
