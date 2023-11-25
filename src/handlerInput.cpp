@@ -29,13 +29,16 @@ HandlerMenuInput::HandlerMenuInput()
     enterLoadGame = new EnterLoadGameCommand();
     enterCredit = new EnterCreditCommand();
     enterLeader = new EnterLeaderCommand();
+    enterSetting = new EnterSettingCommand(); 
     exitGame = new ExitCommand;
+    
 }
 HandlerMenuInput::~HandlerMenuInput() {
     delete enterGame;
     delete enterLoadGame;
     delete enterCredit;
     delete enterLeader;
+    delete enterSetting;
     delete exitGame;
 }
 
@@ -50,6 +53,7 @@ Command *HandlerMenuInput::handlerInput(ButtonList &buttonList) {
         if (buttonId == 0) return enterGame;
         if (buttonId == 1) return enterLoadGame;
         if (buttonId == 2) return enterLeader;
+        if (buttonId == 3) return enterSetting;
         if (buttonId == 4) return enterCredit;
         if (buttonId == 5) return exitGame;
     }
@@ -92,8 +96,10 @@ HandlerGameInput::HandlerGameInput(Hero *&hero) {
     buttonLEFT = new MoveLeftCommand(hero);
     buttonRIGHT = new MoveRightCommand(hero);
     changeHeroSkin = new ChangeHeroSkinCommand(hero);
+    checkExist  = new ExistHeroCommand(hero);
     saveHero = new SaveHeroCommand(hero);
     enterPauseScreen = new EnterPauseScreenCommand();
+    enterOverScreen = new EnterOverScreenCommand();
 }
 
 HandlerGameInput::~HandlerGameInput() {
@@ -104,6 +110,7 @@ HandlerGameInput::~HandlerGameInput() {
     delete saveHero;
     delete changeHeroSkin;
     delete enterPauseScreen;
+    delete checkExist;
 }
 
 Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
@@ -133,6 +140,9 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     {
         return changeHeroSkin;
     }
+    if(!checkExist->checkExistHero()){
+    	return enterOverScreen;
+	}
     return nullptr;
 }
 
@@ -204,6 +214,56 @@ Command *HandlerPauseScreenInput::handlerInput(ButtonList &buttonList) {
     }
     return nullptr;
 }
+
+HandlerOverScreenInput:: HandlerOverScreenInput(){
+	overGame = new OverGameCommand();
+}
+
+HandlerOverScreenInput:: ~HandlerOverScreenInput(){
+	delete overGame;
+}
+
+Command *HandlerOverScreenInput::handlerInput(ButtonList &buttonList) {
+    int userInput = getUserInput();
+    int buttonId = buttonList.getIdButtonChoosen();
+    if (userInput == 13) {
+		return overGame;
+    }
+
+	}
+
+HandlerSettingInput::HandlerSettingInput() {
+    choose[0] = new CreateHero_1();
+    choose[1] = new CreateHero_2(); 
+	choose[2] = new  SubVolume();	     
+	choose[3] = new PlusVolume();
+}
+
+HandlerSettingInput::~HandlerSettingInput() {
+	delete[] choose; 
+}
+
+Command *HandlerSettingInput::handlerInput(ButtonList &buttonList) {
+    // press esc key to back to menu
+    int userInput = getUserInput();
+    if (userInput == 27) return enterBackScreen;
+    // check press left arrow key
+    int buttonId = buttonList.getIdButtonChoosen();
+    if (userInput == 75) {
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
+    }
+    if (userInput == 77) {
+        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
+    }
+    if (userInput == 13) {
+        for(int i = 0; i < 4; i++){
+        	if(buttonId == i) return choose[i];	
+		}
+   }
+    return nullptr;
+}	
+
+
 
 // Up Arrow: 72
 // Down Arrow: 80
