@@ -316,7 +316,7 @@ Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_, Skin* skin)
         addSkin(new YellowSkin());
 
 
-        //Thêm skin màu xanh xong thì chỉnh chỗ này với sửa trong cái class GreenSkin nhe.
+        //ThÃªm skin mÃ u xanh xong thÃ¬ chá»‰nh chá»— nÃ y vá»›i sá»­a trong cÃ¡i class GreenSkin nhe.
         //addSkin(new GreenSkin());
     }
 
@@ -366,6 +366,15 @@ void Hero::setHeroScore(const int& score)
 {
     this->score = score;
 }
+
+void Hero:: changeExist(){
+	this->exist = ! this->exist;
+}
+
+bool Hero:: getExist(){
+	return this->exist;
+}
+
 
 void Hero::updateHeroExp()
 {
@@ -471,10 +480,9 @@ string Skin::getSkinName()
 }
 
 
-RedSkin::RedSkin() {skinname = "phoenix";}
+RedSkin::RedSkin() {}
 
 void RedSkin::update(Hero* hero){
-    hero->setEntityname("phoenix.txt");
 }
 
 YellowSkin::YellowSkin() {skinname = "phonixSkin";}
@@ -488,7 +496,6 @@ GreenSkin::GreenSkin() {skinname = "";}
 void GreenSkin::update(Hero* hero){
     hero->setEntityname(".txt");
 }
-
 
 
 
