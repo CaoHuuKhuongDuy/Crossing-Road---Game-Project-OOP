@@ -159,13 +159,13 @@ class ChangeHeroSkinCommand : public MoveEntityCommand {
 
 class CreateHero_1 : public Command {
     public:
-    	CreateHero_1();
+    	CreateHero_1(Hero*& hero_);
         void execute() override;
 };
 
 class CreateHero_2 : public Command {
     public:
-    	CreateHero_2();    	
+    	CreateHero_2(Hero*& hero_);    	
         void execute() override;
 };
 
@@ -178,5 +178,4 @@ class SubVolume : public Command {
     public:
         void execute() override;
 };
-
 
