@@ -152,24 +152,32 @@ ChangeHeroSkinCommand::ChangeHeroSkinCommand(Hero*& hero_) : MoveEntityCommand(h
 
 void ChangeHeroSkinCommand::execute()
 {
-    hero->changeSkin();
+    if(typeHero) {
+    	if(hero->getSkin() == 0) hero->setEntityname("dragonSkin.txt");
+    	else hero->setEntityname("dragon.txt");
+	}
+	else{
+    	if(hero->getSkin() == 0) hero->setEntityname("phonixSkin.txt");
+    	else hero->setEntityname("phoenix.txt");		
+	} 
+	hero->SetSkin(!hero->getSkin());
 }
 
     
-CreateHero_1::CreateHero_1(){
+CreateHero_1::CreateHero_1(Hero*& hero_){
 	
 }
 
 void CreateHero_1:: execute(){
-    changeHero = 0;
+    typeHero = 0;
 }
 
-CreateHero_2::CreateHero_2(){
+CreateHero_2::CreateHero_2(Hero*& hero_){
 	
 }
 
 void CreateHero_2:: execute(){
-	changeHero = 1;
+	typeHero = 1;
 }
 
 void PlusVolume:: execute(){
@@ -179,4 +187,3 @@ void PlusVolume:: execute(){
 void SubVolume:: execute(){
 	sound.setVolume(sound.getVolume() - 25);
 }
-
