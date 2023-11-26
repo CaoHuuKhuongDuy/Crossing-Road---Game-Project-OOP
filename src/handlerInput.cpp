@@ -221,9 +221,9 @@ Command *HandlerOverScreenInput::handlerInput(ButtonList &buttonList) {
     return nullptr;
 }
 
-HandlerSettingInput::HandlerSettingInput() {
-    choose[0] = new CreateHero_1();
-    choose[1] = new CreateHero_2(); 
+HandlerSettingInput::HandlerSettingInput(Hero *&hero) {
+    choose[0] = new CreateHero_1(hero);
+    choose[1] = new CreateHero_2(hero); 
 	choose[2] = new  SubVolume();	     
 	choose[3] = new PlusVolume();
 }
