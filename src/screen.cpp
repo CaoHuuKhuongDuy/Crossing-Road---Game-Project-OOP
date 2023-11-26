@@ -8,23 +8,20 @@ void debug() {
 }
 
 Screen::Screen(HandlerInput *handlerInput_, string music_) 
-    : handlerInputMainScreen(handlerInput_), firstScreen(true), music(music_)  {}
+    : handlerInputMainScreen(handlerInput_), firstScreen(true), music(music_)  {
+    SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
+    SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
+	hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);	
+	}
 
 Screen::~Screen() {
     debug();
     delete handlerInputMainScreen;
+    delete hero;
 }
 
 void Screen::setAgain() {
     firstScreen = true;
-}
-
-void Screen::setHero(int heroType){
-	checkHero = heroType;
-}
-
-int Screen::getHero(){
-	return checkHero;
 }
 
 void Screen::playMusic() {
@@ -194,8 +191,8 @@ void GameScreen::buildHero()
 {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-    for(int i = 0; i < 2; i++)
-       if( getHero() == i)   hero = new Hero(nameHero[i], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0, new RedSkin());
+   	hero = nullptr;
+	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);    	
 }
 void GameScreen::buildTrafficlight()
 {
@@ -209,7 +206,7 @@ void GameScreen::buildTrafficlight()
     }
 }
 
-GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero), "game.wav")
+GameScreen::GameScreen() : Screen(new HandlerGameInput(hero), "game.wav")
 {
     // const char* path = "../media/music2.wav";
     // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );      
@@ -230,7 +227,6 @@ GameScreen::~GameScreen()
         delete trafficlight[i];
     delete[] trafficlight;
     delete finish_line;
-    delete hero;
 }
 
 void GameScreen::manageEnemy()
@@ -499,7 +495,7 @@ void PauseGameScreen::draw() {
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero = new Entity("phoenix.txt",{110,36},{11,5}); 
+	hero = new Entity("phonix.txt",{110,36},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
 }
 
@@ -529,7 +525,7 @@ void OverScreen::draw() {
     }
 }
 
-SettingScreen::SettingScreen() : Screen(new HandlerSettingInput()){
+SettingScreen::SettingScreen() : Screen(new HandlerSettingInput(hero)){
 	settingFrame = new Entity("frameSetting.txt",{0,0},{200,50});
     nv1 = new Entity(nameHero[0],{65,20},{11,5});
     nv2 = new Entity(nameHero[1],{125,20},{11,5});
@@ -564,4 +560,3 @@ void SettingScreen::draw()
 	nv1->draw();
 	nv2->draw();    
 }
-
