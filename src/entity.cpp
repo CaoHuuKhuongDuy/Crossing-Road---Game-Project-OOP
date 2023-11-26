@@ -309,35 +309,14 @@ void Hero::resetDynamicEntity()
     this->teleport({SHORT((appConsole.getWindowSize().X - this->getHeroWidth()) / 2), SHORT(appConsole.getWindowSize().Y + 10)});
 }
 
-Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_, Skin* skin)
-    : DynamicEntity(entityName_, pos1, size_), score(score_), currentSkin(skin){
-        currentSkin->next = currentSkin;
-        addSkin(new RedSkin());
-        addSkin(new YellowSkin());
+Hero::Hero(string entityName_, COORD pos1, COORD size_, int score_)
+    : DynamicEntity(entityName_, pos1, size_), score(score_) {
 
-
-        //ThÃªm skin mÃ u xanh xong thÃ¬ chá»‰nh chá»— nÃ y vá»›i sá»­a trong cÃ¡i class GreenSkin nhe.
-        //addSkin(new GreenSkin());
     }
 
 Hero::~Hero()
 {
 
-    //Assume that currentSkin is the head node of the circular linked list, current is the pointer which point to the deleting memory
-    //And temp is the pointer hold the address of next node of current.
-    if (currentSkin == nullptr)
-        return;
-    Skin* temp, *current;
-    current = currentSkin->next;
-    while (current != currentSkin)
-    {
-        temp = current->next;
-        delete current;
-        current = temp;
-    }
-    currentSkin = nullptr;
-    current = nullptr;
-    temp = nullptr;
 }
 
 SHORT Hero::getHeroWidth()
@@ -410,6 +389,14 @@ bool Hero::AtEdge(SHORT posEdge_Y)
     return false;
 }
 
+bool Hero::getSkin(){
+	return checkSkin;
+}
+
+void Hero::SetSkin(bool skin){
+	checkSkin = skin;
+}
+
 void Hero::verify()
 {
     COORD sizeScreen = appConsole.getWindowSize();
@@ -420,82 +407,8 @@ void Hero::verify()
     startPos.Y = min(startPos.Y, SHORT(sizeScreen.Y - size.Y));
 }
 
-void Hero::addSkin(Skin* newSkin)
-{
-    if(currentSkin == nullptr)
-    {
-        currentSkin = newSkin;
-        currentSkin->next = currentSkin;
-        return;
-    }
-
-    Skin *pCur = currentSkin->next;
-    Skin *pPrevCur = currentSkin;
-    while ((pCur != currentSkin && pCur->getSkinName() != newSkin->getSkinName()) )
-    {
-        pPrevCur = pCur;
-        pCur = pCur->next;
-    }
-
-        //If any nodes have the same skin with newSkin, no insertion.
-        if (pCur->getSkinName() == newSkin->getSkinName())
-        {
-            delete newSkin;
-            newSkin = nullptr;
-            pCur = pPrevCur = nullptr;
-            return;
-        }
-
-        //Circular linked list with 1 node
-        if (pCur->next == currentSkin)
-        {
-            pCur->next = newSkin;
-            pCur = pCur->next;
-            pCur->next = currentSkin;
-            pPrevCur = pCur = nullptr;
-            return;
-        }
-
-        //Circular linked list with > 1 node.
-        pPrevCur->next = newSkin;
-        pPrevCur = pPrevCur->next;
-        pPrevCur->next = pCur;
-        pPrevCur = pCur = newSkin = nullptr;
-}
-
-void Hero::changeSkin()
-{
-    currentSkin = currentSkin->next;
-    currentSkin->update(this);
-}
 
 
-Skin::Skin() {}
-
-Skin::~Skin(){}
-
-string Skin::getSkinName()
-{
-    return this->skinname;
-}
-
-
-RedSkin::RedSkin() {}
-
-void RedSkin::update(Hero* hero){
-}
-
-YellowSkin::YellowSkin() {skinname = "phonixSkin";}
-
-void YellowSkin::update(Hero* hero){
-    hero->setEntityname("phonixSkin.txt");
-}
-
-GreenSkin::GreenSkin() {skinname = "";}
-
-void GreenSkin::update(Hero* hero){
-    hero->setEntityname(".txt");
-}
 
 
 
