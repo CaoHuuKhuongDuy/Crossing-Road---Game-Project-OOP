@@ -182,46 +182,11 @@ class GreenState : public TrafficLightState
         void update(TrafficLight*) override;
 };
 
-class Skin
-{
-public:
-    Skin();
-    ~Skin();
-    virtual void update(Hero*) = 0;
-    string getSkinName();
-    Skin* next;
-protected:
-    string skinname;
-};
-
-
-class RedSkin : public Skin
-{
-public:
-    RedSkin();
-    void update(Hero*) override;
-
-};
-
-class YellowSkin : public Skin
-{
-    public:
-    YellowSkin();
-    void update(Hero*) override;
-};
-
-class GreenSkin : public Skin
-{
-public:
-    GreenSkin();
-    void update(Hero* ) override;
-};
-
 
 class Hero : public DynamicEntity
 {
 public:
-    Hero(string entityName_, COORD pos1, COORD size_, int score_, Skin* skin);
+    Hero(string entityName_, COORD pos1, COORD size_, int score_);
     ~Hero();
     void verify() override;
 
@@ -238,15 +203,14 @@ public:
     int getHeroScore();
     void changeExist();
     bool getExist();
-    
-    void addSkin(Skin* newSkin);
-    void changeSkin();
+    bool getSkin();
+    void SetSkin(bool skin);
+
 private:    
-    Skin* currentSkin;
     SHORT heroWidth = 13;
     SHORT heroHeight = 5;
     int score = 0;
     int level = int(floor(score / 300)) + 1;
     bool exist = true;
+    bool checkSkin = 0;
 };
-
