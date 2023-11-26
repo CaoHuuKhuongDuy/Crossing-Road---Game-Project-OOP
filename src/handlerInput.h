@@ -76,7 +76,7 @@ class HandlerLoadInput : public HandlerInput
 class HandlerSettingInput : public HandlerInput
 {
     public:
-        HandlerSettingInput();
+        HandlerSettingInput(Hero *&hero);
         ~HandlerSettingInput();
         Command *handlerInput(ButtonList &buttonList);
     private:
