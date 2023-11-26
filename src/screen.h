@@ -22,8 +22,7 @@ public:
     virtual Command *handleInput();
     void playMusic();
     void setAgain();
-    void setHero(int heroType);
-    int getHero();
+
 protected:
     string music;
     HandlerInput *handlerInputMainScreen;
@@ -31,8 +30,9 @@ protected:
     bool firstScreen;
     bool firstGame = true;
     string path = "../media/LoadGame/loadGame.txt";
+    string nameHero[2] = {"phoenix.txt", "dragon.txt"};
     Player player; 
-	int checkHero = 0;
+    Hero *hero;
 };
 
 class MenuScreen : public Screen
@@ -93,10 +93,8 @@ private:
     Entity *finish_line;
     Enemy **enemy;
     TrafficLight** trafficlight;
-    Hero *hero;
     string level;
     string score;
-    string nameHero[2] = {"phoenix.txt", "dragon.txt"};
     const int numberTrafficLight = 5;
     const int numberEnemy = 15;
 };      
