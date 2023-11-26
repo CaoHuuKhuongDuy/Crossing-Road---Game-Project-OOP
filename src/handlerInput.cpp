@@ -239,16 +239,17 @@ Command *HandlerSettingInput::handlerInput(ButtonList &buttonList) {
     if (userInput == 27) return enterBackScreen;
     // check press left arrow key
     int buttonId = buttonList.getIdButtonChoosen();
-    if (userInput == 75) {
-        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() - 1);
+    if (buttonId == 0 || buttonId == 1) {
+        if (userInput == 75 || userInput == 77) buttonList.changeIdButtonChoosen(buttonId ^ 1);
+        if (userInput == 72 || userInput == 80) buttonList.changeIdButtonChoosen(buttonId + 2);
     }
-    if (userInput == 77) {
-        buttonList.changeIdButtonChoosen(buttonList.getIdButtonChoosen() + 1);
+    else {
+        if (userInput == 75 || userInput == 77) buttonList.changeIdButtonChoosen(buttonId == 2 ? 3 : 2);
+        if (userInput == 72 || userInput == 80) buttonList.changeIdButtonChoosen(buttonId - 2);
+
     }
     if (userInput == 13) {
-        for(int i = 0; i < 4; i++){
-        	if(buttonId == i) return choose[i];	
-		}
+        return choose[buttonId];
    }
     return nullptr;
 }	

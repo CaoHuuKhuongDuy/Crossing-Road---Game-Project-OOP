@@ -11,6 +11,7 @@ namespace stValue {
     ScreenStack listScreen;
     ListPlayer listPlayer;
     Player *mainPlayer = nullptr;
+    Sound sound;
     void init() {
         appConsole.init();
         importImage.init(&appConsole);

@@ -3,7 +3,7 @@
 
 
 
-ImportImage::ImportImage() : pathColorCode("../media/colorCode_"), pathASCIICode("../media/asciiCode_") {}
+ImportImage::ImportImage() : pathColorCode("../media/image/colorCode_"), pathASCIICode("../media/image/asciiCode_") {}
 
 void ImportImage::init(Console *appConsole) {
     this->appConsole = appConsole;

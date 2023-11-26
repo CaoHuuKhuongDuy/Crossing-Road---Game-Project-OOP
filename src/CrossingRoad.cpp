@@ -13,6 +13,7 @@ signed main() {
     while (true) {
         mainScreen = listScreen.top();
         mainScreen->draw();
+        mainScreen->playMusic();
         command = mainScreen->handleInput();
         if (command) command->execute();
         Sleep(10);

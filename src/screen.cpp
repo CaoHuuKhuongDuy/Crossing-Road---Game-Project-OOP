@@ -7,7 +7,8 @@ void debug() {
     fout.close();
 }
 
-Screen::Screen(HandlerInput *handlerInput_) : handlerInputMainScreen(handlerInput_), firstScreen(true)  {}
+Screen::Screen(HandlerInput *handlerInput_, string music_) 
+    : handlerInputMainScreen(handlerInput_), firstScreen(true), music(music_)  {}
 
 Screen::~Screen() {
     debug();
@@ -26,12 +27,8 @@ int Screen::getHero(){
 	return checkHero;
 }
 
-void Screen::SubVolume(){
-	valueVolume--;
-}
-
-void Screen:: PlusVolume(){
-	valueVolume++;
+void Screen::playMusic() {
+    sound.play(music);
 }
 
 Command *Screen::handleInput() {
@@ -212,7 +209,7 @@ void GameScreen::buildTrafficlight()
     }
 }
 
-GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero))
+GameScreen::GameScreen() : Screen(new HandlerGameInput(this->hero), "game.wav")
 {
     // const char* path = "../media/music2.wav";
     // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );      
@@ -476,7 +473,7 @@ void LeaderBoardScreen::draw() {
         }	 
 }
 
-PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput()) {
+PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput(), "game.wav") {
     frame = new Entity("blueESC.txt", {SHORT(appConsole.getWindowSize().X / 2 - 40), 30}, {80, 40});
     COORD posExit = frame->getPos();
     posExit.X += 14;
@@ -500,7 +497,7 @@ void PauseGameScreen::draw() {
     buttonList.draw();
 }
 
-OverScreen::OverScreen() : Screen(new HandlerOverScreenInput()) {
+OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
 	hero = new Entity("phoenix.txt",{110,36},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
@@ -536,6 +533,10 @@ SettingScreen::SettingScreen() : Screen(new HandlerSettingInput()){
 	settingFrame = new Entity("frameSetting.txt",{0,0},{200,50});
     nv1 = new Entity(nameHero[0],{65,20},{11,5});
     nv2 = new Entity(nameHero[1],{125,20},{11,5});
+    for (int i = 0; i < 2; i++)
+        buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));
+    for(int i = 2; i < 4; i++)
+        buttonList.addButton(new Button(buttonName[i], {SHORT(65 + (i-2) * 65), SHORT(34)}, WHITE, RED));        	
 };
 
 SettingScreen::~SettingScreen() {
@@ -545,24 +546,15 @@ SettingScreen::~SettingScreen() {
 
 void SettingScreen::draw()
 {
-    if (firstScreen)
-    {
+    if (firstScreen) {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
         settingFrame->draw();
-        buttonList.clear();
-        for (int i = 0; i < 2; i++)
-        {
-            buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));
-
-        }
-        for(int i = 2; i < 4; i++){
-            buttonList.addButton(new Button(buttonName[i], {SHORT(65 + (i-2) * 65), SHORT(34)}, WHITE, RED));        	
-		}
 		importImage.drawImage("settingTitle.txt", {55, 0});
 		importImage.drawImage("bar.txt", {72, 34});		
         firstScreen = false;
     }
-    if(valueVolume < 5 && valueVolume > -1)
+    valueVolume = sound.getVolume() / 25;
+    if (valueVolume < 5 && valueVolume > -1)
 	for(int i = 1; i < 5; i++){
 		if(i <= valueVolume)	importImage.drawImage("figure.txt", {SHORT(73+ (i-1)*14), 35});  
 		else  importImage.drawImage("figureClear.txt", {SHORT(73 + (i-1)*14), 35}); 	

@@ -4,6 +4,7 @@
 #include "Windows.h"
 #include "console.h"
 #include "importImage.h"
+#include "sound.h"
 #include "player.h"
 #include <iostream>
 #include <string>
@@ -34,7 +35,7 @@ namespace stValue {
     extern Console appConsole;  // special variable (not upcase)
     extern ImportImage importImage;
     extern ScreenStack listScreen;
-    // extern Screen *mainScreen;
+    extern Sound sound;
     extern Player *mainPlayer;
     extern ListPlayer listPlayer;
     void init();

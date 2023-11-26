@@ -173,10 +173,10 @@ void CreateHero_2:: execute(){
 }
 
 void PlusVolume:: execute(){
-	listScreen.top()->PlusVolume();
+	sound.setVolume(sound.getVolume() + 25);
 }
 
 void SubVolume:: execute(){
-	listScreen.top()->SubVolume();
+	sound.setVolume(sound.getVolume() - 25);
 }
 

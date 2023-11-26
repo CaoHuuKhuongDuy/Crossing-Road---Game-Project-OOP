@@ -16,16 +16,16 @@ using namespace std;
 class Screen
 {
 public:
-    Screen(HandlerInput *handlerInput_);
+    Screen(HandlerInput *handlerInput_, string music_ = "background.wav");
     virtual ~Screen();
     virtual void draw() = 0;
     virtual Command *handleInput();
+    void playMusic();
     void setAgain();
     void setHero(int heroType);
     int getHero();
-    void SubVolume();
-    void PlusVolume();
 protected:
+    string music;
     HandlerInput *handlerInputMainScreen;
     ButtonList buttonList;
     bool firstScreen;
@@ -33,7 +33,6 @@ protected:
     string path = "../media/LoadGame/loadGame.txt";
     Player player; 
 	int checkHero = 0;
-	int valueVolume = 0; 
 };
 
 class MenuScreen : public Screen
@@ -200,4 +199,6 @@ class SettingScreen : public Screen {
         string buttonName[4] = {"frameChoose", "frameChoose", "sub", "plus"};
         string nameHero[2] = {"phoenix.txt", "dragon.txt"}; 
     	int chooseButton = 0;
+        int valueVolume = 4; 
+
 };
