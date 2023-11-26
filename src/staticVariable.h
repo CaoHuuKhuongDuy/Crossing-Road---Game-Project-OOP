@@ -38,5 +38,6 @@ namespace stValue {
     extern Sound sound;
     extern Player *mainPlayer;
     extern ListPlayer listPlayer;
+    extern bool typeHero;
     void init();
 }
