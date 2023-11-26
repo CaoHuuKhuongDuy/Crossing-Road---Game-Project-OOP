@@ -6,13 +6,9 @@ CrossingRoad_VS/
 
 src/*.o
 
-media/LoadGame/
-
 src/*.exe
 
 src/test/
 
 CrossingRoadVS/
 .vs/
-
-media/LoadGame/loadGame.txt

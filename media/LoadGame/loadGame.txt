@@ -1,4 +1,4 @@
-sdsdsd 1 20
-sdsdsd 1 20
-kduuy 1 770
-kduy21 1 0
+test1 1 0
+test2 1 0
+test3 0 0
+kduy 0 0
