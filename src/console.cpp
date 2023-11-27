@@ -108,16 +108,16 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     if (posCursor.X == -1 || posCursor.Y == -1) {
         posCursor = getCursorPosition();
     }
-    if (text.size() == 1) {
-        int color;
-        if (colorBackground != -1) color = colorBackground;
-        else {
-            if(GetConsoleScreenBufferInfo(hConsole, &csbi)) color = (csbi.wAttributes & 0xF0) + (colorText & 0x0F);
+    // if (text.size() == 1) {
+    //     int color;
+    //     if (colorBackground != -1) color = colorBackground;
+    //     else {
+    //         if(GetConsoleScreenBufferInfo(hConsole, &csbi)) color = (csbi.wAttributes & 0xF0) + (colorText & 0x0F);
         
-        }
-        test(text[0], color, posCursor.X, posCursor.Y, posCursor.X, posCursor.Y);
-        return;
-    }
+    //     }
+    //     test(text[0], color, posCursor.X, posCursor.Y, posCursor.X, posCursor.Y);
+    //     return;
+    // }
     if (colorBackground == -1) colorBackground = currentBackgroundColor;
     setCursorPosition(posCursor);
     if (colorText == -1) setBackgroundColor(colorBackground);

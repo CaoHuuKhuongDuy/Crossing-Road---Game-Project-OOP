@@ -548,6 +548,8 @@ void SettingScreen::draw()
 		importImage.drawImage("settingTitle.txt", {55, 0});
 		importImage.drawImage("bar.txt", {72, 34});		
         firstScreen = false;
+        nv1->draw();
+        nv2->draw();    
     }
     valueVolume = sound.getVolume() / 25;
     if (valueVolume < 5 && valueVolume > -1)
@@ -557,6 +559,4 @@ void SettingScreen::draw()
 	} 
     else valueVolume = 0;
     buttonList.draw();
-	nv1->draw();
-	nv2->draw();    
 }
