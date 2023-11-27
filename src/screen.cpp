@@ -95,7 +95,7 @@ void MenuScreen::draw()
     }
 }
 
-IntroGameScreen::IntroGameScreen() : Screen(new HandlerIntroGameInput(textInput)), enterGame(false), lastFrame(false) {
+IntroGameScreen::IntroGameScreen() : Screen(new HandlerIntroGameInput(textInput), "intro.wav"), enterGame(false), lastFrame(false) {
     welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
 } 
 
@@ -129,13 +129,13 @@ void IntroGameScreen::draw() {
     if (textInput.size() == 1 && textInput[0] == '/') {
         welcome->draw();
         importImage.drawCustomImage("from sai gon", {SHORT(appConsole.getWindowSize().X / 2 - 90), 5}, false);  
-        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false); 
+        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false);  
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
         listPlayer.addPlayer(Player(name, "0", "0"));
         mainPlayer = listPlayer.getPlayer(3);
     
-        Sleep(2000);
+        Sleep(2600);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
         string s = "journey to the stars with me";
         for(int i = 0; i<s.length();i++) {
@@ -502,7 +502,7 @@ void PauseGameScreen::draw() {
     buttonList.draw();
 }
 
-OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
+OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
 	hero1 = new Entity("phonix.txt",{110,36},{11,5}); 
 	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
@@ -532,17 +532,18 @@ void OverScreen::draw() {
 		die = new DynamicEntity("boom.txt",{111,36},{11,5});
 		count = 0;
 		die ->draw(); 
-        importImage.drawCustomImage("enter to replay", {65, 45});		
+        importImage.drawCustomImage("enter to replay", {60, 45});		
 		firstScreen = false;			        
     }
+    for (int i = 0; i < 6; i++) importImage.drawImage("redSkull.txt", arr[i]);	
+    for (int i = 0; i < 6; i++) importImage.drawImage("blackSkull.txt", arr[i]);		
 }
 
 SettingScreen::SettingScreen() : Screen(new HandlerSettingInput(hero)){
 	settingFrame = new Entity("frameSetting.txt",{0,0},{200,50});
     nv1 = new Entity(nameHero[0],{65,20},{11,5});
     nv2 = new Entity(nameHero[1],{125,20},{11,5});
-    for (int i = 0; i < 2; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));
+    for (int i = 0; i < 2; i++)    buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));  
     for(int i = 2; i < 4; i++)
         buttonList.addButton(new Button(buttonName[i], {SHORT(65 + (i-2) * 65), SHORT(34)}, WHITE, RED));        	
 };
