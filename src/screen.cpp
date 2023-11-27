@@ -108,6 +108,13 @@ string IntroGameScreen::getName() {
     return name;
 }
 
+string IntroGameScreen::getTime() {
+    time_t now = time(NULL);
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%d/%m/%Y", gmtime(&now));
+    return buffer;
+}
+
 Command *IntroGameScreen::handleInput() {
     if (lastFrame) handlerInputMainScreen->setFixUserInput(1); // Enter Gane
     return handlerInputMainScreen->handlerInput(buttonList);
@@ -121,6 +128,8 @@ void IntroGameScreen::draw() {
     } 
     if (textInput.size() == 1 && textInput[0] == '/') {
         welcome->draw();
+        importImage.drawCustomImage("from sai gon", {SHORT(appConsole.getWindowSize().X / 2 - 90), 5}, false);  
+        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false); 
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
         listPlayer.addPlayer(Player(name, "0", "0"));
@@ -495,14 +504,16 @@ void PauseGameScreen::draw() {
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero = new Entity("phonix.txt",{110,36},{11,5}); 
+	hero1 = new Entity("phonix.txt",{110,36},{11,5}); 
+	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
 }
 
 OverScreen::~OverScreen() {
 	delete die;
 	delete overFrame;
-	delete hero;
+	delete hero1;
+	delete hero2;
 }
 
 void OverScreen::draw() {
@@ -510,7 +521,8 @@ void OverScreen::draw() {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
 		overFrame->draw();
         die->draw();
-		hero->draw();
+		if(typeHero == 0) hero1->draw();
+		else hero2->draw();
 		while(count < 10){
 			die->right(3);
 			die->draw();
@@ -559,4 +571,6 @@ void SettingScreen::draw()
 	} 
     else valueVolume = 0;
     buttonList.draw();
+    importImage.drawImage("tick.txt", {SHORT(93 + typeHero * 60), SHORT(16)});	
+    importImage.drawImage("clearTick.txt", {SHORT(93 + (1-typeHero) * 60), SHORT(16)});	
 }
