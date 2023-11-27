@@ -59,6 +59,7 @@ class IntroGameScreen : public Screen {
         void draw() override;
 
         string getName();
+	string getTime();
     private:
         Entity *welcome;
         string name = "";
