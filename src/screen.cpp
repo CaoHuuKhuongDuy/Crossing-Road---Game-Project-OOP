@@ -108,6 +108,13 @@ string IntroGameScreen::getName() {
     return name;
 }
 
+string IntroGameScreen::getTime() {
+    time_t now = time(NULL);
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%d/%m/%Y", gmtime(&now));
+    return buffer;
+}
+
 Command *IntroGameScreen::handleInput() {
     if (lastFrame) handlerInputMainScreen->setFixUserInput(1); // Enter Gane
     return handlerInputMainScreen->handlerInput(buttonList);
@@ -121,6 +128,8 @@ void IntroGameScreen::draw() {
     } 
     if (textInput.size() == 1 && textInput[0] == '/') {
         welcome->draw();
+        importImage.drawCustomImage("from sai gon", {SHORT(appConsole.getWindowSize().X / 2 - 90), 5}, false);  
+        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false); 
         importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
         importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
         listPlayer.addPlayer(Player(name, "0", "0"));
@@ -561,7 +570,7 @@ void SettingScreen::draw()
 		else  importImage.drawImage("figureClear.txt", {SHORT(73 + (i-1)*14), 35}); 	
 	} 
     else valueVolume = 0;
+    buttonList.draw();
     importImage.drawImage("tick.txt", {SHORT(93 + typeHero * 60), SHORT(16)});	
     importImage.drawImage("clearTick.txt", {SHORT(93 + (1-typeHero) * 60), SHORT(16)});	
-    buttonList.draw();
 }
