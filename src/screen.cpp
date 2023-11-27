@@ -495,14 +495,16 @@ void PauseGameScreen::draw() {
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero = new Entity("phonix.txt",{110,36},{11,5}); 
+	hero1 = new Entity("phonix.txt",{110,36},{11,5}); 
+	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
 }
 
 OverScreen::~OverScreen() {
 	delete die;
 	delete overFrame;
-	delete hero;
+	delete hero1;
+	delete hero2;
 }
 
 void OverScreen::draw() {
@@ -510,7 +512,8 @@ void OverScreen::draw() {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
 		overFrame->draw();
         die->draw();
-		hero->draw();
+		if(typeHero == 0) hero1->draw();
+		else hero2->draw();
 		while(count < 10){
 			die->right(3);
 			die->draw();
