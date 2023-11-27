@@ -116,6 +116,10 @@ HandlerGameInput::~HandlerGameInput() {
 Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
 {
     int userInput = getUserInput();
+    if(!checkExist->checkExistHero()){
+    	return enterOverScreen;
+	}
+	else{
     if (userInput == 119)
     {
         return buttonUP;
@@ -139,11 +143,9 @@ Command *HandlerGameInput::handlerInput(ButtonList &buttonList)
     if (userInput == 9)
     {
         return changeHeroSkin;
-    }
-    if(!checkExist->checkExistHero()){
-    	return enterOverScreen;
+    }	
+    return nullptr;	
 	}
-    return nullptr;
 }
 
 HandlerLoadInput::HandlerLoadInput() {
