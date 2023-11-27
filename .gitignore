@@ -10,5 +10,5 @@ src/*.exe
 
 src/test/
 
-CrossingRoadVS/
+CrossingRoad-VS/
 .vs/

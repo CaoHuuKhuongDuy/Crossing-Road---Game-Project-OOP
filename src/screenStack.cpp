@@ -21,8 +21,6 @@ void ScreenStack::push(Screen* screen, int numBack) {
 
 void ScreenStack::pop() {
     if (screens.size() == 1) return;
-    // delete screens.top().first;
-    // screens.pop();
     int numPopScreen = 0;
     do {
         numPopScreen = max(numPopScreen, screens.top().second) - 1;

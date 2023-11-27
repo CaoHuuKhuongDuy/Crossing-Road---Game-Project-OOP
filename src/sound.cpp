@@ -1,15 +1,17 @@
+
 #include "sound.h"
-#include <iostream>
 
 Sound::Sound() : filePath("") {
-    freopen("../media/LoadGame/volume.txt", "r", stdin);
-    std::cin >> volumeLevel;
+    std::ifstream ci("../media/LoadGame/volume.txt");
+    ci >> volumeLevel;
+    ci.close();
     setVolume(volumeLevel);
 }
 
 Sound::~Sound() {
-    freopen("../media/LoadGame/volume.txt", "w", stdout);
-    std::cout << volumeLevel * 100;
+    std::ofstream co("../media/LoadGame/volume.txt");
+    co << volumeLevel * 100;
+    co.close();
 }
 
 void Sound::setVolume(double volumeLevel_) {

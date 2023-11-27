@@ -2,6 +2,7 @@
 
 #include "Windows.h"
 #include <iostream>
+#include <fstream>
 
 class Sound {
     public:

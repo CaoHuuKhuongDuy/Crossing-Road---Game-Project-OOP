@@ -56,6 +56,7 @@ void EnterOverScreenCommand::execute() {
 
 void ExitCommand::execute() {
     appConsole.closeConsole();
+
 }
 
 void LoadSavedGameCommand::execute() {

@@ -72,11 +72,16 @@ class Console {
 
         void test(char character, int color, int left, int top, int right, int bottom);
 
-private:
-    HANDLE hConsole;
-    HWND szConsole;
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    CONSOLE_CURSOR_INFO cursorInfo;
-    int currentTextColor, currentBackgroundColor;
-    COORD size;
+        bool getRunning() { return running;}
+
+    private:
+        COORD calculateFontSize();
+        bool running;
+        static BOOL CtrlHandler(DWORD fdwCtrlType);
+        HANDLE hConsole;
+        HWND szConsole;
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        CONSOLE_CURSOR_INFO cursorInfo;
+        int currentTextColor, currentBackgroundColor;
+        COORD size;
 };

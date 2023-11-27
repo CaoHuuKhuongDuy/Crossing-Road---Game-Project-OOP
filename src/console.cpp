@@ -9,11 +9,27 @@ void Console::setFont(const wchar_t* fontType) {
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
+COORD Console::calculateFontSize() {
+    COORD size;
+    HWND desktopWindow = GetDesktopWindow();
+
+   // Get the screen dimensions
+    RECT desktopRect;
+    GetClientRect(desktopWindow, &desktopRect);
+   // Calculate the width and height of the screen
+    int screenWidth = desktopRect.right;
+    int screenHeight = desktopRect.bottom;
+    size.X = screenWidth / stValue::FIX_SIZE.X;
+    size.Y = screenHeight / stValue::FIX_SIZE.Y - 2;
+    return size;
+}
+
 void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
-    cfi.dwFontSize = stValue::FONT_SIZE;
+    // cfi.dwFontSize = stValue::FONT_SIZE;
+    cfi.dwFontSize = calculateFontSize();
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
@@ -28,6 +44,7 @@ void Console::setWindowSize() {
 }
 
 void Console::init() {
+    running = true;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     szConsole = GetConsoleWindow();
     LONG style = GetWindowLong(szConsole, GWL_STYLE);
@@ -158,8 +175,20 @@ void Console::clear(COORD p1, COORD p2) {
     }
 }
 
+BOOL Console::CtrlHandler(DWORD fdwCtrlType) {
+    switch (fdwCtrlType) {
+    case CTRL_CLOSE_EVENT:
+        std::cin.get();
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 void Console::closeConsole() {
-    if (szConsole) SendMessage(szConsole, WM_CLOSE, 0, 0);
+ //   SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlHandler, TRUE);
+    //if (szConsole) SendMessage(szConsole, WM_CLOSE, 0, 0);
+    running = false;
 }
 
 void Console::test(char character, int color, int left, int top, int right, int bottom) {
