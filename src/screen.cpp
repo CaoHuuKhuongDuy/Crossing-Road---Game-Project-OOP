@@ -558,5 +558,7 @@ void SettingScreen::draw()
 		else  importImage.drawImage("figureClear.txt", {SHORT(73 + (i-1)*14), 35}); 	
 	} 
     else valueVolume = 0;
+    importImage.drawImage("tick.txt", {SHORT(93 + typeHero * 60), SHORT(16)});	
+    importImage.drawImage("clearTick.txt", {SHORT(93 + (1-typeHero) * 60), SHORT(16)});	
     buttonList.draw();
 }
