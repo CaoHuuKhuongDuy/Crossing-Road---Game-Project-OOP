@@ -11,7 +11,7 @@ Screen::Screen(HandlerInput *handlerInput_, string music_)
     : handlerInputMainScreen(handlerInput_), firstScreen(true), music(music_)  {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-	hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);	
+	hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
 	}
 
 Screen::~Screen() {
@@ -504,7 +504,7 @@ void PauseGameScreen::draw() {
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
 	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero1 = new Entity("phonix.txt",{110,36},{11,5}); 
+	hero1 = new Entity("phoenix.txt",{110,36},{11,5}); 
 	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
 }
@@ -523,6 +523,8 @@ void OverScreen::draw() {
         die->draw();
 		if(typeHero == 0) hero1->draw();
 		else hero2->draw();
+		hero1 = nullptr;
+		hero2 = nullptr;		 
 		while(count < 10){
 			die->right(3);
 			die->draw();
@@ -572,6 +574,6 @@ void SettingScreen::draw()
 	} 
     else valueVolume = 0;
     buttonList.draw();
-    importImage.drawImage("tick.txt", {SHORT(93 + typeHero * 60), SHORT(16)});	
-    importImage.drawImage("clearTick.txt", {SHORT(93 + (1-typeHero) * 60), SHORT(16)});	
+    importImage.drawImage("tick.txt", {SHORT(69 + typeHero * 60), SHORT(26)});	
+    importImage.drawImage("clearTick.txt", {SHORT(69 + (1-typeHero) * 60), SHORT(26)});	
 }
