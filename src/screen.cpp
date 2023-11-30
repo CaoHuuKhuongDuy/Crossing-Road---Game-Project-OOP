@@ -201,8 +201,14 @@ void GameScreen::buildHero()
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
    	hero = nullptr;
-	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);    	
+	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);  
+	if(idPlayer != 5) {
+		hero->setHeroLevel(stoi(listPlayer.getPlayer(idPlayer)->getLevel()));  
+        hero->setHeroScore(stoi(listPlayer.getPlayer(idPlayer)->getScore()));
+		idPlayer = 5;				
+	}	
 }
+
 void GameScreen::buildTrafficlight()
 {
     trafficlight = new TrafficLight *[numberTrafficLight];
