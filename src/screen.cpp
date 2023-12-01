@@ -46,7 +46,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
     meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
 };
 
 MenuScreen::~MenuScreen()
@@ -509,10 +509,10 @@ void PauseGameScreen::draw() {
 }
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
-	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero1 = new Entity("phoenix.txt",{110,36},{11,5}); 
+	overFrame = new Entity("GameOver.txt",{0,0},{200,43}); 
+	hero1 = new Entity("phoenix.txt",{100,30},{11,5}); 
 	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
-	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
+	die = new DynamicEntity("coolUfo.txt",{70,30},{11,5});
 }
 
 OverScreen::~OverScreen() {
@@ -537,10 +537,10 @@ void OverScreen::draw() {
 			count++;
 		}
 		die = nullptr;
-		die = new DynamicEntity("boom.txt",{111,36},{11,5});
+		die = new DynamicEntity("boom.txt",{101,30},{11,5});
 		count = 0;
 		die ->draw(); 
-        importImage.drawCustomImage("enter to replay", {60, 45});		
+        importImage.drawCustomImage("enter to replay", {50, 39});		
 		firstScreen = false;			        
     }
     for (int i = 0; i < 6; i++) importImage.drawImage("redSkull.txt", arr[i]);	
