@@ -96,7 +96,7 @@ void MenuScreen::draw()
 }
 
 IntroGameScreen::IntroGameScreen() : Screen(new HandlerIntroGameInput(textInput), "intro.wav"), enterGame(false), lastFrame(false) {
-    welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
+    welcome = new Entity("welcome.txt", {10, 0}, {205, 50});
 } 
 
 IntroGameScreen::~IntroGameScreen() {
@@ -129,17 +129,17 @@ void IntroGameScreen::draw() {
     if (textInput.size() == 1 && textInput[0] == '/') {
         welcome->draw();
         importImage.drawCustomImage("from sai gon", {SHORT(appConsole.getWindowSize().X / 2 - 90), 5}, false);  
-        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false);  
-        importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
-        importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
+        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 15}, false);  
+        importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 10), 5}, false);
+        importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 10), 15}, false);
         listPlayer.addPlayer(Player(name, "0", "0"));
         mainPlayer = listPlayer.getPlayer(3);
     
-        Sleep(2600);
+        Sleep(2700);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
-        string s = "journey to the stars with me";
+        string s = "journey to the star with me";
         for(int i = 0; i<s.length();i++) {
-            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
+            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 25}, false);    
 		    Sleep(70);  	
 		}
 	    Sleep(1000);  
