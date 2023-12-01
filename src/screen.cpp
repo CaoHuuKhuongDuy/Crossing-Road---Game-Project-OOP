@@ -511,7 +511,7 @@ void PauseGameScreen::draw() {
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
 	overFrame = new Entity("GameOver.txt",{0,0},{200,43}); 
 	hero1 = new Entity("phoenix.txt",{100,30},{11,5}); 
-	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
+	hero2 = new Entity("dragon.txt",{100,30},{11,5}); 
 	die = new DynamicEntity("coolUfo.txt",{70,30},{11,5});
 }
 
