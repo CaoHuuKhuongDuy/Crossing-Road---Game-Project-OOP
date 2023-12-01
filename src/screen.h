@@ -186,7 +186,7 @@ class OverScreen : public Screen {
     	Entity* overFrame,* hero1, *hero2;
     	DynamicEntity* die;
     	int count = 0;
-    	COORD arr[6] = {{20, 35},{12, 43},{32, 25},{180, 35},{162, 43},{165, 19}};
+    	COORD arr[6] = {{20, 25},{12, 38},{32, 15},{150, 28},{158, 38},{165, 14}};
 };
 
 class SettingScreen : public Screen {
