@@ -123,7 +123,7 @@ Command *IntroGameScreen::handleInput() {
 void IntroGameScreen::draw() {
     if (firstScreen) {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
-        importImage.drawCustomImage("enter name  ", {SHORT(appConsole.getWindowSize().X / 2), 20}, false);
+        importImage.drawCustomImage("enter name  ", {SHORT(appConsole.getWindowSize().X / 2 - 30), 20}, false);
         firstScreen = false;
     } 
     if (textInput.size() == 1 && textInput[0] == '/') {
@@ -149,7 +149,7 @@ void IntroGameScreen::draw() {
     textInputEntity = new Entity[6];
     for (int i = 0; i < 6; i++) {
         string fileName = string(1, (i < textInput.size() ? textInput[i] : '@')) + ".txt";
-        textInputEntity[i] = Entity(fileName , {SHORT(108 + 12 * i), 31}, {5, 5});
+        textInputEntity[i] = Entity(fileName , {SHORT(78 + 12 * i), 31}, {5, 5});
         textInputEntity[i].draw();
     }
     name = textInput;
