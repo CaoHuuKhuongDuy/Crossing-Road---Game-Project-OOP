@@ -169,7 +169,7 @@ Command *HandlerLoadInput::handlerInput(ButtonList &buttonList) {
     }
     if (userInput == 13) {
         loadSavedGame->setIdButtonChoosen(buttonList.getIdButtonChoosen());
-	idPlayer = buttonList.getIdButtonChoosen();    
+        idPlayer = buttonList.getIdButtonChoosen();
         return loadSavedGame;
     }
     return nullptr;
