@@ -46,7 +46,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
     meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
 };
 
 MenuScreen::~MenuScreen()
@@ -200,13 +200,7 @@ void GameScreen::buildHero()
 {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-   	hero = nullptr;
-	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);  
-	if(idPlayer != 5) {
-		hero->setHeroLevel(stoi(listPlayer.getPlayer(idPlayer)->getLevel()));  
-        hero->setHeroScore(stoi(listPlayer.getPlayer(idPlayer)->getScore()));
-		idPlayer = 5;				
-	}	
+	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, stoi(mainPlayer->getScore()));  
 }
 
 void GameScreen::buildTrafficlight()

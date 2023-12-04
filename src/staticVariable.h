@@ -39,6 +39,5 @@ namespace stValue {
     extern Player *mainPlayer;
     extern ListPlayer listPlayer;
     extern bool typeHero;
-    extern int idPlayer;    
     void init();
 }

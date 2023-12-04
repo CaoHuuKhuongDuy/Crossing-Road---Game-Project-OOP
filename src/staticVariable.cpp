@@ -13,7 +13,6 @@ namespace stValue {
     Player *mainPlayer = nullptr;
     Sound sound;
     bool typeHero = 0;
-    int idPlayer = 5; 
     void init() {
         appConsole.init();
         importImage.init(&appConsole);
