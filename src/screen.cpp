@@ -11,7 +11,7 @@ Screen::Screen(HandlerInput *handlerInput_, string music_)
     : handlerInputMainScreen(handlerInput_), firstScreen(true), music(music_)  {
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
-	hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);	
+	hero = new Hero("phoenix.txt", {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);
 	}
 
 Screen::~Screen() {
@@ -46,7 +46,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
     meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
 };
 
 MenuScreen::~MenuScreen()
@@ -95,8 +95,8 @@ void MenuScreen::draw()
     }
 }
 
-IntroGameScreen::IntroGameScreen() : Screen(new HandlerIntroGameInput(textInput)), enterGame(false), lastFrame(false) {
-    welcome = new Entity("welcome.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {150, 50});
+IntroGameScreen::IntroGameScreen() : Screen(new HandlerIntroGameInput(textInput), "intro.wav"), enterGame(false), lastFrame(false) {
+    welcome = new Entity("welcome.txt", {10, 0}, {205, 50});
 } 
 
 IntroGameScreen::~IntroGameScreen() {
@@ -123,23 +123,23 @@ Command *IntroGameScreen::handleInput() {
 void IntroGameScreen::draw() {
     if (firstScreen) {
         appConsole.setFullscreenBackgroundColor(BG_CYAN);
-        importImage.drawCustomImage("enter name  ", {SHORT(appConsole.getWindowSize().X / 2), 20}, false);
+        importImage.drawCustomImage("enter name  ", {SHORT(appConsole.getWindowSize().X / 2 - 30), 20}, false);
         firstScreen = false;
     } 
     if (textInput.size() == 1 && textInput[0] == '/') {
         welcome->draw();
         importImage.drawCustomImage("from sai gon", {SHORT(appConsole.getWindowSize().X / 2 - 90), 5}, false);  
-        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 12}, false); 
-        importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 30), 18}, false);
-        importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 30), 28}, false);
+        importImage.drawCustomImage(getTime(), {SHORT(appConsole.getWindowSize().X / 2 - 90), 15}, false);  
+        importImage.drawCustomImage("welcome " + name, {SHORT(appConsole.getWindowSize().X / 2 + 10), 5}, false);
+        importImage.drawCustomImage("have a nice day ", {SHORT(appConsole.getWindowSize().X / 2 + 10), 15}, false);
         listPlayer.addPlayer(Player(name, "0", "0"));
         mainPlayer = listPlayer.getPlayer(3);
     
-        Sleep(2000);
+        Sleep(2700);
         appConsole.setFullscreenBackgroundColor(BG_CYAN);   
-        string s = "journey to the stars with me";
+        string s = "journey to the star with me";
         for(int i = 0; i<s.length();i++) {
-            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 28}, false);    
+            importImage.drawCustomImage(string(1,s[i]), {SHORT(appConsole.getWindowSize().X / 2 - 85 + 6*i), 25}, false);    
 		    Sleep(70);  	
 		}
 	    Sleep(1000);  
@@ -149,7 +149,7 @@ void IntroGameScreen::draw() {
     textInputEntity = new Entity[6];
     for (int i = 0; i < 6; i++) {
         string fileName = string(1, (i < textInput.size() ? textInput[i] : '@')) + ".txt";
-        textInputEntity[i] = Entity(fileName , {SHORT(108 + 12 * i), 31}, {5, 5});
+        textInputEntity[i] = Entity(fileName , {SHORT(78 + 12 * i), 31}, {5, 5});
         textInputEntity[i].draw();
     }
     name = textInput;
@@ -201,8 +201,14 @@ void GameScreen::buildHero()
     SHORT spawnHero_COORDX = (appConsole.getWindowSize().X - 13) / 2;
     SHORT spawnHero_COORDY = (appConsole.getWindowSize().Y);
    	hero = nullptr;
-	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);    	
+	hero = new Hero(nameHero[typeHero], {spawnHero_COORDX, spawnHero_COORDY}, {11, 5}, 0);  
+	if(idPlayer != 5) {
+		hero->setHeroLevel(stoi(listPlayer.getPlayer(idPlayer)->getLevel()));  
+        hero->setHeroScore(stoi(listPlayer.getPlayer(idPlayer)->getScore()));
+		idPlayer = 5;				
+	}	
 }
+
 void GameScreen::buildTrafficlight()
 {
     trafficlight = new TrafficLight *[numberTrafficLight];
@@ -502,11 +508,11 @@ void PauseGameScreen::draw() {
     buttonList.draw();
 }
 
-OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "game.wav") {
-	overFrame = new Entity("GameOver.txt",{40,50},{200,43}); 
-	hero1 = new Entity("phonix.txt",{110,36},{11,5}); 
-	hero2 = new Entity("dragon.txt",{110,36},{11,5}); 
-	die = new DynamicEntity("coolUfo.txt",{80,36},{11,5});
+OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
+	overFrame = new Entity("GameOver.txt",{0,0},{200,43}); 
+	hero1 = new Entity("phoenix.txt",{100,30},{11,5}); 
+	hero2 = new Entity("dragon.txt",{100,30},{11,5}); 
+	die = new DynamicEntity("coolUfo.txt",{70,30},{11,5});
 }
 
 OverScreen::~OverScreen() {
@@ -523,26 +529,29 @@ void OverScreen::draw() {
         die->draw();
 		if(typeHero == 0) hero1->draw();
 		else hero2->draw();
+		hero1 = nullptr;
+		hero2 = nullptr;		 
 		while(count < 10){
 			die->right(3);
 			die->draw();
 			count++;
 		}
 		die = nullptr;
-		die = new DynamicEntity("boom.txt",{111,36},{11,5});
+		die = new DynamicEntity("boom.txt",{101,30},{11,5});
 		count = 0;
 		die ->draw(); 
-        importImage.drawCustomImage("enter to replay", {65, 45});		
+        importImage.drawCustomImage("enter to replay", {50, 39});		
 		firstScreen = false;			        
     }
+    for (int i = 0; i < 6; i++) importImage.drawImage("redSkull.txt", arr[i]);	
+    for (int i = 0; i < 6; i++) importImage.drawImage("blackSkull.txt", arr[i]);		
 }
 
 SettingScreen::SettingScreen() : Screen(new HandlerSettingInput(hero)){
 	settingFrame = new Entity("frameSetting.txt",{0,0},{200,50});
     nv1 = new Entity(nameHero[0],{65,20},{11,5});
     nv2 = new Entity(nameHero[1],{125,20},{11,5});
-    for (int i = 0; i < 2; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));
+    for (int i = 0; i < 2; i++)    buttonList.addButton(new Button(buttonName[i], {SHORT(45 + i * 60), SHORT(15)}, WHITE, RED));  
     for(int i = 2; i < 4; i++)
         buttonList.addButton(new Button(buttonName[i], {SHORT(65 + (i-2) * 65), SHORT(34)}, WHITE, RED));        	
 };
@@ -571,6 +580,6 @@ void SettingScreen::draw()
 	} 
     else valueVolume = 0;
     buttonList.draw();
-    importImage.drawImage("tick.txt", {SHORT(93 + typeHero * 60), SHORT(16)});	
-    importImage.drawImage("clearTick.txt", {SHORT(93 + (1-typeHero) * 60), SHORT(16)});	
+    importImage.drawImage("tick.txt", {SHORT(69 + typeHero * 60), SHORT(26)});	
+    importImage.drawImage("clearTick.txt", {SHORT(69 + (1-typeHero) * 60), SHORT(26)});	
 }

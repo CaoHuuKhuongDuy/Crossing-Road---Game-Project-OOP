@@ -59,7 +59,7 @@ class IntroGameScreen : public Screen {
         void draw() override;
 
         string getName();
-	string getTime();
+        string getTime();
     private:
         Entity *welcome;
         string name = "";
@@ -186,6 +186,7 @@ class OverScreen : public Screen {
     	Entity* overFrame,* hero1, *hero2;
     	DynamicEntity* die;
     	int count = 0;
+    	COORD arr[6] = {{20, 25},{12, 38},{32, 15},{150, 28},{158, 38},{165, 14}};
 };
 
 class SettingScreen : public Screen {
