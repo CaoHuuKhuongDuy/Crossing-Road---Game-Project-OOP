@@ -62,8 +62,8 @@ void Console::init() {
 
 void Console::setConsolePos() {
     // set the window to the center of the screen
-    HWND desktopWindow = GetDesktopWindow();
     RECT desktopRect;
+    HWND desktopWindow = GetDesktopWindow();
     GetClientRect(desktopWindow, &desktopRect);
 
     // Calculate the width and height of the screen
