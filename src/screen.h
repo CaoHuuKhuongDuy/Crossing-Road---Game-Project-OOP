@@ -47,6 +47,7 @@ private:
     DynamicEntity *rocket;
     DynamicEntity **meteor;
     int rocketMove;
+    COORD idx[12] = {{28, 1},{196, 15},{151, 24},{40, 24},{159, 10},{22, 15},{159, 2},{165, 16},{51, 11},{50, 26},{50, 0},{203, 27}};
 };
 
 
@@ -161,8 +162,8 @@ private:
     Entity *frame;
     DynamicEntity* moon, * star, *congratulate[2];  
     Entity *gold, *silver, *copper, *crown;
-    COORD posName[3] = {{105, 7}, {56, 20}, {161, 22}};
-    COORD posScore[3] = {{106, 44}, {57, 44}, {162, 44}};
+    COORD posName[3] = {{90, 12}, {42, 25}, {147, 27}};
+    COORD posScore[3] = {{90, 49}, {45, 49}, {150, 49}};
     Entity* medal[3];
 
 };
@@ -186,7 +187,7 @@ class OverScreen : public Screen {
     	Entity* overFrame,* hero1, *hero2;
     	DynamicEntity* die;
     	int count = 0;
-    	COORD arr[6] = {{20, 25},{12, 38},{32, 15},{150, 28},{158, 38},{165, 14}};
+    	COORD arr[6] = {{32, 25},{24, 38},{44, 15},{162, 28},{170, 38},{177, 14}};
 };
 
 class SettingScreen : public Screen {
