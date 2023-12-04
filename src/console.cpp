@@ -49,6 +49,7 @@ void Console::init() {
     running = true;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     szConsole = GetConsoleWindow();
+    setConsolePos();
     LONG style = GetWindowLong(szConsole, GWL_STYLE);
     style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
     SetWindowLong(szConsole, GWL_STYLE, style);
@@ -58,6 +59,20 @@ void Console::init() {
     size = stValue::FIX_SIZE;
     setWindowSize();
 };
+
+void Console::setConsolePos() {
+    // set the window to the center of the screen
+    HWND desktopWindow = GetDesktopWindow();
+    RECT desktopRect;
+    GetClientRect(desktopWindow, &desktopRect);
+
+    // Calculate the width and height of the screen
+    int screenWidth = desktopRect.right;
+    int screenHeight = desktopRect.bottom;
+    int posX = (screenWidth - stValue::FIX_SIZE.X * stValue::FONT_SIZE.X) / 2;
+    int posY = (screenHeight - stValue::FIX_SIZE.Y * stValue::FONT_SIZE.Y) / 2;
+    SetWindowPos(szConsole, 0, posX, posY, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+}
 
 void Console::setTextColor(int color)
 {

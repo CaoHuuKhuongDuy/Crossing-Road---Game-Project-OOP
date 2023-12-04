@@ -44,6 +44,8 @@ class Console {
 
         void setFontSize();
 
+        void setConsolePos();
+
         void setWindowSize();
 
         void init();
