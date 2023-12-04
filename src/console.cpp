@@ -28,19 +28,21 @@ void Console::setFontSize() {
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(cfi);
     cfi.nFont = 0;
-    // cfi.dwFontSize = stValue::FONT_SIZE;
-    cfi.dwFontSize = calculateFontSize();
+    cfi.dwFontSize = stValue::FONT_SIZE;
+    // cfi.dwFontSize = calculateFontSize();
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
 void Console::setWindowSize() {
+     // Set the buffer size
+    if (!SetConsoleScreenBufferSize(hConsole, stValue::FIX_SIZE))
+        throw std::runtime_error("Unable to set console screen buffer size.");
     setFontSize();
-    // Adjust buffer size:
-    if (!SetConsoleScreenBufferSize(hConsole, size))
-        throw std::runtime_error("Unable to resize screen buffer.");
-    ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
+    SMALL_RECT windowSize = { 0, 0, static_cast<SHORT>(stValue::FIX_SIZE.X - 1), static_cast<SHORT>(stValue::FIX_SIZE.Y - 1) };
+    if (!SetConsoleWindowInfo(hConsole, TRUE, &windowSize))
+        throw std::runtime_error("Unable to set console window size.");
 }
 
 void Console::init() {
@@ -125,16 +127,16 @@ void Console::writeAt(std::string text, int colorText, COORD posCursor, int colo
     if (posCursor.X == -1 || posCursor.Y == -1) {
         posCursor = getCursorPosition();
     }
-    // if (text.size() == 1) {
-    //     int color;
-    //     if (colorBackground != -1) color = colorBackground;
-    //     else {
-    //         if(GetConsoleScreenBufferInfo(hConsole, &csbi)) color = (csbi.wAttributes & 0xF0) + (colorText & 0x0F);
+    if (text.size() == 1) {
+        int color;
+        if (colorBackground != -1) color = colorBackground;
+        else {
+            if(GetConsoleScreenBufferInfo(hConsole, &csbi)) color = (csbi.wAttributes & 0xF0) + (colorText & 0x0F);
         
-    //     }
-    //     test(text[0], color, posCursor.X, posCursor.Y, posCursor.X, posCursor.Y);
-    //     return;
-    // }
+        }
+        test(text[0], color, posCursor.X, posCursor.Y, posCursor.X, posCursor.Y);
+        return;
+    }
     if (colorBackground == -1) colorBackground = currentBackgroundColor;
     setCursorPosition(posCursor);
     if (colorText == -1) setBackgroundColor(colorBackground);
