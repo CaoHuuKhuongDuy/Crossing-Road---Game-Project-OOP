@@ -36,37 +36,33 @@ Command *Screen::handleInput() {
 MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 {
     rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
-    meteor = new DynamicEntity*[7];
-    meteor[0] = new DynamicEntity("slight.txt", {27,1}, {4, 4});
-    meteor[1] = new DynamicEntity("slight.txt", {175,15}, {4, 4});
-    meteor[2] = new DynamicEntity("slight.txt", {135,24}, {4, 4});
-    meteor[3] = new DynamicEntity("slight.txt", {40,24}, {4, 4});
-    meteor[4] = new DynamicEntity("slight.txt", {143,10}, {4, 4});
-    meteor[5] = new DynamicEntity("slight.txt", {22,15}, {4, 4});
-    meteor[6] = new DynamicEntity("slight.txt", {143,2}, {4, 4});	
+    meteor = new DynamicEntity*[12];
+    for(int i = 0; i < 12;i++){		
+    	meteor[i] = new DynamicEntity("slight.txt",idx[i],{4,4});
+	}	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(80 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(97 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
 };
 
 MenuScreen::~MenuScreen()
 {
     delete rocket;
+    for (int i = 0; i < 12; ++i) delete meteor[i];
+	delete[] meteor;	
 }
 
 void MenuScreen::draw()
 {
     if (firstScreen)
     {
-        // const char* path = "../media/music1.wav";
-        // PlaySound(path, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP  );
         appConsole.setFullscreenBackgroundColor(BG_BLUE);
         importImage.drawASCII("star.txt", {0, 0});
-        importImage.drawASCII("crossingroad.txt", {36, 5});
-        Entity *jupiter = new Entity("jupiter.txt", {20, 22}, {12, 11});
-        Entity *sartun = new Entity("sartun.txt", {148, 7}, {21, 20});
-        Entity *venus = new Entity("venus.txt", {128, 31}, {23, 15});
-        importImage.drawASCII("frame.txt", {45, 12});
+        importImage.drawASCII("crossingroad.txt", {52, 4});
+        Entity *jupiter = new Entity("jupiter.txt", {20, 23}, {12, 11});
+        Entity *sartun = new Entity("sartun.txt", {169, 7}, {21, 20});
+        Entity *venus = new Entity("venus.txt", {149, 31}, {23, 15});
+        importImage.drawASCII("frame.txt", {61, 12});
         jupiter->draw();
         sartun->draw();
         venus->draw();
@@ -75,23 +71,19 @@ void MenuScreen::draw()
     }
     buttonList.draw();
     rocket->draw();
-    for(int i=0; i<7;i++){
-         meteor[i]->draw();  
-     	meteor[i]->slip(1);      	
+    for(int i=0; i<12;i++){
+        meteor[i]->draw();  
+     	meteor[i]->slip(2);      	
     }
     rocketMove++;
     rocket->up(1);
+    if(rocketMove%10 == 0 ){
+	    for(int i=0; i<12;i++) meteor[i]->teleport(idx[i]);			
+    }
     if (rocketMove == 20)
     {
         rocketMove = 0;
         rocket->teleport({1, 25});
-        meteor[0]->teleport({27, 1});
-        meteor[1]->teleport({175, 15});
-        meteor[2]->teleport({135, 24});   
-        meteor[3]->teleport({40, 24});        
-        meteor[4]->teleport({143, 10});        
-        meteor[5]->teleport({22, 15});        
-        meteor[6]->teleport({143, 2});  		     
     }
 }
 
@@ -418,15 +410,15 @@ void CreditScreen::draw()
 
 LeaderBoardScreen::LeaderBoardScreen() : Screen(new HandlerLeaderBoardInput())
 {
-   frame = new Entity("leaderFrame.txt", {30, 0}, {168, 43});
-    moon = new DynamicEntity("moon.txt", {SHORT(45), SHORT(2)}, {SHORT(20), SHORT(16)});
-    star = new DynamicEntity("Star.txt", {SHORT(189), SHORT(5)}, {SHORT(16), SHORT(16)});
-    medal[2] = new Entity("copper.txt", {170, 28}, {11, 11});
-    medal[1] = new Entity("silver.txt", {65, 26}, {11, 11});
-    medal[0] = new Entity("gold.txt", {115, 13}, {11, 11});
-    crown  = new Entity("crown.txt", {115, 1}, {11, 11});
-    congratulate[0] = new DynamicEntity("congratulation1.txt", {85, 2 }, {12, 8});
-    congratulate[1] = new DynamicEntity("congratulation2.txt", {85, 2}, {12, 8});
+   frame = new Entity("leaderFrame.txt", {15, 5}, {168, 43});
+    moon = new DynamicEntity("moon.txt", {SHORT(30), SHORT(2)}, {SHORT(20), SHORT(16)});
+    star = new DynamicEntity("Star.txt", {SHORT(159), SHORT(5)}, {SHORT(16), SHORT(16)});
+    medal[2] = new Entity("copper.txt", {156, 33}, {11, 11});
+    medal[1] = new Entity("silver.txt", {52, 31}, {11, 11});
+    medal[0] = new Entity("gold.txt", {100, 18}, {11, 11});
+    crown  = new Entity("crown.txt", {100, 6}, {11, 11});
+    congratulate[0] = new DynamicEntity("congratulation1.txt", {72, 7 }, {12, 8});
+    congratulate[1] = new DynamicEntity("congratulation2.txt", {72, 7}, {12, 8});
 
 }
 
@@ -468,12 +460,12 @@ void LeaderBoardScreen::draw() {
 
     for (int i = 0; i < 2; i++)
         for (int j = 0; j < 2; j++) {
-            congratulate[i]->teleport({SHORT(85 + 60 * j), 2});
+            congratulate[i]->teleport({SHORT(72 + 45 * j), 2});
             congratulate[i]->draw();
         }
     for (int i = 0; i < 2; i++) 
         for (int j = 0; j < 2; j++) {
-            congratulate[i]->teleport({SHORT(75 + 80 * j), 2});
+            congratulate[i]->teleport({SHORT(72 + 55 * j), 2});
             congratulate[i]->draw();
         }	 
 }
@@ -503,10 +495,10 @@ void PauseGameScreen::draw() {
 }
 
 OverScreen::OverScreen() : Screen(new HandlerOverScreenInput(), "outro.wav") {
-	overFrame = new Entity("GameOver.txt",{0,0},{200,43}); 
-	hero1 = new Entity("phoenix.txt",{100,30},{11,5}); 
-	hero2 = new Entity("dragon.txt",{100,30},{11,5}); 
-	die = new DynamicEntity("coolUfo.txt",{70,30},{11,5});
+	overFrame = new Entity("GameOver.txt",{12,0},{200,43}); 
+	hero1 = new Entity("phoenix.txt",{112,30},{11,5}); 
+	hero2 = new Entity("dragon.txt",{112,30},{11,5}); 
+	die = new DynamicEntity("coolUfo.txt",{82,30},{11,5});
 }
 
 OverScreen::~OverScreen() {
@@ -531,10 +523,10 @@ void OverScreen::draw() {
 			count++;
 		}
 		die = nullptr;
-		die = new DynamicEntity("boom.txt",{101,30},{11,5});
+		die = new DynamicEntity("boom.txt",{113,30},{11,5});
 		count = 0;
 		die ->draw(); 
-        importImage.drawCustomImage("enter to replay", {50, 39});		
+        importImage.drawCustomImage("enter to replay", {62, 39});		
 		firstScreen = false;			        
     }
     for (int i = 0; i < 6; i++) importImage.drawImage("redSkull.txt", arr[i]);	
