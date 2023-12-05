@@ -8,6 +8,11 @@
 
  signed main() {
      init();
+    //  Entity *rocket = new DynamicEntity("rocket.txt", {1, 25}, {8, 15});
+    //  while (true) {
+    //     rocket->draw();
+    //  }
+    //  return 0;
      Screen *mainScreen;
      Command *command;
      while (appConsole.getRunning()) {

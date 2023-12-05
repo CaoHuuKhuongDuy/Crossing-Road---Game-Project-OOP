@@ -16,9 +16,25 @@ void Entity::verify() {
 // x <= sizeScreen + 1 - size
 
 Entity::Entity(string entityName_, COORD pos1, COORD size_) 
-    : entityName(entityName_), startPos(pos1), size(size_){
+    : entityName(entityName_), startPos(pos1), size(size_) {
     remainStartPos = remainEndPos = {-1, -1};
     verify();
+    loadEntity();
+}
+
+void Entity::loadEntity() {
+    string pathFile = "../media/image/colorCode_" + entityName;
+    ifstream fi(pathFile, ios::binary);
+    int x, y, colorCode, numbers[4];
+    char charDisplay;
+    while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))) {
+        x = numbers[0];
+        y = numbers[1];
+        charDisplay = numbers[2];
+        colorCode = numbers[3];
+        pixels.push_back({x, y, charDisplay, colorCode});
+    }
+    fi.close();
 }
 
 COORD Entity::getSize()
@@ -51,7 +67,7 @@ void Entity::removeRemainFrame() {
 
 void Entity::draw() {
     removeRemainFrame();
-    importImage.drawImage(entityName, startPos);
+    importImage.drawVectorPixel(pixels, startPos);
 }
 
 DynamicEntity::DynamicEntity(string entityName_, COORD pos1, COORD size_) 

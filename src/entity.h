@@ -1,4 +1,5 @@
 #include "staticVariable.h"
+#include "pixels.h"
 
 using namespace stValue;
 
@@ -16,7 +17,6 @@ class NormalState;
 class StoppedState;
 enum class TrafficLightStateType;
 
-
 class Entity {
     public:
         Entity(){};
@@ -27,11 +27,13 @@ class Entity {
         COORD getSize();
         void setEntityname(string );
     protected:
+        void loadEntity();
         COORD remainStartPos, remainEndPos;
         void removeRemainFrame();
         virtual void verify();
         COORD startPos, size;
         string entityName;
+        vector <Pixel> pixels;
 };
 
 class DynamicEntity : public Entity

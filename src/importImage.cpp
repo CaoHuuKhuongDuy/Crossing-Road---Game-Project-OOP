@@ -43,6 +43,35 @@ int ImportImage::convertTextColor2BGColor(int colorText) {
     }
 }
 
+void ImportImage::drawVectorPixel(vector <Pixel> &pixels, COORD pos, int colorSpecial) {
+    int tmpY = pos.Y;
+    int x = -1, y, colorCode;
+    char charDisplay;
+    for (int i = 0; i < pixels.size(); i++) {
+        int preX = x;
+        x = pixels[i].x;
+        y = pixels[i].y;
+        charDisplay = pixels[i].charDisplay;
+        colorCode = pixels[i].colorCode;
+        if (preX != -1 && x != preX) {
+            pos.Y = tmpY;
+            pos.X++;
+        }
+        else if (x == preX) {
+            pos.Y++;
+        }
+        if (colorCode == BG_MAGENTA) {
+            appConsole->writeAt(" ", -1, pos, appConsole->getBackgroundColor());
+            continue;
+        }
+        bool colorBG = (charDisplay == 32);
+        if (colorBG) {
+            colorCode = (colorSpecial == -1 ? colorCode : convertTextColor2BGColor(colorSpecial));
+            appConsole->writeAt(string(1, charDisplay), -1, pos, colorCode);
+        }
+        else appConsole->writeAt(string(1, charDisplay),convertBGColor2TextColor(colorCode), pos);
+    }
+}
 
 void ImportImage:: drawImage(string pathFile, COORD pos, int colorSpecial) {
     pathFile = pathColorCode + pathFile;
@@ -52,9 +81,7 @@ void ImportImage:: drawImage(string pathFile, COORD pos, int colorSpecial) {
     int x = -1, y, colorCode;
     int numbers[4];
     char charDisplay;
-    char newline;
     while (fi.read(reinterpret_cast<char*>(numbers), sizeof(numbers))) {
-        // && fi.read(reinterpret_cast<char*>(&newline), sizeof(char))) {
         int preX = x;
         x = numbers[0];
         y = numbers[1];

@@ -1,4 +1,4 @@
-test2 1 100
-test3 0 0
+test3 1 100
 kduy 3 0
 kduy 1 0
+kduy21 1 0
