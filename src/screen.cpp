@@ -42,7 +42,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 	}	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(97 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(97 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
 };
 
 MenuScreen::~MenuScreen()
@@ -149,7 +149,7 @@ void IntroGameScreen::draw() {
 
 void GameScreen::buildFrame()
 {
-    this->frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 43) / 2), 0}, {168, 43});
+    this->frame = new Entity("gameFrame.txt", {SHORT((appConsole.getWindowSize().X - 170) / 2), 0}, {168, 43});
 }
 void GameScreen::buildFinishline()
 {
@@ -276,10 +276,10 @@ void GameScreen::draw()
         finish_line->draw();
         level = to_string(hero->getHeroLevel());
         score = to_string(hero->getHeroScore());
-        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
-        importImage.drawCustomImage(score, {70, 0}, true);
-        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 20), 0}, true);
-        importImage.drawCustomImage(score, {70, 0}, true);
+        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 40), 0}, true);
+        importImage.drawCustomImage(score, {50, 0}, true);
+        importImage.drawCustomImage(level, {SHORT(appConsole.getWindowSize().X - 40), 0}, true);
+        importImage.drawCustomImage(score, {50, 0}, true);
         firstScreen = false;    
     }
     for (int i = 0; i < numberEnemy; ++i)
@@ -471,7 +471,7 @@ void LeaderBoardScreen::draw() {
 }
 
 PauseGameScreen::PauseGameScreen() : Screen(new HandlerPauseScreenInput(), "game.wav") {
-    frame = new Entity("blueESC.txt", {SHORT(appConsole.getWindowSize().X / 2 - 40), 30}, {80, 40});
+    frame = new Entity("blueESC.txt", {SHORT(appConsole.getWindowSize().X / 2 - 40), 8}, {80, 40});
     COORD posExit = frame->getPos();
     posExit.X += 14;
     posExit.Y += 29;
