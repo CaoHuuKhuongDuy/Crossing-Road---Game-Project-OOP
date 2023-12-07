@@ -237,6 +237,10 @@ void Console::test(char character, int color, int left, int top, int right, int 
     SetConsoleTextAttribute(hConsole, currentBackgroundColor);
 }
 
+void Console::terminateConsole() {
+    PostMessage(szConsole, WM_CLOSE, 0, 0);
+}
+
 
 // (3, 0) (0, 3) => (0, 0) (3, 3)
 

@@ -42,7 +42,7 @@ MenuScreen::MenuScreen() : Screen(new HandlerMenuInput())
 	}	
     rocketMove = 0;
     for (int i = 0; i < 6; i++)
-        buttonList.addButton(new Button(buttonName[i], {SHORT(97 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, CYAN));
+        buttonList.addButton(new Button(buttonName[i], {SHORT(97 - buttonName[i].length() * 2), SHORT(i * 4 + 14)}, WHITE, GREEN));
 };
 
 MenuScreen::~MenuScreen()

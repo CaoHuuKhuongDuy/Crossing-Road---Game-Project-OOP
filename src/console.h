@@ -76,6 +76,8 @@ class Console {
 
         bool getRunning() { return running;}
 
+        void terminateConsole();
+
     private:
         COORD calculateFontSize();
         bool running;
