@@ -34,9 +34,6 @@ void ListPlayer::init() {
     string name, level, score;
     while (file >> name >> level >> score) {
         Player p(name, level, score);
-        int levelInt = stoi(level);
-        int scoreInt = (levelInt-1) * 300;
-        p.setScore(to_string(scoreInt));
         players.push_back(p);
     }
     file.close();

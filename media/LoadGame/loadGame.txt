@@ -1,4 +1,4 @@
 Player 0 0
-Kduy 2 400
-thai 1 200
-hung 0 0
+Player 0 0
+player 0 0
+player 0 0

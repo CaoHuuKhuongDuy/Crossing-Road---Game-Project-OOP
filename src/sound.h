@@ -7,7 +7,7 @@
 class Sound {
     public:
         Sound();
-        ~Sound();
+        void saveVolume();
         void play(std::string filePath);
         void setVolume(double volumeLevel);
         double getVolume();

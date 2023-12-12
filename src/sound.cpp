@@ -8,7 +8,7 @@ Sound::Sound() : filePath("") {
     setVolume(volumeLevel);
 }
 
-Sound::~Sound() {
+void Sound::saveVolume() {
     std::ofstream co("../media/LoadGame/volume.txt");
     co << volumeLevel * 100;
     co.close();

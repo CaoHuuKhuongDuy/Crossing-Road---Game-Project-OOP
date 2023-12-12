@@ -545,6 +545,7 @@ SettingScreen::SettingScreen() : Screen(new HandlerSettingInput(hero)){
 SettingScreen::~SettingScreen() {
 	delete settingFrame;
 	delete nv1, nv2;
+    sound.saveVolume();
 }
 
 void SettingScreen::draw()
