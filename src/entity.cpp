@@ -422,11 +422,3 @@ void Hero::verify()
     startPos.Y = max(startPos.Y, SHORT(0));
     startPos.Y = min(startPos.Y, SHORT(sizeScreen.Y - size.Y));
 }
-
-
-
-
-
-
-
-

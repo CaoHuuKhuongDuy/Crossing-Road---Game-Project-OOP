@@ -251,7 +251,7 @@ void GameScreen::manageHero()
     {
         if (hero->isCollision(enemy[i]))
         {
-            hero->setHeroScore(0);
+            hero->updateHeroExp(0);
             hero->resetDynamicEntity();
             hero->draw();
             hero->changeExist();
